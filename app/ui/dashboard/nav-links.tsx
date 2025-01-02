@@ -1,0 +1,57 @@
+"use client";
+
+import {
+  UserGroupIcon,
+  HomeIcon,
+  DocumentDuplicateIcon,
+} from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+// Map of links to display in the side navigation.
+const links = [
+  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  {
+    name: "Invoices",
+    href: "/dashboard/invoices",
+    icon: DocumentDuplicateIcon,
+  },
+  { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
+  {
+    name: "Unpaid Invoices",
+    href: "/dashboard/unpaid",
+    icon: DocumentDuplicateIcon,
+    highlight: true,
+  },
+];
+
+export default function NavLinks() {
+  const pathname = usePathname();
+
+  return (
+    <>
+      {links.map((link) => {
+        const LinkIcon = link.icon;
+        const isActive = pathname === link.href;
+        const isHighlighted = link.highlight === true;
+
+        const linkClasses = clsx(
+          "flex h-[48px] grow items-center justify-center gap-2 rounded-md p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3",
+          {
+            "bg-gray-50 hover:bg-sky-100 hover:text-blue-600": !isActive && !isHighlighted,
+            "bg-sky-100 text-blue-600": isActive && !isHighlighted,
+            "text-red-600 bg-red-100 hover:bg-red-300 hover:text-red-800": isHighlighted,
+          }
+        );
+
+        return (
+          <Link key={link.name} href={link.href} className={linkClasses}>
+            <LinkIcon className="w-6" />
+            <p className="hidden md:block">{link.name}</p>
+          </Link>
+        );
+      })}
+    </>
+  );
+}

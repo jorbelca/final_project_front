@@ -1,4 +1,3 @@
-
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import styles from "@/app/ui/home.module.css";
@@ -17,8 +16,8 @@ export default function Page() {
           <p
             className={`${lusitana.className}text-xl text-gray-800 md:text-3xl md:leading-normal`}
           >
-            <strong>Welcome to Emca.</strong> An app to manage your
-            invoices
+            <strong>Welcome to Budget AI.</strong> An app to create budgets with
+            the help of AI
           </p>
           <Link
             href="/login"

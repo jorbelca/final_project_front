@@ -1,4 +1,4 @@
-import CustomersTable from "@/app/ui/customers/table";
+import CustomersTable from "@/app/ui/clients/table";
 import { lusitana } from "@/app/ui/fonts";
 import Form from "@/app/ui/invoices/create-form";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
@@ -19,7 +19,7 @@ export default async function Page(props: {
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>{metadata.title}</h1>
-        <Form customers={customers} />
+        <Form />
       </div>
     </div>
   );

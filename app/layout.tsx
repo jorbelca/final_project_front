@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     default: "BudgetAI Dashboard",
   },
   description: "Just an App to create budgets",
-  metadataBase: new URL("https://next-learn-dashboard.vercel.sh"),
+  // metadataBase: new URL("https://next-learn-dashboard.vercel.sh"),
 };
 export default function RootLayout({
   children,

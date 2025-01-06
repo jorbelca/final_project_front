@@ -4,7 +4,7 @@ import { fetchCustomers } from "@/app/lib/data";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Create Invoice",
+  title: "Create Budget",
 };
 
 export default async function Page() {
@@ -14,9 +14,9 @@ export default async function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Invoices", href: "/dashboard/budgets" },
+          { label: "Budgets", href: "/dashboard/budgets" },
           {
-            label: "Create Invoice",
+            label: "Create Budget",
             href: "/dashboard/budgets/create",
             active: true,
           },

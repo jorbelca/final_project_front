@@ -3,6 +3,9 @@ import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
 import { fetchCustomers } from "@/app/lib/data";
 import { Metadata } from "next";
 
+
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 export const metadata: Metadata = {
   title: "Create Budget",
 };

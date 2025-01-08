@@ -7,16 +7,18 @@ export const metadata: Metadata = {
     template: "%s | BudgetAI Dashboard",
     default: "BudgetAI Dashboard",
   },
-  description: "Just an App to create budgets",
-  // metadataBase: new URL("https://next-learn-dashboard.vercel.sh"),
+  description: "Aplicación de gestión de presupuestos EMCA",
+  //metadataBase: new URL("https://next-learn-dashboard.vercel.sh")
+  
 };
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );

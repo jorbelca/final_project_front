@@ -6,6 +6,11 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { formatDateToLocal } from "@/app/lib/utils";
 
+
+
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+
 export const metadata: Metadata = {
   title: "Unpaid Invoices",
 };

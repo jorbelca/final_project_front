@@ -18,8 +18,8 @@ export default async function Page(props: {
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>{metadata.title}</h1>
-        <Form />
+        <h1 className={`${lusitana.className} text-2xl`}>Generate a Budget</h1>
+        <Form customers={[]}/>
       </div>
     </div>
   );

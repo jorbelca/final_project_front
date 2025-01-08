@@ -55,3 +55,4 @@ BudgetAI es una aplicación que utiliza Inteligencia Artificial para generar pre
 - Editor de Plantillas
 - Gestión de Clientes
 
+ #F0FFF1 #C2F8CB #B3E9C7 #8367C7 #5603AD

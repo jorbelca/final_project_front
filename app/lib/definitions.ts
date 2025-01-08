@@ -1,96 +1,79 @@
-// This file contains type definitions for your data.
-// It describes the shape of the data, and what data type each property should accept.
-// For simplicity of teaching, we're manually defining these types.
-// However, these types are generated automatically if you're using an ORM such as Prisma.
-export type User = {
-  id: string;
+// Tipo para la tabla Users
+export interface User {
+  user_id: number;
   name: string;
   email: string;
   password: string;
-};
+  active: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
 
-export type Customer = {
-  id: string;
+// Tipo para la tabla Clients
+export interface Client {
+  client_id: number;
+  user_id: number;
   name: string;
-  email: string;
-  image_url: string;
-};
+  email?: string;
+  phone?: string;
+  company_name?: string;
+  created_at: Date;
+  updated_at: Date;
+}
 
-export type Invoice = {
-  id: string;
-  customer_id: string;
-  amount: number;
-  date: string;
-  // In TypeScript, this is called a string union type.
-  // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
-  status: "pending" | "paid";
-};
+// Tipo para la tabla Costs
+export interface Cost {
+  cost_id: number;
+  user_id: number;
+  description: string;
+  cost: number;
+  unit: string;
+  periodicity: "one-time" | "daily" | "weekly" | "monthly" | "yearly";
+  created_at: Date;
+  updated_at: Date;
+}
 
-export type Revenue = {
-  month: string;
-  revenue: number;
-};
+// Tipo para la tabla Additional_Prompts
+export interface AdditionalPrompt {
+  prompt_id: number;
+  user_id: number;
+  prompt_text: string;
+  created_at: Date;
+  updated_at: Date;
+}
 
-export type LatestInvoice = {
-  id: string;
+// Tipo para la tabla Budgets
+export interface Budget {
+  budget_id: number;
+  user_id: number;
+  client_id?: number;
+  content: any; // Puedes definir un tipo más específico si conoces la estructura del JSON
+  principal_prompt?: string;
+  additional_prompt?: string;
+  state: "draft" | "approved" | "rejected";
+  created_at: Date;
+  updated_at: Date;
+}
+
+// Tipo para la tabla Plans
+export interface Plan {
+  plan_id: number;
   name: string;
-  image_url: string;
-  email: string;
-  amount: string;
-};
+  price: number;
+  duration_in_days: number;
+  features?: any; // Puedes definir un tipo más específico si conoces la estructura del JSON
+  created_at: Date;
+  updated_at: Date;
+}
 
-// The database returns a number for amount, but we later format it to a string with the formatCurrency function
-export type LatestInvoiceRaw = Omit<LatestInvoice, "amount"> & {
-  amount: number;
-};
-
-export type InvoicesTable = {
-  id: string;
-  customer_id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  date: string;
-  amount: number;
-  status: "pending" | "paid";
-};
-
-export type CustomersTableType = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  total_invoices: number;
-  total_pending: number;
-  total_paid: number;
-};
-
-export type FormattedCustomersTable = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  total_invoices: number;
-  total_pending: string;
-  total_paid: string;
-};
-
-export type CustomerField = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-};
-
-export type InvoiceForm = {
-  id: string;
-  customer_id: string;
-  amount: number;
-  status: "pending" | "paid";
-};
-
-export type UnpaidInvoices = Invoice & {
-  email: string;
-  name: string;
-  image_url: string;
-};
+// Tipo para la tabla Subscriptions
+export interface Subscription {
+  subscription_id: number;
+  user_id: number;
+  plan_id: number;
+  payment_number: string;
+  active: boolean;
+  start_date: Date;
+  created_at: Date;
+  updated_at: Date;
+}

@@ -24,7 +24,7 @@ export default async function Page(props: {
         <h1 className={`${lusitana.className} text-2xl`}>Search</h1>
       </div>
       <Suspense fallback={<InvoicesTableSkeleton />}>
-        <ClientsTable query={query} />
+        {/* <ClientsTable query={query} /> */}
       </Suspense>
     </div>
   );

@@ -1,6 +1,6 @@
 import CustomersTable from "@/app/ui/clients/table";
 import { lusitana } from "@/app/ui/fonts";
-import Form from "@/app/ui/invoices/create-form";
+import Form from "@/app/ui/budgets/create-form";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -22,7 +22,7 @@ export default async function Page(props: {
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Generate a Budget</h1>
-        <Form customers={[]}/>
+        <Form clients={[]}/>
       </div>
     </div>
   );

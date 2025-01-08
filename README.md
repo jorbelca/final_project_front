@@ -1,9 +1,11 @@
 # BudgetAI - Generador de Presupuestos con IA
 
 ## Descripción
+
 BudgetAI es una aplicación que utiliza Inteligencia Artificial para generar presupuestos profesionales de forma automatizada. Los usuarios pueden ingresar detalles de servicios/productos y costos, y la aplicación genera un presupuesto formateado listo para enviar al cliente.
 
 ## Características Principales
+
 - Generación automática de presupuestos con IA
 - Personalización de plantillas
 - Gestión de clientes y costos
@@ -12,17 +14,18 @@ BudgetAI es una aplicación que utiliza Inteligencia Artificial para generar pre
 - Prompts personalizables para mejor contexto
 
 ## Tecnologías
+
 ### Frontend
+
 - Next.js
 - Chakra UI / Ant Design
 
-### Backend
-- Next.js / PHP
-
 ### Base de Datos
+
 - PostgreSQL
 
 ## Estructura de Base de Datos
+
 1. Usuarios
 2. Presupuestos
 3. Costes
@@ -30,9 +33,9 @@ BudgetAI es una aplicación que utiliza Inteligencia Artificial para generar pre
 5. Prompts Adicionales
 6. Clientes
 7. Plantillas
-8. Costes RAG (Embeddings)
 
 ## Flujo de Usuario
+
 1. Registro/Login
 2. Configuración de perfil
 3. Gestión de costes
@@ -46,6 +49,7 @@ BudgetAI es una aplicación que utiliza Inteligencia Artificial para generar pre
 11. Gestión de plantillas
 
 ## Páginas
+
 - Landing Page (Web)
 - Login/Registro
 - Dashboard
@@ -55,4 +59,4 @@ BudgetAI es una aplicación que utiliza Inteligencia Artificial para generar pre
 - Editor de Plantillas
 - Gestión de Clientes
 
- #F0FFF1 #C2F8CB #B3E9C7 #8367C7 #5603AD
+#F0FFF1 #C2F8CB #B3E9C7 #8367C7 #5603AD

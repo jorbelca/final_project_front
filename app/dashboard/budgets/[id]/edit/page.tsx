@@ -1,36 +1,36 @@
-import Form from "@/app/ui/invoices/edit-form";
-import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
-import { fetchCustomers, fetchInvoiceById } from "@/app/lib/data";
+import Form from "@/app/ui/budgets/edit-form";
+import Breadcrumbs from "@/app/ui/budgets/breadcrumbs";
+import { fetchClients, getBudgetById } from "@/app/lib/data";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Edito Invoice",
+  title: "Edit Budget",
 };
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const [invoice, customers] = await Promise.all([
-    fetchInvoiceById(id),
-    fetchCustomers(),
+  const [budget, client] = await Promise.all([
+    getBudgetById(+id),
+    fetchClients(),
   ]);
-  if (!invoice) {
+  if (!budget) {
     notFound();
   }
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Invoices", href: "/dashboard/invoices" },
+          { label: "Budgets", href: "/dashboard/budgets" },
           {
-            label: "Edit Invoice",
-            href: `/dashboard/invoices/${id}/edit`,
+            label: "Edit Budget",
+            href: `/dashboard/budgets/${id}/edit`,
             active: true,
           },
         ]}
       />
-      <Form invoice={invoice} customers={customers} />
+      <Form budget={budget} clients={client.flat()} /> 
     </main>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomerField } from "@/app/lib/definitions";
+import { Client } from "@/app/lib/definitions";
 import Link from "next/link";
 import {
   CheckIcon,
@@ -9,17 +9,17 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
-import { createInvoice, State } from "@/app/lib/actions";
+import { createBudget } from "@/app/lib/actions";
 import { useActionState } from "react";
 
-export default function Form({ customers }: { customers: CustomerField[] }) {
-  const initialState: State = { message: null, errors: {} };
+export default function Form({ clients }: { clients: Client[] }) {
+  const initialState: any = { message: null, errors: {} };
 
-  const [state, formAction] = useActionState(createInvoice, initialState);
+  //const [state, formAction] = useActionState(createBudget, initialState);
   return (
-    <form action={formAction}>
+    <form >
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Customer Name */}
+        {/* client Name */}
         <div className="mb-4">
           <label htmlFor="customer" className="mb-2 block text-sm font-medium">
             Choose customer
@@ -32,26 +32,26 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               defaultValue=""
               aria-describedby="customer-error"
             >
-              <option value="" disabled>
-                Select a customer
+               <option value="" disabled>
+                Select a client
               </option>
-              {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
+              {clients?.map((client) => (
+                <option key={client.client_id} value={client.client_id}>
+                  {client.name}
                 </option>
               ))}
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           {/* Error */}
-          <div id="customer-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.customerId &&
-              state.errors.customerId.map((error: string) => (
+          {/* <div id="client-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.clientId &&
+              state.errors.clientId.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Invoice Amount */}
@@ -73,14 +73,14 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
             {/* Error */}
-            <div id="amount-error" aria-live="polite" aria-atomic="true">
+            {/* <div id="amount-error" aria-live="polite" aria-atomic="true">
               {state.errors?.amount &&
                 state.errors.amount.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -125,14 +125,14 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           </div>
         </fieldset>
         {/* Error */}
-        <div id="status-error" aria-live="polite" aria-atomic="true">
+        {/* <div id="status-error" aria-live="polite" aria-atomic="true">
           {state.errors?.status &&
             state.errors.status.map((error: string) => (
               <p className="mt-2 text-sm text-red-500" key={error}>
                 {error}
               </p>
             ))}
-        </div>
+        </div> */}
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link

@@ -4,13 +4,17 @@ import {
   AtSymbolIcon,
   KeyIcon,
   ExclamationCircleIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "./button";
 import { useState } from "react";
 import { register } from "../lib/actions";
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
+  const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,8 +24,10 @@ export default function RegisterForm() {
   const handleRegister = async () => {
     setIsPending(true);
     try {
-      const result = await register(email, password, confirmPassword);
-      if (!result.success) {
+      const result = await register(name, email, password, confirmPassword);
+      if (result.success) {
+        router.push('/login'); // Redirigir al dashboard si el registro fue exitoso
+      } else {
         setErrorMessage(result.message);
       }
     } catch (error) {
@@ -45,6 +51,27 @@ export default function RegisterForm() {
         </h1>
         <div className="w-full">
           <div>
+            <label
+              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+              htmlFor="name"
+            >
+              Name
+            </label>
+            <div className="relative">
+              <input
+                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                id="name"
+                type="text"
+                name="name"
+                placeholder="Enter your name"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+          <div className="mt-4">
             <label
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="email"

@@ -28,6 +28,7 @@ export async function authenticate(
 }
 
 export async function register(
+  name: string,
   email: string,
   password: string,
   confirmPassword: string
@@ -43,8 +44,8 @@ export async function register(
   // Inserta el nuevo usuario en la base de datos
   try {
     await sql`
-      INSERT INTO users (email, password)
-      VALUES (${email}, ${hashedPassword})
+      INSERT INTO users (name, email, password)
+      VALUES (${name}, ${email}, ${hashedPassword})
     `;
     return { success: true, message: "Usuario registrado exitosamente" };
   } catch (error) {
@@ -102,4 +103,3 @@ export async function deleteBudget(
     return { success: false, message: "Error al eliminar el presupuesto" };
   }
 }
-

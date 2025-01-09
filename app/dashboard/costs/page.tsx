@@ -12,6 +12,7 @@ export const metadata = {
 export default async function Page() {
   const costs = await fetchCosts();
 
+
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -26,11 +27,11 @@ export default async function Page() {
                 <thead className="rounded-lg text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium">ID</th>
-                    <th scope="col" className="px-4 py-5 font-medium">Nombre</th>
                     <th scope="col" className="px-4 py-5 font-medium">Descripción</th>
                     <th scope="col" className="px-4 py-5 font-medium">Precio</th>
-                    <th scope="col" className="px-4 py-5 font-medium">Tipo</th>
+                    <th scope="col" className="px-4 py-5 font-medium">Unidad</th>
                     <th scope="col" className="px-4 py-5 font-medium">Periodicidad</th>
+                    <th scope="col" className="px-4 py-5 font-medium">Creacion</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -41,6 +42,7 @@ export default async function Page() {
                       <td className="px-4 py-3">{cost.cost}</td>
                       <td className="px-4 py-3">{cost.unit}</td>
                       <td className="px-4 py-3">{cost.periodicity}</td>
+                      <td className="px-4 py-3">{cost.created_at.toDateString()}</td>
                     </tr>
                   ))}
                 </tbody>

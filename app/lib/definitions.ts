@@ -76,4 +76,7 @@ export interface Subscription {
   start_date: Date;
   created_at: Date;
   updated_at: Date;
+  name?: string;
+  price?: number;
+  duration_in_days?: number;
 }

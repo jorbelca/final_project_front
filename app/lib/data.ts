@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Budget, Client, Cost, Plan, Subscription } from "./definitions";
+import { Budget, Client, Cost, Plan, Subscription, User } from "./definitions";
 
 // Función para obtener un presupuesto por ID
 export async function getBudgetById(budgetId: number): Promise<Budget | null> {
@@ -12,6 +12,19 @@ export async function getBudgetById(budgetId: number): Promise<Budget | null> {
   } catch (error) {
     console.error("Error fetching budget:", error);
     return null;
+  }
+}
+
+// Función para obtener un presupuesto por ID
+export async function fetchBudgets(): Promise<Budget[]> {
+  try {
+    const result = await sql<Budget>`
+      SELECT * FROM budgets
+    `;
+    return result.rows;
+  } catch (error) {
+    console.error("Error fetching budgets:", error);
+    throw new Error("Failed to fetch budgets.");
   }
 }
 
@@ -33,13 +46,11 @@ export async function fetchClients() {
 // Función para obtener todos los costes
 export async function fetchCosts(): Promise<Cost[]> {
   try {
-    const result = await sql<Cost[]>`
+    const result = await sql<Cost>`
       SELECT cost_id, user_id, description, cost, unit, periodicity, created_at, updated_at
-      FROM costs
+      FROM costs ;
     `;
-    // Asegúrate de que result es un array de objetos Cost
-    const resultArray = Array.isArray(result) ? result : [];
-    return resultArray.length > 0 ? resultArray[0] : null;
+    return result.rows;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch costs.");
@@ -49,10 +60,10 @@ export async function fetchCosts(): Promise<Cost[]> {
 // Función para obtener todos los planes
 export async function fetchPlans() {
   try {
-    const data = await sql<Plan[]>`
+    const data = await sql<Plan>`
       SELECT * FROM plans
     `;
-    return data;
+    return data.rows;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch plans.");
@@ -131,5 +142,29 @@ export async function fetchBudgetsPages(
   } catch (error) {
     console.error("Error fetching paginated budgets:", error);
     throw new Error("Failed to fetch paginated budgets.");
+  }
+}
+
+export async function getUser(userId: number) {
+  try {
+    const user = await sql<User>`
+      SELECT * FROM users WHERE users.user_id = ${userId}
+    `;
+    return user.rows;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw new Error("Failed to fetch user.");
+  }
+}
+
+export async function getSubscription(userId: number) {
+  try {
+    const subscription = await sql<Subscription>`
+      SELECT * FROM subscriptions JOIN plans ON subscriptions.plan_id = plans.plan_id WHERE user_id = ${userId}
+    `;
+    return subscription.rows;
+  } catch (error) {
+    console.error("Error fetching subscription:", error);
+    throw new Error("Failed to fetch subscription.");
   }
 }

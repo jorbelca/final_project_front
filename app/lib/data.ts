@@ -31,7 +31,7 @@ export async function fetchBudgets(): Promise<Budget[]> {
 // Función para obtener todos los clientes
 export async function fetchClients() {
   try {
-    const result = await sql<Client[]>`
+    const result = await sql<Client>`
       SELECT client_id, name, email, phone, company_name
       FROM clients
       ORDER BY name ASC

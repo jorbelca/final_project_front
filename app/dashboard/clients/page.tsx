@@ -20,11 +20,8 @@ export default async function Page(props: {
   const query = searchParams?.query || "";
   return (
     <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Search</h1>
-      </div>
       <Suspense fallback={<InvoicesTableSkeleton />}>
-        {/* <ClientsTable query={query} /> */}
+        <ClientsTable />
       </Suspense>
     </div>
   );

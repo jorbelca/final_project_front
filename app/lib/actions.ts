@@ -55,16 +55,18 @@ export async function register(
 
 // Función para crear un presupuesto
 export async function createBudget(
-  userId: number,
-  clientId: number,
-  content: any,
-  principalPrompt: string,
-  additionalPrompt: string
+  formData: FormData
 ): Promise<{ success: boolean; message: string }> {
   try {
+    const userId = formData.get("userId") as string;
+    const clientId = formData.get("clientId") as string;
+    const content = formData.get("content") as string;
+    const principalPrompt = "Testing";
+    const additionalPrompt = "Testing";
+    const state = formData.get("state") as string;
     await sql`
       INSERT INTO budgets (user_id, client_id, content, principal_prompt, additional_prompt, state)
-      VALUES (${userId}, ${clientId}, ${content}, ${principalPrompt}, ${additionalPrompt}, 'draft')
+      VALUES (${userId}, ${clientId}, ${content}, ${principalPrompt}, ${additionalPrompt}, ${state})
     `;
     return { success: true, message: "Presupuesto creado exitosamente" };
   } catch (error) {

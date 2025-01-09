@@ -24,8 +24,8 @@ const links = [
     icon: DocumentDuplicateIcon,
   },
   {
-    name: "Generate",
-    href: "/dashboard/generate",
+    name: "Create",
+    href: "/dashboard/create",
     icon: DocumentDuplicateIcon,
   },
   {
@@ -46,12 +46,10 @@ export default function NavLinks() {
 
 
         const linkClasses = clsx(
-          "flex h-[48px] grow items-center justify-center gap-2 rounded-md p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3",
+          "flex h-[48px] grow items-center justify-center gap-2 rounded-sm p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3",
           {
-            "bg-gray-50 hover:bg-sky-100 hover:text-blue-600":
-              !isActive, 
-            "bg-sky-100 text-blue-600": isActive 
-          
+            "bg-violet-100 hover:bg-sky-100 hover:text-red-900": !isActive,
+            "bg-violet-100 text-gray-900": isActive,
           }
         );
 

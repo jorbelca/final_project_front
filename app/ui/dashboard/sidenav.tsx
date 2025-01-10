@@ -1,6 +1,6 @@
 import Link from "next/link";
 import NavLinks from "@/app/ui/dashboard/nav-links";
-import EmcaLogo from "@/app/ui/emca-logo";
+import EmcaLogo from "@/app/ui/bai-logo";
 import { PowerIcon } from "@heroicons/react/24/outline";
 import { signOut } from "@/auth";
 

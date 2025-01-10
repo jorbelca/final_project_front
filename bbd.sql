@@ -1,3 +1,5 @@
+
+##POSTGRESQL
 -- Tabla Users
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,                 -- Identificador único para cada usuario
@@ -5,6 +7,7 @@ CREATE TABLE Users (
     email VARCHAR(100) UNIQUE NOT NULL,        -- Correo electrónico único
     password VARCHAR(255) NOT NULL,            -- Contraseña cifrada
     active BOOLEAN DEFAULT TRUE,               -- Estado del usuario
+    avatar_url VARCHAR(255),                   -- URL del avatar del usuario
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de registro
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -29,8 +32,8 @@ CREATE TABLE Clients (
     user_id INT NOT NULL,                      -- Relación con el usuario
     name VARCHAR(100) NOT NULL,                -- Nombre del cliente
     email VARCHAR(100),                        -- Correo electrónico del cliente
-    phone VARCHAR(20),                         -- Teléfono del cliente
     company_name VARCHAR(100),                 -- Nombre de la empresa (si aplica)
+    image_url VARCHAR(255),                   -- URL de la imagen del cliente
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
@@ -59,20 +62,8 @@ BEFORE UPDATE ON Costs
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
--- Tabla Additional_Prompts
-CREATE TABLE Additional_Prompts (
-    prompt_id SERIAL PRIMARY KEY,              -- Identificador único para el prompt
-    user_id INT NOT NULL,                      -- Relación con el usuario
-    prompt_text TEXT NOT NULL,                 -- Texto del prompt
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
 
-CREATE TRIGGER trg_update_timestamp_prompts
-BEFORE UPDATE ON Additional_Prompts
-FOR EACH ROW
-EXECUTE FUNCTION update_timestamp();
+
 
 -- Tabla Budgets
 CREATE TABLE Budgets (
@@ -80,8 +71,6 @@ CREATE TABLE Budgets (
     user_id INT NOT NULL,                      -- Relación con el usuario
     client_id INT,                             -- Relación con el cliente
     content JSON NOT NULL,                     -- Contenido del presupuesto en formato JSON
-    principal_prompt TEXT,                     -- Prompt principal
-    additional_prompt TEXT,                    -- Prompt adicional
     state VARCHAR(50) CHECK (state IN ('draft', 'approved', 'rejected')) DEFAULT 'draft', -- Estado del presupuesto
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

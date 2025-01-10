@@ -32,7 +32,7 @@ export async function fetchBudgets(): Promise<Budget[]> {
 export async function fetchClients() {
   try {
     const result = await sql<Client>`
-      SELECT client_id, name, email, phone, company_name
+      SELECT client_id, name, email, image_url, company_name
       FROM clients
       ORDER BY name ASC
     `;
@@ -129,9 +129,7 @@ export async function fetchBudgetsPages(
 
     // Obtiene los presupuestos para la página actual que coinciden con la búsqueda
     const budgetsResult = await sql<Budget[]>`
-      SELECT * FROM budgets
-      WHERE principal_prompt ILIKE ${searchQuery} OR additional_prompt ILIKE ${searchQuery}
-      ORDER BY created_at DESC
+      SELECT * FROM budgets ORDER BY created_at DESC
       LIMIT ${pageSize} OFFSET ${offset}
     `;
 

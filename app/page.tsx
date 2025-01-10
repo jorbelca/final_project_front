@@ -2,7 +2,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import styles from "@/app/ui/home.module.css";
 import { lusitana } from "./ui/fonts";
-import EmcaLogo from "./ui/emca-logo";
+import EmcaLogo from "./ui/bai-logo";
 
 export default function Page() {
   return (
@@ -15,8 +15,7 @@ export default function Page() {
           <p
             className={`${lusitana.className}text-xl text-gray-800 md:text-3xl md:leading-normal`}
           >
-            <strong>Welcome to Budget AI.</strong> An app to create budgets with
-            the help of AI
+            <strong>Welcome to BudgetApp.</strong> An app to create budgets 
           </p>
           <Link
             href="/login"

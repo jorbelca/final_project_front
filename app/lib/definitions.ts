@@ -5,6 +5,7 @@ export interface User {
   email: string;
   password: string;
   active: boolean;
+  avatar_url?: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -15,7 +16,7 @@ export interface Client {
   user_id: number;
   name: string;
   email?: string;
-  phone?: string;
+  image_url?: string;
   company_name?: string;
   created_at: Date;
   updated_at: Date;
@@ -33,23 +34,12 @@ export interface Cost {
   updated_at: Date;
 }
 
-// Tipo para la tabla Additional_Prompts
-export interface AdditionalPrompt {
-  prompt_id: number;
-  user_id: number;
-  prompt_text: string;
-  created_at: Date;
-  updated_at: Date;
-}
-
 // Tipo para la tabla Budgets
 export interface Budget {
   budget_id: number;
   user_id: number;
   client_id?: number;
   content: any; // Puedes definir un tipo más específico si conoces la estructura del JSON
-  principal_prompt?: string;
-  additional_prompt?: string;
   state: "draft" | "approved" | "rejected";
   created_at: Date;
   updated_at: Date;

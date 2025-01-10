@@ -30,8 +30,8 @@ export interface Cost {
   cost: number;
   unit: string;
   periodicity: "one-time" | "daily" | "weekly" | "monthly" | "yearly";
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 // Tipo para la tabla Budgets

@@ -2,9 +2,10 @@
 
 import {
   UserGroupIcon,
-  HomeIcon,
+  CurrencyDollarIcon,
   DocumentDuplicateIcon,
   UserCircleIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Link from "next/link";
@@ -21,12 +22,12 @@ const links = [
   {
     name: "Costs",
     href: "/dashboard/costs",
-    icon: DocumentDuplicateIcon,
+    icon: CurrencyDollarIcon,
   },
   {
     name: "Create",
     href: "/dashboard/create",
-    icon: DocumentDuplicateIcon,
+    icon: PlusIcon,
   },
   {
     name: "User",

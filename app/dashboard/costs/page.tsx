@@ -3,7 +3,10 @@ import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchCosts } from "@/app/lib/data";
 import { formatDateToLocal } from "@/app/lib/utils";
-import { Cost } from "@/app/lib/definitions";
+import Link from "next/link";
+import { Button } from "@/app/ui/button";
+import { PencilIcon, PlusIcon } from "@heroicons/react/24/outline";
+import DeleteBtn from "@/app/ui/costs/delete-btn";
 
 export const metadata = {
   title: "Costs",
@@ -12,11 +15,15 @@ export const metadata = {
 export default async function Page() {
   const costs = await fetchCosts();
 
-
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Costes</h1>
+        <h1 className={`${lusitana.className} text-2xl`}>Costs</h1>
+        <Link href="/dashboard/costs/create">
+          <Button color="blue">
+            <PlusIcon className="h-5 w-5" />
+          </Button>
+        </Link>
       </div>
 
       <Suspense fallback={<InvoicesTableSkeleton />}>
@@ -32,6 +39,7 @@ export default async function Page() {
                     <th scope="col" className="px-4 py-5 font-medium">Unidad</th>
                     <th scope="col" className="px-4 py-5 font-medium">Periodicidad</th>
                     <th scope="col" className="px-4 py-5 font-medium">Creacion</th>
+                    <th scope="col" className="px-4 py-5 font-medium">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -42,7 +50,16 @@ export default async function Page() {
                       <td className="px-4 py-3">{cost.cost}</td>
                       <td className="px-4 py-3">{cost.unit}</td>
                       <td className="px-4 py-3">{cost.periodicity}</td>
-                      <td className="px-4 py-3">{cost.created_at.toDateString()}</td>
+                      <td className="px-4 py-3">{cost.created_at ? formatDateToLocal(cost.created_at.toDateString()) : ""}</td>
+                      <td className="px-4 py-3">
+                        <Link href={`/dashboard/costs/edit/${cost.cost_id}`}>
+                          <Button>
+                            <PencilIcon className="h-5 w-5" />
+                          </Button>
+                        </Link>
+                        <br />
+                          <DeleteBtn costId={Number(cost.cost_id)} />
+                      </td>
                     </tr>
                   ))}
                 </tbody>

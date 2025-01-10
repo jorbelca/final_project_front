@@ -7,7 +7,7 @@ export default function Footer() {
 
    
       <Link href="https://github.com/jorbelca" className="pb-1 ml-3">
-         <img src='/github-mark/github-mark.png'  width={20} height={20} />
+         <img src='/github-mark/github-mark.png' alt="github-logo" width={20} height={20} />
          </Link>
 
     </footer>

@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { hash } from "bcrypt";
-import { Budget } from "./definitions"; // Importa el tipo Budget
+import { Budget, Cost } from "./definitions"; // Importa el tipo Budget
 
 export async function authenticate(
   prevState: string | undefined,
@@ -61,12 +61,10 @@ export async function createBudget(
     const userId = formData.get("userId") as string;
     const clientId = formData.get("clientId") as string;
     const content = formData.get("content") as string;
-    const principalPrompt = "Testing";
-    const additionalPrompt = "Testing";
     const state = formData.get("state") as string;
     await sql`
-      INSERT INTO budgets (user_id, client_id, content, principal_prompt, additional_prompt, state)
-      VALUES (${userId}, ${clientId}, ${content}, ${principalPrompt}, ${additionalPrompt}, ${state})
+      INSERT INTO budgets (user_id, client_id, content, state)
+      VALUES (${userId}, ${clientId}, ${content}, ${state})
     `;
     return { success: true, message: "Presupuesto creado exitosamente" };
   } catch (error) {
@@ -103,5 +101,61 @@ export async function deleteBudget(
     return { success: true, message: "Presupuesto eliminado exitosamente" };
   } catch (error) {
     return { success: false, message: "Error al eliminar el presupuesto" };
+  }
+}
+
+export async function createCost(
+  userId: number,
+  description: string,
+  cost: number,
+  unit: string,
+  periodicity: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    await sql`
+      INSERT INTO costs (user_id, description, cost, unit, periodicity)
+      VALUES (${userId}, ${description}, ${cost}, ${unit}, ${periodicity})
+    `;
+    return { success: true, message: "Costo creado exitosamente" };
+  } catch (error) {
+    return { success: false, message: "Error al crear el costo" };
+  }
+}
+
+export async function deleteCost(
+  costId: number
+): Promise<{ success: boolean; message: string }> {
+  try {
+    await sql`DELETE FROM costs WHERE cost_id = ${costId}`;
+    return { success: true, message: "Costo eliminado exitosamente" };
+  } catch (error) {
+    return { success: false, message: "Error al eliminar el costo" };
+  }
+}
+
+export async function getCostById(costId: number): Promise<Cost | null> {
+  try {
+    const cost =
+      await sql<Cost>`SELECT cost_id, user_id, description, cost, unit, periodicity FROM costs WHERE cost_id = ${costId}`;
+
+    return cost.rows[0];
+  } catch (error) {
+    console.error("Error fetching cost:", error);
+    return null;
+  }
+}
+
+export async function updateCost(
+  costId: number,
+  description: string,
+  cost: number,
+  unit: string,
+  periodicity: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    await sql`UPDATE costs SET description = ${description}, cost = ${cost}, unit = ${unit}, periodicity = ${periodicity} WHERE cost_id = ${costId}`;
+    return { success: true, message: "Costo actualizado exitosamente" };
+  } catch (error) {
+    return { success: false, message: "Error al actualizar el costo" };
   }
 }

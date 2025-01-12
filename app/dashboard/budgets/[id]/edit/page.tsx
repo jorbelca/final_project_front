@@ -13,7 +13,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const id = params.id;
   const [budget, client] = await Promise.all([
     getBudgetById(+id),
-    fetchClients(),
+    fetchClients(Number(process.env.USER_ID)),
   ]);
   if (!budget) {
     notFound();

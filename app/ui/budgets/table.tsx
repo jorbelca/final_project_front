@@ -1,5 +1,4 @@
-import { UpdateInvoice, DeleteInvoice } from "@/app/ui/budgets/buttons";
-import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
+
 import { fetchBudgets } from "@/app/lib/data";
 import BudgetState from "@/app/ui/budgets/status";
 
@@ -10,7 +9,7 @@ export default async function BudgetsTable({
   query?: string;
   currentPage?: number;
 }) {
-  const budgets = await fetchBudgets();
+  const budgets = await fetchBudgets(Number(process.env.USER_ID));
 
   
   return (

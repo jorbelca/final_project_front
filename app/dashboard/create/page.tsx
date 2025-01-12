@@ -13,9 +13,8 @@ export const metadata: Metadata = {
   title: "Create a Budget",
 };
 export default async function Page() {
- 
-  const clients = await fetchClients();
-  const costs = await fetchCosts();
+  const clients = await fetchClients(Number(process.env.USER_ID));
+  const costs = await fetchCosts(Number(process.env.USER_ID));
   return (
     <div className="w-full">
       <div className="flex w-full flex-col justify-between">

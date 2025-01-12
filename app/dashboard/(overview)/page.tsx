@@ -1,6 +1,3 @@
-
-
-
 import { lusitana } from "@/app/ui/fonts";
 import { Suspense } from "react";
 import { Metadata } from "next";

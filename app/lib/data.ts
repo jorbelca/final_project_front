@@ -16,10 +16,11 @@ export async function getBudgetById(budgetId: number): Promise<Budget | null> {
 }
 
 // Función para obtener un presupuesto por ID
-export async function fetchBudgets(): Promise<Budget[]> {
+export async function fetchBudgets(userId: number): Promise<Budget[]> {
   try {
     const result = await sql<Budget>`
       SELECT * FROM budgets
+      WHERE user_id = ${userId}
     `;
     return result.rows;
   } catch (error) {
@@ -29,12 +30,14 @@ export async function fetchBudgets(): Promise<Budget[]> {
 }
 
 // Función para obtener todos los clientes
-export async function fetchClients() {
+export async function fetchClients(userId: number) {
   try {
     const result = await sql<Client>`
-      SELECT client_id, name, email, image_url, company_name
-      FROM clients
-      ORDER BY name ASC
+      SELECT clients.client_id, clients.name, clients.email, clients.image_url
+      FROM user_client
+      JOIN clients ON clients.client_id = user_client.client_id
+      WHERE user_client.user_id = ${userId}
+      ORDER BY clients.name ASC
     `;
     return result.rows;
   } catch (err) {
@@ -44,11 +47,12 @@ export async function fetchClients() {
 }
 
 // Función para obtener todos los costes
-export async function fetchCosts(): Promise<Cost[]> {
+export async function fetchCosts(userId: number): Promise<Cost[]> {
   try {
     const result = await sql<Cost>`
       SELECT cost_id, user_id, description, cost, unit, periodicity, created_at, updated_at
-      FROM costs ;
+      FROM costs
+      WHERE user_id = ${userId};
     `;
     return result.rows;
   } catch (error) {

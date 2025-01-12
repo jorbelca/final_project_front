@@ -1,5 +1,4 @@
 import { createCost, getCostById, updateCost } from "@/app/lib/actions";
-import { Cost } from "@/app/lib/definitions";
 import { lusitana } from "@/app/ui/fonts";
 import { redirect } from "next/navigation";
 
@@ -31,7 +30,7 @@ export default async function CostsForm(props: { params?: Promise<{ id?: string 
              result = await updateCost(Number(cost_id), description, Number(cost), unit, periodicity);
         } else {
             console.log("create");
-             result = await createCost(12,description, Number(cost), unit, periodicity);
+             result = await createCost(Number(process.env.USER_ID),description, Number(cost), unit, periodicity);
         }
         if (result.success) {
             redirect("/dashboard/costs");

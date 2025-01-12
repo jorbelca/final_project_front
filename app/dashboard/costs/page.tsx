@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const costs = await fetchCosts();
+  const costs = await fetchCosts(Number(process.env.USER_ID));
 
   return (
     <div className="w-full">

@@ -6,10 +6,11 @@ BudgetApp es una aplicación para generar presupuestos profesionales . Los usuar
 
 ## Características Principales
 
-- Creaación de presupuestos
+- Creación de presupuestos
 - Gestión de clientes y costos
 - Historial y seguimiento de presupuestos
 - Exportación a PDF
+- Gestión de usuarios y suscripciones
 
 ## Tecnologías
 
@@ -29,16 +30,17 @@ BudgetApp es una aplicación para generar presupuestos profesionales . Los usuar
 3. Costes
 4. Suscripciones
 5. Clientes
+6. User_Client
 
-[Estructura de Base de Datos](./esquema_bbd.pdf)
+[Estructura de Base de Datos](./esquema_reduit.pdf)
 
 ## Páginas
 
 - Landing Page (Web)
 - Login/Registro
 - Gestión de Costes
-- Perfil de Usuario
-- Creación de Presupuestos
 - Gestión de Clientes
+- Gestión de Presupuestos
+- Perfil de Usuario
 
 #F0FFF1 #C2F8CB #B3E9C7 #8367C7 #5603AD

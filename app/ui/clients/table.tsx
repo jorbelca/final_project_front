@@ -1,17 +1,26 @@
 import { lusitana } from "@/app/ui/fonts";
 import Search from "@/app/ui/search";
-
-import { fetchClients } from "@/app/lib/data";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { fetchClients } from "@/app/lib/actions";
+import { PencilIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { Button } from "../button";
+import Link from "next/link";
+import DeleteBtn from "./delete-btn";
 
 export default async function ClientsTable() {
   const clients = await fetchClients(Number(process.env.USER_ID));
 
   return (
     <div className="w-full">
-      <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>Clients</h1>
-      <Search placeholder="Search clients..." />
+      <div className="flex justify-between">
+        <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
+          Clients
+        </h1>
+        <Link href="/dashboard/clients/create">
+          <Button>Add Client</Button>
+        </Link>
+      </div>
+      {/* <Search placeholder="Search clients..." /> */}
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -39,6 +48,18 @@ export default async function ClientsTable() {
                         <p className="font-medium">{client.name}</p>
                         <p className="text-sm text-gray-500">{client.email}</p>
                       </div>
+                      <div className="px-4 py-5">
+                        <Link
+                          href={`/dashboard/clients/edit/${client.client_id}`}
+                        >
+                          <Button>
+                            <PencilIcon className="h-5 w-5" />
+                          </Button>
+                        </Link>
+                        <br />
+
+                        <DeleteBtn clientId={Number(client.client_id)} />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -47,9 +68,18 @@ export default async function ClientsTable() {
               <table className="hidden min-w-full rounded-md text-gray-900 md:table">
                 <thead className="bg-gray-50 text-left text-sm font-medium">
                   <tr>
-                    <th scope="col" className="px-4 py-5 sm:pl-6">Image</th>
-                    <th scope="col" className="px-4 py-5">Name</th>
-                    <th scope="col" className="px-4 py-5">Email</th>
+                    <th scope="col" className="px-4 py-5 sm:pl-6">
+                      Image
+                    </th>
+                    <th scope="col" className="px-4 py-5">
+                      Name
+                    </th>
+                    <th scope="col" className="px-4 py-5">
+                      Email
+                    </th>
+                    <th scope="col" className="px-4 py-5">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -68,8 +98,23 @@ export default async function ClientsTable() {
                           <UserCircleIcon className="w-6" />
                         )}
                       </td>
-                      <td className="px-4 py-5 text-sm font-medium">{client.name}</td>
-                      <td className="px-4 py-5 text-sm text-gray-500">{client.email}</td>
+                      <td className="px-4 py-5 text-sm font-medium">
+                        {client.name}
+                      </td>
+                      <td className="px-4 py-5 text-sm text-gray-500">
+                        {client.email}
+                      </td>
+                      <td className="px-4 py-5">
+                        <Link
+                          href={`/dashboard/clients/edit/${client.client_id}`}
+                        >
+                          <Button>
+                            <PencilIcon className="h-5 w-5" />
+                          </Button>
+                        </Link>
+                        <br />
+                        <DeleteBtn clientId={Number(client.client_id)} />
+                      </td>
                     </tr>
                   ))}
                 </tbody>

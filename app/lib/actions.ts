@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { hash } from "bcrypt";
-import { Budget, Cost } from "./definitions"; // Importa el tipo Budget
+import { Budget, Client, Cost } from "./definitions"; // Importa el tipo Budget
 
 export async function authenticate(
   prevState: string | undefined,
@@ -157,5 +157,109 @@ export async function updateCost(
     return { success: true, message: "Costo actualizado exitosamente" };
   } catch (error) {
     return { success: false, message: "Error al actualizar el costo" };
+  }
+}
+
+// Clientes
+// Función para obtener todos los clientes
+export async function fetchClients(userId: number) {
+  try {
+    const result = await sql<Client>`
+      SELECT clients.client_id, clients.name, clients.email, clients.image_url
+      FROM user_client
+      JOIN clients ON clients.client_id = user_client.client_id
+      WHERE user_client.user_id = ${userId}
+      ORDER BY clients.name ASC
+    `;
+    return result.rows;
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch all clients.");
+  }
+}
+export async function createClient(
+  userId: number,
+  name: string,
+  email: string,
+  image_url: string
+) {
+  try {
+    // Realizamos la primera inserción
+    const newClient = await sql<Client>`
+      INSERT INTO clients (name, email, image_url) 
+      VALUES (${name}, ${email}, ${image_url})
+      RETURNING client_id`;
+
+    // Verificamos que la respuesta contiene client_id
+    if (newClient && newClient.rows[0]?.client_id) {
+      const clientId = newClient.rows[0].client_id;
+
+      // Comprobamos si el userId es válido
+      if (!userId) {
+        return { success: false, message: "userId no válido" };
+      }
+
+      // Realizamos la segunda inserción para vincular los datos
+      const result = await sql<any>`
+        INSERT INTO user_client (user_id, client_id) 
+        VALUES (${userId}, ${clientId})`;
+
+      // Si la inserción se ejecutó correctamente
+      if (result && result.rowCount && result.rowCount > 0) {
+        return {
+          success: true,
+          message: "Cliente creado y vinculado exitosamente",
+        };
+      } else {
+        return {
+          success: false,
+          message: "Error al vincular el cliente con el usuario",
+        };
+      }
+    } else {
+      return {
+        success: false,
+        message: "Error al crear el cliente",
+      };
+    }
+  } catch (error) {
+    console.error("Error al crear el cliente:", error); // Detalles del error
+    return { success: false, message: "Error al crear el cliente" };
+  }
+}
+
+export async function getClientById(clientId: number): Promise<Client | null> {
+  try {
+    const client =
+      await sql<Client>`SELECT * FROM clients WHERE client_id = ${clientId}`;
+    return client.rows[0];
+  } catch (error) {
+    console.error("Error fetching client:", error);
+    return null;
+  }
+}
+
+export async function updateClient(
+  clientId: number,
+  name: string,
+  email: string,
+  image_url: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    await sql`UPDATE clients SET name = ${name}, email = ${email}, image_url = ${image_url} WHERE client_id = ${clientId}`;
+    return { success: true, message: "Cliente actualizado exitosamente" };
+  } catch (error) {
+    return { success: false, message: "Error al actualizar el cliente" };
+  }
+}
+
+export async function deleteClient(
+  clientId: number
+): Promise<{ success: boolean; message: string }> {
+  try {
+    await sql`DELETE FROM clients WHERE client_id = ${clientId}`;
+    return { success: true, message: "Cliente eliminado exitosamente" };
+  } catch (error) {
+    return { success: false, message: "Error al eliminar el cliente" };
   }
 }

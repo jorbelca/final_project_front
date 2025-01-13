@@ -1,8 +1,9 @@
 import Form from "@/app/ui/budgets/edit-form";
-import Breadcrumbs from "@/app/ui/budgets/breadcrumbs";
-import { fetchClients, getBudgetById } from "@/app/lib/data";
+import Breadcrumbs from "@/app/ui/breadcrumbs";
+import { getBudgetById } from "@/app/lib/data";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { fetchClients } from "@/app/lib/actions";
 
 export const metadata: Metadata = {
   title: "Edit Budget",
@@ -30,7 +31,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <Form budget={budget} clients={client.flat()} /> 
+      <Form budget={budget} clients={client.flat()} />
     </main>
   );
 }

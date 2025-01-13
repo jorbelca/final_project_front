@@ -1,5 +1,4 @@
 import ClientsTable from "@/app/ui/clients/table";
-import { lusitana } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Metadata } from "next";
 import { Suspense } from "react";

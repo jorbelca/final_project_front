@@ -29,22 +29,7 @@ export async function fetchBudgets(userId: number): Promise<Budget[]> {
   }
 }
 
-// Función para obtener todos los clientes
-export async function fetchClients(userId: number) {
-  try {
-    const result = await sql<Client>`
-      SELECT clients.client_id, clients.name, clients.email, clients.image_url
-      FROM user_client
-      JOIN clients ON clients.client_id = user_client.client_id
-      WHERE user_client.user_id = ${userId}
-      ORDER BY clients.name ASC
-    `;
-    return result.rows;
-  } catch (err) {
-    console.error("Database Error:", err);
-    throw new Error("Failed to fetch all clients.");
-  }
-}
+
 
 // Función para obtener todos los costes
 export async function fetchCosts(userId: number): Promise<Cost[]> {
@@ -84,29 +69,6 @@ export async function fetchSubscriptions() {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch subscriptions.");
-  }
-}
-
-// Función para obtener clientes filtrados
-export async function fetchFilteredClients(query: string) {
-  try {
-    const data = await sql<Client[]>`
-      SELECT
-        clients.client_id,
-        clients.name,
-        clients.email,
-        clients.phone,
-        clients.company_name
-      FROM clients
-      WHERE
-        clients.name ILIKE ${`%${query}%`} OR
-        clients.email ILIKE ${`%${query}%`}
-      ORDER BY clients.name ASC
-    `;
-    return data;
-  } catch (err) {
-    console.error("Database Error:", err);
-    throw new Error("Failed to fetch filtered clients.");
   }
 }
 

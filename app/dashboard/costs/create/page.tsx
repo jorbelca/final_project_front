@@ -1,4 +1,4 @@
-import Breadcrumbs from "@/app/ui/budgets/breadcrumbs";
+import Breadcrumbs from "@/app/ui/breadcrumbs";
 import CostsForm from "@/app/ui/costs/form";
 
 

@@ -1,5 +1,4 @@
-
-import Breadcrumbs from "@/app/ui/budgets/breadcrumbs";
+import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import CostsForm from "@/app/ui/costs/form";
@@ -24,7 +23,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <CostsForm params={props.params} /> 
+      <CostsForm params={props.params} />
     </main>
   );
 }

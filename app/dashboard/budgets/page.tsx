@@ -5,7 +5,7 @@ import { CreateInvoice } from "@/app/ui/budgets/buttons";
 import { lusitana } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
-import { fetchBudgetsPages } from "@/app/lib/data";
+import { fetchBudgets, fetchBudgetsPages } from "@/app/lib/data";
 import { Metadata } from "next";
 
 export const dynamic = 'force-dynamic';
@@ -25,7 +25,7 @@ export default async function Page(props: {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   //const totalPages = await fetchBudgets();
-
+  const budgets = await fetchBudgets(Number(process.env.USER_ID));
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -36,7 +36,7 @@ export default async function Page(props: {
         {/* <CreateInvoice /> */}
       </div>
       <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        <Table  />
+        <Table budgets={budgets} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         {/* <Pagination totalPages={totalPages.totalPages} /> */}

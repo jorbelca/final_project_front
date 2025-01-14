@@ -1,17 +1,20 @@
-
-import { fetchBudgets } from "@/app/lib/data";
+"use client";
 import BudgetState from "@/app/ui/budgets/status";
+import { useSession } from "next-auth/react";
 
 export default async function BudgetsTable({
   query,
   currentPage,
+  budgets,  
 }: {
   query?: string;
   currentPage?: number;
+  budgets: any;
 }) {
-  const budgets = await fetchBudgets(Number(process.env.USER_ID));
-
   
+  // const { data: session } = useSession();
+
+  // console.log({ session });
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -25,16 +28,22 @@ export default async function BudgetsTable({
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
-                      <p>{budget.budget_id}</p>
+                      <p className="text-sm font-medium">{budget.budget_id}.</p>
+                      &nbsp;
+                      <p className="text-sm font-medium">{budget.name}</p>
                     </div>
                   </div>
-                  <BudgetState status={budget.state} />
+                  <BudgetState status={budget.state} id={budget.budget_id} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
-                    <p className="text-xl font-medium">
-                      {budget.content.details}
-                    </p>
+                    {budget.content.map((content: any) => (
+                      <p key={content.details.id} className="text-xl font-medium">
+                        {content.quantity} x {content.details.name} $
+                        {content.details.price}€
+                      </p>
+                    ))}
+
                     <p>{new Date(budget.created_at).toDateString()}</p>
                   </div>
                   {/* <div className="flex justify-end gap-2">
@@ -52,13 +61,19 @@ export default async function BudgetsTable({
                   Id
                 </th>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                 Details
+                  Details
                 </th>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                Client
+                  Discount
+                </th>
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  Taxes
+                </th>
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  Client
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Date
+                  Created
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Status
@@ -69,23 +84,38 @@ export default async function BudgetsTable({
               </tr>
             </thead>
             <tbody className="bg-white">
-            {budgets?.map((budget) => (
-              <tr key={budget.budget_id} className="border-b">
-                <td className="px-4 py-4">{budget.budget_id}</td>
-                <td className="px-4 py-4">{budget.content.details}</td>
-                <td className="px-6 py-4 ">{budget.client_id!=null?budget.client_id:` ❌` }</td>
-                <td className="px-3 py-4">{budget.created_at.toDateString()}</td>
-                <td className="px-3 py-4">
-                  <BudgetState status={budget.state} />
-                </td>
-                <td className="px-3 py-4 text-right">
-                  {/* <div className="flex justify-end gap-2">
+              {budgets?.map((budget) => (
+                <tr key={budget.budget_id} className="border-b">
+                  <td className="px-4 py-4">{budget.budget_id}</td>
+                  <td className="px-4 py-4 w-full">
+                    <div className="flex flex-col ">
+                      {budget.content.map((content: any) => (
+                        <p key={content.details.id} className="text-sm font-medium">
+                          {content.quantity} x {content.details.name} =
+                          {content.details.price}€
+                        </p>
+                      ))}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 ">{budget.discount}%</td>
+                  <td className="px-6 py-4 ">{budget.taxes}%</td>
+                  <td className="px-6 py-4 ">
+                    {budget.client_id != null ? budget.name : ` ❌`}
+                  </td>
+                  <td className="px-3 py-4">
+                    {budget.created_at.toDateString()}
+                  </td>
+                  <td className="px-3 py-4">
+                    <BudgetState status={budget.state} id={budget.budget_id} />
+                  </td>
+                  <td className="px-3 py-4 text-right">
+                    {/* <div className="flex justify-end gap-2">
                     <UpdateInvoice id={budget.id} />
                     <DeleteInvoice id={budget.id} />
                   </div> */}
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

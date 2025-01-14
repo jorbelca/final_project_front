@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Budget, Client, Cost, Plan, Subscription, User } from "./definitions";
+import { Budget, Cost, Plan, Subscription, User } from "./definitions";
 
 // Función para obtener un presupuesto por ID
 export async function getBudgetById(budgetId: number): Promise<Budget | null> {
@@ -20,6 +20,7 @@ export async function fetchBudgets(userId: number): Promise<Budget[]> {
   try {
     const result = await sql<Budget>`
       SELECT * FROM budgets
+      JOIN clients ON clients.client_id = budgets.client_id
       WHERE user_id = ${userId}
     `;
     return result.rows;
@@ -28,8 +29,6 @@ export async function fetchBudgets(userId: number): Promise<Budget[]> {
     throw new Error("Failed to fetch budgets.");
   }
 }
-
-
 
 // Función para obtener todos los costes
 export async function fetchCosts(userId: number): Promise<Cost[]> {

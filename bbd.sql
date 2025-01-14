@@ -61,7 +61,7 @@ CREATE TABLE Budgets (
     content JSONB NOT NULL,                        -- Contenido del presupuesto en formato JSONB
     discount INT,
     taxes INT,
-    state TEXT CHECK (state IN ('draft', 'approved', 'rejected')) DEFAULT 'draft', -- Estado del presupuesto
+    state TEXT CHECK (state IN ('draft', 'approved', 'rejected','sent' )) DEFAULT 'draft', -- Estado del presupuesto
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-- Fecha de creación
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-- Fecha de actualización
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,

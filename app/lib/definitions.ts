@@ -38,9 +38,12 @@ export interface Cost {
 export interface Budget {
   budget_id: number;
   user_id: number;
-  client_id?: number;
-  content: any; // Puedes definir un tipo más específico si conoces la estructura del JSON
-  state: "draft" | "approved" | "rejected";
+  client_id: number;
+  name?: string;
+  content: { quantity: number; details: { name: string; price: number } }[];
+  taxes: number;
+  discount: number;
+  state: "draft" | "sent" | "approved" | "rejected";
   created_at: Date;
   updated_at: Date;
 }

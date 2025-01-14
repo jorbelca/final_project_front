@@ -45,7 +45,6 @@ export default function NavLinks() {
         const LinkIcon = link.icon;
         const isActive = pathname === link.href;
 
-
         const linkClasses = clsx(
           "flex h-[48px] grow items-center justify-center gap-2 rounded-sm p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3",
           {

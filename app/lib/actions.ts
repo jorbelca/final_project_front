@@ -6,14 +6,17 @@ import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { hash } from "bcrypt";
-import { Budget, Client, Cost } from "./definitions"; // Importa el tipo Budget
+import { Client, Cost, User } from "./definitions";
+import bcrypt from "bcrypt";
 
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData
 ) {
   try {
-    await signIn("credentials", formData);
+    const res = await signIn("credentials", formData);
+    console.log(res);
+    return res;
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -23,6 +26,22 @@ export async function authenticate(
           return "Something went wrong.";
       }
     }
+    throw error;
+  }
+}
+
+export async function login(email: string, password: string) {
+  try {
+    const user =
+      await sql<User>`SELECT * FROM users WHERE email = ${email}`;
+      
+      if (!user) return null;
+      const passwordsMatch = await bcrypt.compare(password, user.rows[0].password);
+      if (passwordsMatch) {
+        return user.rows[0];
+      }
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
     throw error;
   }
 }
@@ -261,5 +280,20 @@ export async function deleteClient(
     return { success: true, message: "Cliente eliminado exitosamente" };
   } catch (error) {
     return { success: false, message: "Error al eliminar el cliente" };
+  }
+}
+
+export async function updateBudgetState(
+  budgetId: number,
+  state: "draft" | "sent" | "approved" | "rejected"
+) {
+  try {
+    await sql`UPDATE budgets SET state = ${state} WHERE budget_id = ${budgetId}`;
+    return { success: true, message: "Estado del presupuesto actualizado" };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Error al actualizar el estado del presupuesto",
+    };
   }
 }

@@ -1,6 +1,8 @@
 import "@/app/ui/global.css";
 import { inter } from "./ui/fonts";
 import { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
+
 
 
 export const metadata: Metadata = {
@@ -10,7 +12,6 @@ export const metadata: Metadata = {
   },
   description: "Aplicación de creación de presupuestos",
   //metadataBase: new URL("https://next-learn-dashboard.vercel.sh")
-  
 };
 
 export default function RootLayout({
@@ -20,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <SessionProvider>
+        <body className={`${inter.className} antialiased`}>{children}</body>
+      </SessionProvider>
     </html>
   );
 }

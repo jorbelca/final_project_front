@@ -28,18 +28,15 @@ export default function BudgetsTable({
                     <div className="mb-2 flex items-center">
                       <p className="text-sm font-medium">{budget.budget_id}.</p>
                       &nbsp;
-                      <p className="text-sm font-medium">{budget.name}</p>
+                      <p className="text-sm font-medium">
+                        {budget.description}
+                      </p>
                     </div>
                   </div>
                   <BudgetState status={budget.state} id={budget.budget_id} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
-                  {budget.content.map((content: any) => (
-                    <p key={content.details.id} className="text-xl font-medium">
-                      {content.quantity} x {content.details.name} $
-                      {content.details.price}€
-                    </p>
-                  ))}
+                  {JSON.stringify(budget.content)}
 
                   <p>{new Date(budget.created_at).toDateString()}</p>
                 </div>
@@ -85,15 +82,7 @@ export default function BudgetsTable({
                   <td className="px-4 py-4">{budget.budget_id}</td>
                   <td className="px-4 py-4 w-full">
                     <div className="flex flex-col ">
-                      {budget.content.map((content: any) => (
-                        <p
-                          key={content.details.id}
-                          className="text-sm font-medium"
-                        >
-                          {content.quantity} x {content.details.name} =
-                          {content.details.price}€
-                        </p>
-                      ))}
+                      {JSON.stringify(budget.content)}
                     </div>
                   </td>
                   <td className="px-6 py-4 ">{budget.discount}%</td>

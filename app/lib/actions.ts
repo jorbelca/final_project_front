@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { hash } from "bcrypt";
-import { Client, Cost, User } from "./definitions";
+import { Budget, Client, Cost, User } from "./definitions";
 import bcrypt from "bcrypt";
 
 export async function authenticate(
@@ -76,19 +76,23 @@ export async function register(
 
 // Función para crear un presupuesto
 export async function createBudget(
-  formData: FormData
-): Promise<{ success: boolean; message: string }> {
+  userId: number,
+  clientId: number,
+  content: { quantity: number; description: string; cost: number }[],
+  discount: number,
+  tax: number
+): Promise<any> {
+
+
   try {
-    const userId = formData.get("userId") as string;
-    const clientId = formData.get("clientId") as string;
-    const content = formData.get("content") as string;
-    const state = formData.get("state") as string;
-    await sql`
-      INSERT INTO budgets (user_id, client_id, content, state)
-      VALUES (${userId}, ${clientId}, ${content}, ${state})
+    const serializedContent = JSON.stringify(content);
+    await sql<Budget>`
+      INSERT INTO budgets (user_id, client_id, discount, taxes, content)
+      VALUES (${userId}, ${clientId}, ${discount}, ${tax}, ${serializedContent})
     `;
     return { success: true, message: "Presupuesto creado exitosamente" };
   } catch (error) {
+    console.error("Error al crear el presupuesto:", error);
     return { success: false, message: "Error al crear el presupuesto" };
   }
 }

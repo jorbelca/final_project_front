@@ -40,7 +40,7 @@ export interface Budget {
   user_id: number;
   client_id: number;
   name?: string;
-  content: { quantity: number; details: { name: string; price: number } }[];
+  content: { quantity: number; description: string; cost: number }[];
   taxes: number;
   discount: number;
   state: "draft" | "sent" | "approved" | "rejected";

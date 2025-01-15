@@ -5,7 +5,7 @@ import Link from "next/link";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
 import { createBudget } from "@/app/lib/actions";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 
 export default function Form({
   clients,
@@ -25,9 +25,18 @@ export default function Form({
   const [exQuantity, setExQuantity] = useState<string>("");
   const [exCost, setExCost] = useState<string>("");
   const [exDescription, setExDescription] = useState<string>("");
-
+  const [clientId, setClientId] = useState<string>("");
   const initialState: any = { message: null, errors: {} };
-  const [state, formAction] = useActionState(createBudget, initialState);
+  const [state, formAction] = useActionState(async (state: any) => {
+    const response = await createBudget(
+      Number(3),
+      Number(clientId),
+      costsList,
+      Number(discount),
+      Number(tax)
+    );
+    return response;
+  }, initialState);
 
   const handleAddCost = (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,8 +129,9 @@ export default function Form({
               id="customer"
               name="customerId"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
               aria-describedby="customer-error"
+              value={clientId}
+              onChange={(e) => setClientId(e.target.value)}
             >
               <option value="" disabled>
                 Select a client
@@ -297,7 +307,13 @@ export default function Form({
         >
           Cancel
         </Link>
-        <Button type="submit">Create Budget</Button>
+
+        <Button
+          type="submit"
+          disabled={!(total > 0 && costsList.length > 0 && clientId)}
+        >
+          Create Budget
+        </Button>
       </div>
     </form>
   );

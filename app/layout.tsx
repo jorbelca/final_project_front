@@ -21,9 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <SessionProvider>
+
         <body className={`${inter.className} antialiased`}>{children}</body>
-      </SessionProvider>
+
     </html>
   );
 }

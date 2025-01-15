@@ -15,7 +15,7 @@ export async function authenticate(
 ) {
   try {
     const res = await signIn("credentials", formData);
-    console.log(res);
+
     return res;
   } catch (error) {
     if (error instanceof AuthError) {
@@ -32,14 +32,16 @@ export async function authenticate(
 
 export async function login(email: string, password: string) {
   try {
-    const user =
-      await sql<User>`SELECT * FROM users WHERE email = ${email}`;
-      
-      if (!user) return null;
-      const passwordsMatch = await bcrypt.compare(password, user.rows[0].password);
-      if (passwordsMatch) {
-        return user.rows[0];
-      }
+    const user = await sql<User>`SELECT * FROM users WHERE email = ${email}`;
+
+    if (!user) return null;
+    const passwordsMatch = await bcrypt.compare(
+      password,
+      user.rows[0].password
+    );
+    if (passwordsMatch) {
+      return user.rows[0];
+    }
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     throw error;

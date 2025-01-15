@@ -1,9 +1,7 @@
-import CustomersTable from "@/app/ui/clients/table";
 import { lusitana } from "@/app/ui/fonts";
 import Form from "@/app/ui/budgets/create-form";
 
 import { Metadata } from "next";
-import { Suspense } from "react";
 import { fetchCosts } from "@/app/lib/data";
 import { fetchClients } from "@/app/lib/actions";
 

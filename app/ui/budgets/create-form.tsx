@@ -5,7 +5,7 @@ import Link from "next/link";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
 import { createBudget } from "@/app/lib/actions";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 export default function Form({
   clients,
@@ -15,37 +15,55 @@ export default function Form({
   costs: Cost[];
 }) {
   const [costsList, setCostsList] = useState<
-    { quantity: number; cost: any | null }[]
+    { quantity: number; description: string | null; cost: number }[]
   >([]);
-  const [quantity, setQuantity] = useState<any>("");
-  const [costId, setCostId] = useState<any>("");
+  const [quantity, setQuantity] = useState<number | string>("");
+  const [costId, setCostId] = useState<number | string>("");
   const [total, setTotal] = useState<number>(0);
-  const [tax, setTax] = useState<number>();
-  const [discount, setDiscount] = useState<number>();
+  const [tax, setTax] = useState<number | string>("");
+  const [discount, setDiscount] = useState<number | string>("");
+  const [exQuantity, setExQuantity] = useState<string>("");
+  const [exCost, setExCost] = useState<string>("");
   const [exDescription, setExDescription] = useState<string>("");
-  const [exCost, setExCost] = useState<any>();
-  const [exQuantity, setExQuantity] = useState<any>();
+
   const initialState: any = { message: null, errors: {} };
   const [state, formAction] = useActionState(createBudget, initialState);
 
-  const handleAddCost = () => {
-    if (costId) {
-      const selectedCost = costs.find((cost) => cost.cost_id === costId);
+  const handleAddCost = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (costId && typeof costId === "string" && quantity) {
+      const selectedCost = costs.find(
+        (cost) => cost.cost_id === Number(costId)
+      );
       if (selectedCost) {
-        setCostsList((prevCostsList) => [
-          ...prevCostsList,
-          { quantity: quantity, cost: selectedCost },
-        ]);
-        setTotal((prevTotal) => prevTotal + quantity * selectedCost.cost);
+        const newCost = {
+          quantity: Number(quantity),
+          description: selectedCost.description,
+          cost: +selectedCost.cost,
+        };
+
+        setCostsList((prevCostsList) => {
+          const updatedList = [...prevCostsList, newCost];
+          updateTotal(updatedList); // Recalcula el total con la lista actualizada.
+          return updatedList;
+        });
       }
+
       setQuantity("");
-      setCostId(0);
-    } else {
-      setCostsList((prevCostsList) => [
-        ...prevCostsList,
-        { quantity: exQuantity, cost: exCost, description: exDescription },
-      ]);
-      setTotal((prevTotal) => prevTotal + exQuantity * exCost);
+      setCostId("");
+    } else if (exQuantity && exCost) {
+      const newCost = {
+        quantity: Number(exQuantity),
+        description: exDescription,
+        cost: Number(exCost),
+      };
+
+      setCostsList((prevCostsList) => {
+        const updatedList = [...prevCostsList, newCost];
+        updateTotal(updatedList); // Recalcula el total con la lista actualizada.
+        return updatedList;
+      });
 
       setExQuantity("");
       setExCost("");
@@ -55,13 +73,38 @@ export default function Form({
 
   const handleRemoveCost = (index: number) => {
     setCostsList((prevCostsList) => {
-      const costToRemove = prevCostsList[index];
-      setTotal(
-        (prevTotal) =>
-          prevTotal - costToRemove.quantity * costToRemove.cost.cost
-      );
-      return prevCostsList.filter((_, i) => i !== index);
+      const updatedList = prevCostsList.filter((_, i) => i !== index);
+      updateTotal(updatedList); // Recalcula el total basado en el nuevo costsList.
+      return updatedList;
     });
+  };
+
+  const updateTotal = (updatedCostsList: typeof costsList) => {
+    // Recalcula el total sumando todos los elementos del costsList.
+    const baseTotal = updatedCostsList.reduce(
+      (sum, item) => sum + item.quantity * item.cost,
+      0
+    );
+
+    // Aplica descuentos e impuestos al total recalculado.
+    const discountTotal = applyDiscount(baseTotal);
+    const taxTotal = applyTaxes(discountTotal);
+    setTotal(taxTotal);
+  };
+  const applyDiscount = (subTotal: number) => {
+    const discountNumber = Number(discount);
+    if (discountNumber > 0 && discountNumber < 100) {
+      return subTotal - (subTotal * discountNumber) / 100;
+    }
+    return subTotal;
+  };
+
+  const applyTaxes = (baseTotal: number) => {
+    const taxNumber = Number(tax);
+    if (taxNumber > 0 && taxNumber < 100) {
+      return baseTotal + (baseTotal * taxNumber) / 100;
+    }
+    return baseTotal;
   };
 
   return (
@@ -109,13 +152,13 @@ export default function Form({
           </label>
           {/* Lista de costos */}
           {costsList.length > 0 &&
-            costsList.map(({ cost, quantity }, index) => (
+            costsList.map(({ description, quantity, cost }, index) => (
               <div
                 className="flex justify-between items-center border-gray-200 bg-gray-100 p-2 mb-2"
                 key={index}
               >
-                <div className=" ">
-                  {quantity} x {cost.description} - {cost.cost} - {cost.unit}
+                <div>
+                  {quantity} x {description} - {cost} $
                 </div>
                 <button
                   className="pl-20 text-red-500"
@@ -125,7 +168,6 @@ export default function Form({
                 </button>
               </div>
             ))}
-          <div></div>
 
           <div className="flex gap-2">
             <Button onClick={handleAddCost}>Add Cost</Button>
@@ -145,7 +187,7 @@ export default function Form({
               className="peer block w-5/6 cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               aria-describedby="cost-error"
               value={costId}
-              onChange={(e) => setCostId(Number(e.target.value))}
+              onChange={(e) => setCostId(e.target.value)}
             >
               <option value="" disabled>
                 Select a cost
@@ -161,15 +203,15 @@ export default function Form({
           <label htmlFor="cost" className="mb-2 block text-sm font-medium">
             Exceptional Costs
           </label>
-          <div className="flex ">
-            <Button onClick={handleAddCost}> Exceptional Cost</Button>
+          <div className="flex">
+            <Button onClick={handleAddCost}>Exceptional Cost</Button>
             <input
               type="number"
               name="exQuantity"
               id="exQuantity"
               className="peer block w-1/6 cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               value={exQuantity}
-              onChange={(e) => setExQuantity(Number(e.target.value))}
+              onChange={(e) => setExQuantity(e.target.value)}
               placeholder="Quantity"
             />
             <input
@@ -178,7 +220,7 @@ export default function Form({
               id="exCost"
               className="peer block w-1/6 cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               value={exCost}
-              onChange={(e) => setExCost(Number(e.target.value))}
+              onChange={(e) => setExCost(e.target.value)}
               placeholder="Cost"
             />
 
@@ -205,8 +247,8 @@ export default function Form({
           </div>
         </div>
 
-        {/* Impuestos  */}
-        <div className=" flex flex items-center justify-between">
+        {/* Impuestos */}
+        <div className="flex flex items-center justify-between">
           <div className="w-1/6 flex flex-col">
             <label htmlFor="tax" className="mb-2 block text-sm font-medium ">
               Tax
@@ -217,7 +259,10 @@ export default function Form({
               id="tax"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               value={tax}
-              onChange={(e) => setTax(Number(e.target.value))}
+              onChange={(e) => {
+                e.preventDefault();
+                setTax(Number(e.target.value));
+              }}
             />
           </div>
 
@@ -234,11 +279,14 @@ export default function Form({
               id="discount"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               value={discount}
-              onChange={(e) => setDiscount(Number(e.target.value))}
+              onChange={(e) => {
+                e.preventDefault();
+                setDiscount(Number(e.target.value));
+              }}
             />
           </div>
           {/* Total */}
-          <div className="mt-20">Total: {total}</div>
+          <div className="mt-20">Total: {total.toFixed(2)} $</div>
         </div>
       </div>
 

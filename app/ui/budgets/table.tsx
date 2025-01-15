@@ -1,17 +1,15 @@
 "use client";
 import BudgetState from "@/app/ui/budgets/status";
-import { useSession } from "next-auth/react";
 
-export default async function BudgetsTable({
+export default function BudgetsTable({
   query,
   currentPage,
-  budgets,  
+  budgets,
 }: {
   query?: string;
   currentPage?: number;
   budgets: any;
 }) {
-  
   // const { data: session } = useSession();
 
   // console.log({ session });
@@ -36,21 +34,19 @@ export default async function BudgetsTable({
                   <BudgetState status={budget.state} id={budget.budget_id} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
-                  <div>
-                    {budget.content.map((content: any) => (
-                      <p key={content.details.id} className="text-xl font-medium">
-                        {content.quantity} x {content.details.name} $
-                        {content.details.price}€
-                      </p>
-                    ))}
+                  {budget.content.map((content: any) => (
+                    <p key={content.details.id} className="text-xl font-medium">
+                      {content.quantity} x {content.details.name} $
+                      {content.details.price}€
+                    </p>
+                  ))}
 
-                    <p>{new Date(budget.created_at).toDateString()}</p>
-                  </div>
-                  {/* <div className="flex justify-end gap-2">
+                  <p>{new Date(budget.created_at).toDateString()}</p>
+                </div>
+                {/* <div className="flex justify-end gap-2">
                     <UpdateInvoice id={budget.id} />
                     <DeleteInvoice id={budget.id} />
                   </div> */}
-                </div>
               </div>
             ))}
           </div>
@@ -90,7 +86,10 @@ export default async function BudgetsTable({
                   <td className="px-4 py-4 w-full">
                     <div className="flex flex-col ">
                       {budget.content.map((content: any) => (
-                        <p key={content.details.id} className="text-sm font-medium">
+                        <p
+                          key={content.details.id}
+                          className="text-sm font-medium"
+                        >
                           {content.quantity} x {content.details.name} =
                           {content.details.price}€
                         </p>

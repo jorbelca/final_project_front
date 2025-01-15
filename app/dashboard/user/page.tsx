@@ -17,7 +17,7 @@ export default async function Page() {
   
     const user = await getUser(Number(process.env.USER_ID));
     const subscription = await getSubscription(Number(process.env.USER_ID));
-    console.log(user[0].avatar_url);
+
     
 
   return ( 

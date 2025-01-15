@@ -82,8 +82,6 @@ export async function createBudget(
   discount: number,
   tax: number
 ): Promise<any> {
-
-
   try {
     const serializedContent = JSON.stringify(content);
     await sql<Budget>`

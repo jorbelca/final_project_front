@@ -15,7 +15,7 @@ export default function Form({
   costs: Cost[];
 }) {
   const [costsList, setCostsList] = useState<
-    { quantity: number; description: string | null; cost: number }[]
+    { quantity: number; description: string; cost: number }[]
   >([]);
   const [quantity, setQuantity] = useState<number | string>("");
   const [costId, setCostId] = useState<number | string>("");

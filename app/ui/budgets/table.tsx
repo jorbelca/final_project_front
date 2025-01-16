@@ -1,5 +1,7 @@
 "use client";
+import { fetchBudgets } from "@/app/lib/data";
 import BudgetState from "@/app/ui/budgets/status";
+import { useSession } from "next-auth/react";
 
 export default function BudgetsTable({
   query,
@@ -10,9 +12,6 @@ export default function BudgetsTable({
   currentPage?: number;
   budgets: any;
 }) {
-  // const { data: session } = useSession();
-
-  // console.log({ session });
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">

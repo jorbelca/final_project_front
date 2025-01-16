@@ -1,14 +1,12 @@
-import Pagination from "@/app/ui/budgets/pagination";
-import Search from "@/app/ui/search";
 import Table from "@/app/ui/budgets/table";
-import { CreateInvoice } from "@/app/ui/budgets/buttons";
+
 import { lusitana } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
-import { fetchBudgets, fetchBudgetsPages } from "@/app/lib/data";
+import { fetchBudgets } from "@/app/lib/data";
 import { Metadata } from "next";
-
-export const dynamic = 'force-dynamic';
+import { auth } from "@/auth";
+export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 
 export const metadata: Metadata = {
@@ -25,7 +23,10 @@ export default async function Page(props: {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   //const totalPages = await fetchBudgets();
-  const budgets = await fetchBudgets(Number(process.env.USER_ID));
+  const session = await auth();
+  console.log(session?.user);
+
+  const budgets = await fetchBudgets(Number(session?.user?.id));
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">

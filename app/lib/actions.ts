@@ -1,10 +1,7 @@
 "use server";
-import { z } from "zod";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
-import { AuthError } from "next-auth";
+
 import { hash } from "bcrypt";
 import { Budget, Client, Cost, User } from "./definitions";
 import bcrypt from "bcrypt";
@@ -18,15 +15,12 @@ export async function authenticate(
 
     return res;
   } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return "Invalid credentials.";
-        default:
-          return "Something went wrong.";
-      }
+    switch (error.type) {
+      case "CredentialsSignin":
+        return "Invalid credentials.";
+      default:
+        return "Something went wrong.";
     }
-    throw error;
   }
 }
 

@@ -2,8 +2,7 @@ import "@/app/ui/global.css";
 import { inter } from "./ui/fonts";
 import { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
-
-
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: {
@@ -14,16 +13,17 @@ export const metadata: Metadata = {
   //metadataBase: new URL("https://next-learn-dashboard.vercel.sh")
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
   return (
     <html lang="es">
-
-        <body className={`${inter.className} antialiased`}>{children}</body>
-
+      <body className={`${inter.className} antialiased`}>
+        <SessionProvider session={session}>{children}</SessionProvider>
+      </body>
     </html>
   );
 }

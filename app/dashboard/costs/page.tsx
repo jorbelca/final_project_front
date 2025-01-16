@@ -7,13 +7,15 @@ import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import { PencilIcon, PlusIcon } from "@heroicons/react/24/outline";
 import DeleteBtn from "@/app/ui/costs/delete-btn";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Costs",
 };
 
 export default async function Page() {
-  const costs = await fetchCosts(Number(process.env.USER_ID));
+  const session = await auth();
+  const costs = await fetchCosts(Number(session?.user?.id));
 
   return (
     <div className="w-full">
@@ -33,13 +35,27 @@ export default async function Page() {
               <table className="min-w-full text-gray-900">
                 <thead className="rounded-lg text-left text-sm font-normal">
                   <tr>
-                    <th scope="col" className="px-4 py-5 font-medium">ID</th>
-                    <th scope="col" className="px-4 py-5 font-medium">Descripción</th>
-                    <th scope="col" className="px-4 py-5 font-medium">Precio</th>
-                    <th scope="col" className="px-4 py-5 font-medium">Unidad</th>
-                    <th scope="col" className="px-4 py-5 font-medium">Periodicidad</th>
-                    <th scope="col" className="px-4 py-5 font-medium">Creacion</th>
-                    <th scope="col" className="px-4 py-5 font-medium">Acciones</th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      ID
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Descripción
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Precio
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Unidad
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Periodicidad
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Creacion
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -50,7 +66,11 @@ export default async function Page() {
                       <td className="px-4 py-3">{cost.cost}</td>
                       <td className="px-4 py-3">{cost.unit}</td>
                       <td className="px-4 py-3">{cost.periodicity}</td>
-                      <td className="px-4 py-3">{cost.created_at ? formatDateToLocal(cost.created_at.toDateString()) : ""}</td>
+                      <td className="px-4 py-3">
+                        {cost.created_at
+                          ? formatDateToLocal(cost.created_at.toDateString())
+                          : ""}
+                      </td>
                       <td className="px-4 py-3">
                         <Link href={`/dashboard/costs/edit/${cost.cost_id}`}>
                           <Button>
@@ -58,7 +78,7 @@ export default async function Page() {
                           </Button>
                         </Link>
                         <br />
-                          <DeleteBtn costId={Number(cost.cost_id)} />
+                        <DeleteBtn costId={Number(cost.cost_id)} />
                       </td>
                     </tr>
                   ))}

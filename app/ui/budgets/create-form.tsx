@@ -6,6 +6,7 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
 import { createBudget } from "@/app/lib/actions";
 import { useActionState, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function Form({
   clients,
@@ -14,6 +15,8 @@ export default function Form({
   clients: Client[];
   costs: Cost[];
 }) {
+  const session = useSession();
+
   const [costsList, setCostsList] = useState<
     { quantity: number; description: string; cost: number }[]
   >([]);
@@ -29,7 +32,7 @@ export default function Form({
   const initialState: any = { message: null, errors: {} };
   const [state, formAction] = useActionState(async (state: any) => {
     const response = await createBudget(
-      Number(3),
+      Number(session?.data?.user?.id),
       Number(clientId),
       costsList,
       Number(discount),

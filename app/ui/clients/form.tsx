@@ -1,6 +1,7 @@
 import { createClient, getClientById, updateClient } from "@/app/lib/actions";
 import { Client } from "@/app/lib/definitions";
 import { lusitana } from "@/app/ui/fonts";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 export const metadata = {
@@ -25,7 +26,7 @@ export default async function ClientsForm(props: {
     const image_url = (formData.get("image_url") as string) ?? "";
     let result: { success: boolean; message: string } | null = null;
 
-    console.log(image_url);
+    const session = await auth();
 
     if (client?.client_id) {
       console.log("update");
@@ -39,7 +40,7 @@ export default async function ClientsForm(props: {
     } else {
       console.log("create");
       result = await createClient(
-        Number(process.env.USER_ID),
+        Number(session?.user?.id),
         name,
         email,
         image_url

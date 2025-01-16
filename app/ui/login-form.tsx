@@ -3,12 +3,10 @@ import { lusitana } from "@/app/ui/fonts";
 import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "./button";
-import { authenticate, login } from "../lib/actions";
+import { authenticate } from "../lib/actions";
 import { useActionState } from "react";
-import { useSession } from "next-auth/react";
 
 export default function LoginForm() {
- 
   const [errorMessage, formAction, isPending] = useActionState(
     authenticate,
     undefined

@@ -6,9 +6,11 @@ import Image from "next/image";
 import { Button } from "../button";
 import Link from "next/link";
 import DeleteBtn from "./delete-btn";
+import { auth } from "@/auth";
 
 export default async function ClientsTable() {
-  const clients = await fetchClients(Number(process.env.USER_ID));
+  const session = await auth();
+  const clients = await fetchClients(Number(session?.user?.id));
 
   return (
     <div className="w-full">

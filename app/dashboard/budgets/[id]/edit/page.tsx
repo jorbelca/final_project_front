@@ -4,17 +4,19 @@ import { getBudgetById } from "@/app/lib/data";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { fetchClients } from "@/app/lib/actions";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Edit Budget",
 };
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const session = await auth();
   const params = await props.params;
   const id = params.id;
   const [budget, client] = await Promise.all([
     getBudgetById(+id),
-    fetchClients(Number(process.env.USER_ID)),
+    fetchClients(Number(session?.user?.id)),
   ]);
   if (!budget) {
     notFound();

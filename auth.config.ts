@@ -13,7 +13,21 @@ export const authConfig = {
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
+
+      if (isOnDashboard) {
+        if (isLoggedIn) {
+          return true;
+        }
+        return false; // Redirect unauthenticated users to login page
+      } else if (isLoggedIn && !isOnDashboard) {
+        return Response.redirect(new URL("/dashboard/budgets", nextUrl));
+      }
+      return true;
+    },
+    async jwt({ token, user, account }) {
       // Si el usuario se autentica por primera vez, agrega el ID
 
       if (user) {
@@ -26,26 +40,11 @@ export const authConfig = {
 
       return token;
     },
-    async session({ session, token, user }: SessionProps) {
-      // console.log(session, user);
+    async session({ session, token }: SessionProps) {
       // Añadir propiedades personalizadas al objeto session
       session.user.id = token.user_id;
 
       return session; // Devolver el objeto modificado
-    },
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
-
-      if (isOnDashboard) {
-        if (isLoggedIn) {
-          return true;
-        }
-        return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL("/dashboard", nextUrl));
-      }
-      return true;
     },
   },
   providers: [], // Add providers with an empty array for now

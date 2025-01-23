@@ -24,7 +24,6 @@ export default async function Page(props: {
   const currentPage = Number(searchParams?.page) || 1;
   //const totalPages = await fetchBudgets();
   const session = await auth();
-  console.log(session?.user);
 
   const budgets = await fetchBudgets(Number(session?.user?.id));
   return (

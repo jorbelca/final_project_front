@@ -1,7 +1,7 @@
 "use client";
-import { fetchBudgets } from "@/app/lib/data";
+
 import BudgetState from "@/app/ui/budgets/status";
-import { useSession } from "next-auth/react";
+import { DeleteBudget, UpdateBudget } from "./buttons";
 
 export default function BudgetsTable({
   query,
@@ -35,14 +35,17 @@ export default function BudgetsTable({
                   <BudgetState status={budget.state} id={budget.budget_id} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
-                  {JSON.stringify(budget.content)}
+                  {budget?.content &&
+                    budget?.content.map((item: any) => (
+                      <div key={item.description}>{item.description}</div>
+                    ))}
 
                   <p>{new Date(budget.created_at).toDateString()}</p>
                 </div>
-                {/* <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={budget.id} />
-                    <DeleteInvoice id={budget.id} />
-                  </div> */}
+                <div className="flex justify-end gap-2">
+                  <UpdateBudget id={budget.budget_id} />
+                  <DeleteBudget id={budget.budget_id} />
+                </div>
               </div>
             ))}
           </div>
@@ -71,7 +74,10 @@ export default function BudgetsTable({
                   Status
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
-                  <span className="sr-only">Edit</span>
+                  Actions
+                </th>
+                <th scope="col" className="relative py-3 pl-6 pr-3">
+                  PDF
                 </th>
               </tr>
             </thead>
@@ -80,9 +86,14 @@ export default function BudgetsTable({
                 <tr key={budget.budget_id} className="border-b">
                   <td className="px-4 py-4">{budget.budget_id}</td>
                   <td className="px-4 py-4 w-full">
-                    <div className="flex flex-col ">
-                      {JSON.stringify(budget.content)}
-                    </div>
+                    <ul className="flex flex-col ">
+                      {budget.content.map((item: any) => (
+                        <li key={item.description}>
+                          {item.quantity} X {item.description} ={" "}
+                          {item.quantity * item.cost}
+                        </li>
+                      ))}
+                    </ul>
                   </td>
                   <td className="px-6 py-4 ">{budget.discount}%</td>
                   <td className="px-6 py-4 ">{budget.taxes}%</td>
@@ -96,10 +107,10 @@ export default function BudgetsTable({
                     <BudgetState status={budget.state} id={budget.budget_id} />
                   </td>
                   <td className="px-3 py-4 text-right">
-                    {/* <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={budget.id} />
-                    <DeleteInvoice id={budget.id} />
-                  </div> */}
+                    <div className="flex justify-end gap-2">
+                      <UpdateBudget id={budget.budget_id} />
+                      <DeleteBudget id={budget.budget_id} />
+                    </div>
                   </td>
                 </tr>
               ))}

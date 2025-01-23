@@ -2,6 +2,7 @@ import { lusitana } from "@/app/ui/fonts";
 import { Suspense } from "react";
 import { Metadata } from "next";
 
+
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 

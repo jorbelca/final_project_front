@@ -1,19 +1,22 @@
 "use client";
 
-import { Client, Cost } from "@/app/lib/definitions";
+import { Budget, Client, Cost } from "@/app/lib/definitions";
 import Link from "next/link";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
 import { createBudget } from "@/app/lib/actions";
 import { useActionState, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Form({
   clients,
   costs,
+  budget,
 }: {
   clients: Client[];
   costs: Cost[];
+  budget?: Budget;
 }) {
   const session = useSession();
 
@@ -30,15 +33,25 @@ export default function Form({
   const [exDescription, setExDescription] = useState<string>("");
   const [clientId, setClientId] = useState<string>("");
   const initialState: any = { message: null, errors: {} };
-  const [state, formAction] = useActionState(async (state: any) => {
-    const response = await createBudget(
-      Number(session?.data?.user?.id),
-      Number(clientId),
-      costsList,
-      Number(discount),
-      Number(tax)
-    );
-    return response;
+
+  const router = useRouter();
+
+  const [_, formAction] = useActionState(async () => {
+    try {
+      const response = await createBudget(
+        Number(session?.data?.user?.id),
+        Number(clientId),
+        costsList,
+        Number(discount),
+        Number(tax)
+      );
+
+      if (response.success) {
+        router.push("/dashboard/budgets");
+      }
+    } catch (error) {
+      alert("Error creating budget" + error);
+    }
   }, initialState);
 
   const handleAddCost = (e: React.FormEvent) => {
@@ -148,14 +161,14 @@ export default function Form({
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           {/* Error */}
-          <div id="client-error" aria-live="polite" aria-atomic="true">
+          {/* <div id="client-error" aria-live="polite" aria-atomic="true">
             {state.errors?.clientId &&
               state.errors.clientId.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
-          </div>
+          </div>*/}
         </div>
 
         {/* Costs */}
@@ -250,18 +263,18 @@ export default function Form({
           </div>
 
           {/* Error */}
-          <div id="cost-error" aria-live="polite" aria-atomic="true">
+          {/* <div id="cost-error" aria-live="polite" aria-atomic="true">
             {state.errors?.costId &&
               state.errors.costId.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
-          </div>
+          </div>*/}
         </div>
 
         {/* Impuestos */}
-        <div className="flex flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <div className="w-1/6 flex flex-col">
             <label htmlFor="tax" className="mb-2 block text-sm font-medium ">
               Tax

@@ -19,10 +19,15 @@ BudgetApp es una aplicación para generar presupuestos profesionales . Los usuar
 - Next.js
 - TailwindCSS
 
+
+
 ### Base de Datos
 
 - PostgreSQL
 
+
+### Otras
+https://pdfme.com/docs/getting-started 
 ## Estructura de Base de Datos
 
 1. Usuarios

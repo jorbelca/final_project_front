@@ -4,11 +4,11 @@ import { Budget, Cost, Plan, Subscription, User } from "./definitions";
 // Función para obtener un presupuesto por ID
 export async function getBudgetById(budgetId: number): Promise<Budget | null> {
   try {
-    const result = await sql<Budget[]>`
+    const result = await sql<Budget>`
       SELECT * FROM budgets WHERE budget_id = ${budgetId}
     `;
-    const resultArray = Array.isArray(result) ? result : [];
-    return resultArray.length > 0 ? resultArray[0] : null;
+
+    return result.rows[0] || null;
   } catch (error) {
     console.error("Error fetching budget:", error);
     return null;

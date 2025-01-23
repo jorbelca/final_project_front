@@ -5,22 +5,24 @@ import { signIn } from "@/auth";
 import { hash } from "bcrypt";
 import { Budget, Client, Cost, User } from "./definitions";
 import bcrypt from "bcrypt";
+import { AuthError } from "next-auth";
 
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData
 ) {
   try {
-    const res = await signIn("credentials", formData);
-
-    return res;
+    await signIn("credentials", formData);
   } catch (error) {
-    switch (error.type) {
-      case "CredentialsSignin":
-        return "Invalid credentials.";
-      default:
-        return "Something went wrong.";
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
     }
+    throw error;
   }
 }
 

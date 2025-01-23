@@ -2,7 +2,7 @@ import { deleteBudget } from "@/app/lib/actions";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-export function CreateInvoice() {
+export function CreateBudget() {
   return (
     <Link
       href="/dashboard/budgets/create"
@@ -14,7 +14,7 @@ export function CreateInvoice() {
   );
 }
 
-export function UpdateInvoice({ id }: { id: string }) {
+export function UpdateBudget({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/budgets/${id}/edit`}
@@ -25,11 +25,13 @@ export function UpdateInvoice({ id }: { id: string }) {
   );
 }
 
-export function DeleteInvoice({ id }: { id: string }) {
-  const deleteInvoiceWithId = deleteBudget.bind(null, id);
+export function DeleteBudget({ id }: { id: string }) {
+  
+  const deleteBudgetWithId = deleteBudget.bind(null, id);
+
 
   return (
-    <form action={deleteInvoiceWithId}>
+    <form action={deleteBudgetWithId}>
       <button className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />

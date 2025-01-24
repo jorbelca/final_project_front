@@ -21,18 +21,35 @@ export default async function Page() {
     <div className="w-full">
       {user.length > 0 ? (
         <>
-          <div className="flex w-full gap-2 items-center bg-gray-50 rounded-lg p-2 w-1/3">
-            {user[0].avatar_url ? (
-              <img
-                src={user[0].avatar_url}
-                alt="user-image"
-                width={100}
-                height={100}
-              />
-            ) : (
-              <UserCircleIcon className="h-10 w-10" />
-            )}
-            <h1 className={`${lusitana.className} text-2xl`}>{user[0].name}</h1>
+          <div className="flex w-full gap-2 justify-between bg-gray-50 rounded-lg p-2 ">
+            <div className="flex flex-row align-center justify-center gap-1">
+              {user[0].avatar_url ? (
+                <img
+                  src={user[0].avatar_url}
+                  alt="user-image"
+                  width={100}
+                  height={100}
+                />
+              ) : (
+                <UserCircleIcon className="h-10 w-10" />
+              )}
+              <h1 className={`${lusitana.className} text-2xl`}>
+                {user[0].name}
+              </h1>
+            </div>
+            <div>
+              {user[0].logo_url ? (
+                <img
+                  src={user[0].logo_url}
+                  alt="user-image"
+                  width={100}
+                  height={100}
+                  className="rounded"
+                />
+              ) : (
+                ""
+              )}
+            </div>
           </div>
           <br />
           <Suspense fallback={<InvoicesTableSkeleton />}>

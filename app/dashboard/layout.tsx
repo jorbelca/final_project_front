@@ -1,7 +1,7 @@
 import SideNav from "@/app/ui/dashboard/sidenav";
 import Footer from "../ui/footer";
 
-export const experimental_ppr = true;
+
 export default async function Layout({
   children,
 }: {

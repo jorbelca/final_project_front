@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     default: " BudgetApp",
   },
   description: "Aplicación de creación de presupuestos",
+  icons: {
+    icon: "/icon/favicon.ico",
+  },
   //metadataBase: new URL("https://next-learn-dashboard.vercel.sh")
 };
 

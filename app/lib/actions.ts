@@ -73,10 +73,10 @@ export async function register(
 // Función para crear un presupuesto
 export async function createBudget(
   userId: number,
-  clientId: number,
   content: { quantity: number; description: string; cost: number }[],
   discount: number,
-  tax: number
+  tax: number,
+  clientId?: number
 ): Promise<any> {
   try {
     const serializedContent = JSON.stringify(content);
@@ -92,19 +92,35 @@ export async function createBudget(
 }
 
 // Función para actualizar un presupuesto
+// Función para actualizar un presupuesto
 export async function updateBudget(
   budgetId: number,
-  content: any,
-  state: "draft" | "approved" | "rejected"
+  userId: number,
+  clientId: number,
+  content: { quantity: number; description: string; cost: number }[],
+  discount: number,
+  tax: number
 ): Promise<{ success: boolean; message: string }> {
   try {
+    // Ejecutar la consulta SQL
     await sql`
       UPDATE budgets
-      SET content = ${content}, state = ${state}
-      WHERE budget_id = ${budgetId}
+      SET 
+        user_id = ${userId},
+        client_id = ${clientId},
+        discount = ${discount},
+        taxes = ${tax},
+        content = ${JSON.stringify(content)}
+      WHERE 
+        budget_id = ${budgetId}
     `;
+
+    // Retornar éxito
     return { success: true, message: "Presupuesto actualizado exitosamente" };
   } catch (error) {
+    console.error("Error al actualizar el presupuesto:", error);
+
+    // Retornar fallo
     return { success: false, message: "Error al actualizar el presupuesto" };
   }
 }

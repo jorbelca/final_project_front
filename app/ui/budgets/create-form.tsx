@@ -4,7 +4,7 @@ import { Budget, Client, Cost } from "@/app/lib/definitions";
 import Link from "next/link";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
-import { createBudget } from "@/app/lib/actions";
+import { createBudget, updateBudget } from "@/app/lib/actions";
 import { useActionState, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -38,16 +38,30 @@ export default function Form({
 
   const [_, formAction] = useActionState(async () => {
     try {
-      const response = await createBudget(
-        Number(session?.data?.user?.id),
-        Number(clientId),
-        costsList,
-        Number(discount),
-        Number(tax)
-      );
+      let response = { success: false, message: "" };
+      if (!budget) {
+        response = await createBudget(
+          Number(session?.data?.user?.id),
+          costsList,
+          Number(discount),
+          Number(tax),
+          Number(clientId)
+        );
+      } else {
+        response = await updateBudget(
+          Number(budget.budget_id),
+          Number(session?.data?.user?.id),
+          Number(clientId),
+          costsList,
+          Number(discount),
+          Number(tax)
+        );
+      }
 
       if (response.success) {
         router.push("/dashboard/budgets");
+      } else {
+        alert(response.message);
       }
     } catch (error) {
       alert("Error creating budget" + error);

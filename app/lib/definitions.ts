@@ -6,6 +6,7 @@ export interface User {
   password: string;
   active: boolean;
   avatar_url?: string;
+  logo_url?: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -38,7 +39,7 @@ export interface Cost {
 export interface Budget {
   budget_id: number;
   user_id: number;
-  client_id: number;
+  client_id: number | null;
   name?: string;
   content: { quantity: number; description: string; cost: number }[];
   taxes: number;

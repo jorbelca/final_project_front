@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-
+import colors from "tailwindcss/colors";
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -12,19 +12,10 @@ const config: Config = {
         "13": "repeat(13, minmax(0, 1fr))",
       },
       colors: {
-        blue: {
-          400: "#2589FE",
-          500: "#0070F3",
-          600: "#2F6FEB",
-        },
-        yellow: {
-          400: "#FFD700",
-          500: "#FFC700",
-          600: "#FFB400",
-        },
-        transparent: "transparent",
+        ...colors,
+
         current: "currentColor",
-        white: "#ffffff",
+
         purple: "#3f3cbb",
         midnight: "#121063",
         metal: "#565584",
@@ -32,7 +23,31 @@ const config: Config = {
         silver: "#ecebff",
         "bubble-gum": "#ff77e9",
         bermuda: "#78dcca",
-        rose: "#ff0000",
+
+        transparent: "transparent",
+
+        black: colors.black,
+
+        cyan: colors.cyan,
+        emerald: colors.emerald,
+        fuchsia: colors.fuchsia,
+        slate: colors.slate,
+        gray: colors.gray,
+        neutral: colors.neutral,
+        stone: colors.stone,
+        green: colors.green,
+        indigo: colors.indigo,
+        lime: colors.lime,
+        orange: colors.orange,
+        pink: colors.pink,
+
+        red: colors.red,
+        rose: colors.rose,
+        sky: colors.sky,
+        teal: colors.teal,
+        violet: colors.violet,
+        yellow: colors.amber,
+        white: colors.white,
       },
     },
     keyframes: {

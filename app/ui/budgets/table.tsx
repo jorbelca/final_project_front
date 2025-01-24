@@ -26,25 +26,41 @@ export default function BudgetsTable({
                   <div>
                     <div className="mb-2 flex items-center">
                       <p className="text-sm font-medium">{budget.budget_id}.</p>
-                      &nbsp;
-                      <p className="text-sm font-medium">
-                        {budget.description}
-                      </p>
+                      &nbsp; <b>Client :</b>
+                      {budget.client_id != null ? budget.name : ` ❌`}
                     </div>
                   </div>
                   <BudgetState status={budget.state} id={budget.budget_id} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
-                  {budget?.content &&
-                    budget?.content.map((item: any) => (
-                      <div key={item.description}>{item.description}</div>
+                  <ul className="flex flex-col ">
+                    {budget.content.map((item: any) => (
+                      <li key={item.description}>
+                        {item.quantity} X {item.description} ={" "}
+                        {item.quantity * item.cost + " $"}
+                      </li>
                     ))}
+                  </ul>
 
                   <p>{new Date(budget.created_at).toDateString()}</p>
                 </div>
-                <div className="flex justify-end gap-2">
-                  <UpdateBudget id={budget.budget_id} />
-                  <DeleteBudget id={budget.budget_id} />
+                <div>
+                  <hr />
+                  <div className="flex justify-between align-baseline gap-2 mt-6">
+                    <div>
+                      <p>
+                        <b>Taxes:</b> {budget.taxes} %
+                      </p>
+                      <p>
+                        <b>Discount: </b>
+                        {budget.discount} %
+                      </p>
+                    </div>
+                    <div className="flex justify-center gap-2">
+                      <UpdateBudget id={budget.budget_id} />
+                      <DeleteBudget id={budget.budget_id} />
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -90,7 +106,7 @@ export default function BudgetsTable({
                       {budget.content.map((item: any) => (
                         <li key={item.description}>
                           {item.quantity} X {item.description} ={" "}
-                          {item.quantity * item.cost}
+                          {item.quantity * item.cost + " $"}
                         </li>
                       ))}
                     </ul>

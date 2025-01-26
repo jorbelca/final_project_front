@@ -138,7 +138,10 @@ export default function RegisterForm() {
               </div>
             </div>
           </div>
-          <Button className="mt-4 w-full" aria-disabled={isPending}>
+          <Button
+            className="mt-4 w-full bg-red-500 hover:bg-red-600 cursor-pointer "
+            aria-disabled={isPending}
+          >
             Register <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
           </Button>
           <div
@@ -156,8 +159,7 @@ export default function RegisterForm() {
         </div>
       </form>
       <Button
-        color="green-500"
-        className="hover:green-600"
+        className="bg-blue-500 hover:bg-blue-600 "
         onClick={(e) => {
           e.preventDefault();
           redirect("/");

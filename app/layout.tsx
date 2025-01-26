@@ -3,6 +3,7 @@ import { inter } from "./ui/fonts";
 import { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { ThemeProvider } from "../components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +26,14 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.className} antialiased`}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SessionProvider session={session}>{children}</SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

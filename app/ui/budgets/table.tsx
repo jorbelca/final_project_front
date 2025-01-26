@@ -65,6 +65,7 @@ export default function BudgetsTable({
               </div>
             ))}
           </div>
+          {/* Tabla estándar para pantallas medianas y grandes */}
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
@@ -102,7 +103,7 @@ export default function BudgetsTable({
                 <tr key={budget.budget_id} className="border-b">
                   <td className="px-4 py-4">{budget.budget_id}</td>
                   <td className="px-4 py-4 w-full">
-                    <ul className="flex flex-col ">
+                    <ul className="flex flex-col">
                       {budget.content.map((item: any) => (
                         <li key={item.description}>
                           {item.quantity} X {item.description} ={" "}
@@ -111,9 +112,9 @@ export default function BudgetsTable({
                       ))}
                     </ul>
                   </td>
-                  <td className="px-6 py-4 ">{budget.discount}%</td>
-                  <td className="px-6 py-4 ">{budget.taxes}%</td>
-                  <td className="px-6 py-4 ">
+                  <td className="px-6 py-4">{budget.discount}%</td>
+                  <td className="px-6 py-4">{budget.taxes}%</td>
+                  <td className="px-6 py-4">
                     {budget.client_id != null ? budget.name : ` ❌`}
                   </td>
                   <td className="px-3 py-4">

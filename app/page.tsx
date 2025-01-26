@@ -3,7 +3,7 @@ import Link from "next/link";
 import { teko } from "./ui/fonts";
 import BudgetAppLogo from "./ui/bapp-logo";
 import Footer from "./ui/footer";
-import { DarkToggle } from "./ui/modeToggle";
+import { DarkMode } from "./ui/darkMode";
 
 export default function Page() {
   return (
@@ -30,7 +30,7 @@ export default function Page() {
               </span>{" "}
               <ArrowRightIcon className="w-5 md:w-6" />
             </Link>
-            <DarkToggle></DarkToggle>
+            <DarkMode></DarkMode>
           </div>
         </div>
         <div className="mt-4 flex grow flex-col gap-4 md:flex-row">

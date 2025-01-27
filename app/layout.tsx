@@ -11,6 +11,16 @@ export const metadata: Metadata = {
     default: " BudgetApp",
   },
   description: "Aplicación de creación de presupuestos",
+  manifest: "app/manifest.ts",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: " BudgetApp",
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: "/icon/favicon.ico",
   },

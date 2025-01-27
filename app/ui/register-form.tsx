@@ -11,6 +11,7 @@ import { Button } from "./button";
 import { useState } from "react";
 import { register } from "../lib/actions";
 import { redirect, useRouter } from "next/navigation";
+import ReturnBtn from "./returnBtn";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -158,15 +159,7 @@ export default function RegisterForm() {
           </div>
         </div>
       </form>
-      <Button
-        className="bg-blue-500 hover:bg-blue-600 "
-        onClick={(e) => {
-          e.preventDefault();
-          redirect("/");
-        }}
-      >
-        {"⬅  Return Index"}
-      </Button>
+      <ReturnBtn></ReturnBtn>
     </>
   );
 }

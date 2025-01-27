@@ -11,6 +11,7 @@ import { authenticate } from "../lib/actions";
 import { useActionState } from "react";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import ReturnBtn from "./returnBtn";
 
 export default function LoginForm() {
   const [errorMessage, formAction, isPending] = useActionState(
@@ -85,16 +86,7 @@ export default function LoginForm() {
           </div>
         </div>
       </form>
-      <Button
-        className=" bg-blue-500 hover:bg-blue-600"
-        onClick={(e) => {
-          e.preventDefault();
-          redirect("/");
-        }}
-      >
-        {" "}
-        <span className={`${teko.className}text-xl`}>{"⬅  Return Index"}</span>
-      </Button>
+      <ReturnBtn></ReturnBtn>
     </>
   );
 }

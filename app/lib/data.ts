@@ -1,3 +1,4 @@
+"use server"
 import { sql } from "@vercel/postgres";
 import { Budget, Cost, Plan, Subscription, User } from "./definitions";
 

@@ -30,15 +30,15 @@ export default async function ClientsTable() {
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
-            <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
+            <div className="overflow-hidden rounded-md gray-50 dark:bg-gray-500 p-2 md:pt-0">
               {/* Vista móvil */}
               <div className="md:hidden">
                 {clients?.map((client) => (
                   <div
                     key={client.client_id}
-                    className="mb-2 w-full rounded-md bg-white p-4"
+                    className="mb-2 w-full rounded-md bg-white dark:bg-slate-600 p-4"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-around gap-3">
                       {client.image_url ? (
                         <Image
                           src={client.image_url.trimEnd()}
@@ -52,9 +52,11 @@ export default async function ClientsTable() {
                       )}
                       <div>
                         <p className="font-medium">{client.name}</p>
-                        <p className="text-sm text-gray-500">{client.email}</p>
+                        <p className="text-sm text-gray-500 dark:text-white">
+                          {client.email}
+                        </p>
                       </div>
-                      <div className="px-4 py-5">
+                      <div className="flex px-4 py-5 gap-3">
                         <Link
                           href={`/dashboard/clients/edit/${client.client_id}`}
                         >
@@ -71,8 +73,8 @@ export default async function ClientsTable() {
                 ))}
               </div>
               {/* Vista en web */}
-              <table className="hidden min-w-full rounded-md text-gray-900 md:table">
-                <thead className="bg-gray-50 text-left text-sm font-medium">
+              <table className="border rounded-lg overflow-hidden hidden min-w-full text-gray-900 md:table">
+                <thead className="bg-gray-50 dark:bg-gray-500 dark:text-white  text-left text-sm font-medium">
                   <tr>
                     <th scope="col" className="px-4 py-5 sm:pl-6">
                       Image
@@ -90,7 +92,10 @@ export default async function ClientsTable() {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {clients?.map((client) => (
-                    <tr key={client.client_id} className="bg-white group">
+                    <tr
+                      key={client.client_id}
+                      className="bg-white dark:bg-gray-600 group"
+                    >
                       <td className="px-4 py-5 sm:pl-6">
                         {client.image_url ? (
                           <Image
@@ -104,17 +109,17 @@ export default async function ClientsTable() {
                           <UserCircleIcon className="w-6" />
                         )}
                       </td>
-                      <td className="px-4 py-5 text-sm font-medium">
+                      <td className="px-4 py-5 text-sm font-medium dark:text-white">
                         {client.name}
                       </td>
-                      <td className="px-4 py-5 text-sm text-gray-500">
+                      <td className="px-4 py-5 text-sm text-gray-500 dark:text-white">
                         {client.email}
                       </td>
                       <td className="px-4 py-5 ">
                         <Link
                           href={`/dashboard/clients/edit/${client.client_id}`}
                         >
-                          <Button className=" dark:bg-slate-300 bg-yellow-300">
+                          <Button className=" bg-yellow-300">
                             <PencilIcon className="h-5 w-5" />
                           </Button>
                         </Link>

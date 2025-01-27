@@ -33,9 +33,9 @@ export default async function Page() {
 
       <Suspense fallback={<InvoicesTableSkeleton />}>
         <div className="mt-6 flow-root">
-          <div className="inline-block min-w-full align-middle">
-            <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-              <table className="min-w-full text-gray-900">
+          <div className="inline-block min-w-full align-middle  ">
+            <div className="rounded-lg bg-gray-50 dark:bg-slate-600 p-2 md:pt-0 ">
+              <table className="min-w-full text-gray-900 dark:text-white">
                 <thead className="rounded-lg text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium">
@@ -61,7 +61,7 @@ export default async function Page() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white">
+                <tbody className="bg-white dark:bg-slate-700 ">
                   {costs?.map((cost) => (
                     <tr key={cost.cost_id} className="border-b">
                       <td className="px-4 py-3">{cost.cost_id}</td>

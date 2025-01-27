@@ -14,13 +14,13 @@ export default function BudgetsTable({
 }) {
   return (
     <div className="mt-6 flow-root">
-      <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <div className="md:hidden">
+      <div className="inline-block min-w-full align-middle ">
+        <div className="rounded-lg bg-gray-50 p-2 md:pt-0 dark:bg-slate-600">
+          <div className="md:hidden ">
             {budgets?.map((budget) => (
               <div
                 key={budget.budget_id}
-                className="mb-2 w-full rounded-md bg-white p-4"
+                className="mb-2 w-full rounded-md bg-white dark:bg-slate-500 p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
@@ -66,7 +66,8 @@ export default function BudgetsTable({
             ))}
           </div>
           {/* Tabla estándar para pantallas medianas y grandes */}
-          <table className="hidden min-w-full text-gray-900 md:table">
+
+          <table className="hidden min-w-full dark:bg-slate-600 text-gray-900 dark:text-white md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
@@ -98,7 +99,7 @@ export default function BudgetsTable({
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-white dark:bg-slate-700">
               {budgets?.map((budget) => (
                 <tr key={budget.budget_id} className="border-b">
                   <td className="px-4 py-4">{budget.budget_id}</td>

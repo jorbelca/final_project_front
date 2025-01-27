@@ -46,10 +46,11 @@ export default function NavLinks() {
         const isActive = pathname === link.href;
 
         const linkClasses = clsx(
-          "flex h-[48px] grow items-center justify-center gap-2 rounded-sm p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3",
+          "flex h-[48px] grow items-center justify-center gap-1 rounded-sm p-2 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3",
           {
-            "bg-violet-100 hover:bg-sky-100 hover:text-red-900": !isActive,
-            "bg-violet-100 text-gray-900": isActive,
+            "dark:bg-blue-500 dark:hover:bg-blue-600 bg-green-100 hover:bg-green-200 hover:text-black-900 text-gray-900":
+              !isActive,
+            "dark:bg-blue-600 bg-green-200 ": isActive,
           }
         );
 

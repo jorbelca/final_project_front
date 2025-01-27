@@ -1,5 +1,4 @@
 import { lusitana } from "@/app/ui/fonts";
-import Search from "@/app/ui/search";
 import { fetchClients } from "@/app/lib/actions";
 import { PencilIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -13,13 +12,18 @@ export default async function ClientsTable() {
   const clients = await fetchClients(Number(session?.user?.id));
 
   return (
-    <div className="w-full">
+    <div className="w-full p-2">
       <div className="flex justify-between">
         <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
           Clients
         </h1>
-        <Link href="/dashboard/clients/create">
-          <Button>Add Client</Button>
+        <Link
+          href="/dashboard/clients/create"
+          className="bg-indigo-400  dark:bg-indigo-600 flex h-10 items-center
+          rounded-lg px-4 text-sm font-medium text-white transition-colors 
+           aria-disabled:cursor-not-allowed aria-disabled:opacity-50 cursor-pointer"
+        >
+          Add Client
         </Link>
       </div>
       {/* <Search placeholder="Search clients..." /> */}
@@ -106,11 +110,11 @@ export default async function ClientsTable() {
                       <td className="px-4 py-5 text-sm text-gray-500">
                         {client.email}
                       </td>
-                      <td className="px-4 py-5">
+                      <td className="px-4 py-5 ">
                         <Link
                           href={`/dashboard/clients/edit/${client.client_id}`}
                         >
-                          <Button>
+                          <Button className=" dark:bg-slate-300 bg-yellow-300">
                             <PencilIcon className="h-5 w-5" />
                           </Button>
                         </Link>

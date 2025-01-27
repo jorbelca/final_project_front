@@ -16,7 +16,11 @@ export default function DeleteBtn({ clientId }: { clientId: number }) {
     }
   };
   return (
-    <Button color="red" onClick={() => eliminateClient(clientId)}>
+    <Button
+      className="dark:bg-red-400 bg-red-600"
+      color="red"
+      onClick={() => eliminateClient(clientId)}
+    >
       <TrashIcon className="h-5 w-5" />
     </Button>
   );

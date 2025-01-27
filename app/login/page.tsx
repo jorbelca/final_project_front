@@ -11,10 +11,12 @@ export const metadata: Metadata = {
 export default async function LoginPage() {
   return (
     <>
-      <main className="flex items-center justify-center min-h-screen bg-red-100 dark:bg-gray-800 pb-44">
-        <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-          <div className="flex h-20 w-full items-center justify-center rounded-lg bg-transparent p-3 md:h-full">
-            <DarkMode></DarkMode>
+      <main className="flex items-center justify-center h-screen bg-slate-200 pb-40 dark:bg-gray-800">
+        <div className="fixed top-0 right-0 p-4 z-10 md:p-6">
+          <DarkMode></DarkMode>
+        </div>
+        <div className="flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
+          <div className="flex w-full h-full items-center justify-center rounded-lg bg-transparent p-3 md:h-full">
             <div className="w-400 text-white md:w-260">
               <BudgetAppLogo />
             </div>

@@ -8,7 +8,7 @@ export default async function Layout({
 }) {
   return (
     <>
-      <div className="h-screen md:flex-row bg-slate-100 ">
+      <div className="h-screen md:flex-row bg-slate-300 dark:bg-gray-800 ">
         <div className="h-0 w-0 flex-none md:w-64">
           <SideNav />
         </div>

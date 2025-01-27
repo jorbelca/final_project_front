@@ -14,6 +14,31 @@ export default function BudgetState({
   id: number;
 }) {
   const [statusState, setStatusState] = useState(status);
+  const statusConfig = {
+    draft: {
+      bg: "bg-gray-100 text-gray-500",
+      icon: <ClockIcon className="ml-1 w-4 text-gray-500" />,
+      label: "Draft",
+    },
+    approved: {
+      bg: "bg-green-500 text-white",
+      icon: <CheckIcon className="ml-1 w-4 text-white" />,
+      label: "Approved",
+    },
+    rejected: {
+      bg: "bg-red-500 text-white",
+      icon: <XMarkIcon className="ml-1 w-4 text-white" />,
+      label: "Rejected",
+    },
+    sent: {
+      bg: "bg-yellow-500 text-white",
+      icon: <CheckIcon className="ml-1 w-4 text-white" />,
+      label: "Sent",
+    },
+  };
+
+  const currentStatus = statusConfig[statusState] || {};
+
   const handleUpdateState = async () => {
     let result;
     if (statusState === "draft") {
@@ -30,56 +55,23 @@ export default function BudgetState({
       setStatusState("draft");
     }
     if (result.success) {
-      console.log(result.message);
+      // console.log(result.message);
     } else {
-      console.log(result.message);
+      alert("An error occurred. Please try again.");
+      //console.log(result.message);
     }
   };
 
   return (
-    <span
+    <button
       className={clsx(
-        "flex items-center rounded-full px-2 py-1 text-xs justify-center",
-        {
-          "bg-gray-100 text-gray-500": statusState === "draft",
-          "bg-green-500 text-white": statusState === "approved",
-          "bg-red-500 text-white": statusState === "rejected",
-          "bg-yellow-500 text-white": statusState === "sent",
-        }
+        "flex items-center rounded-full px-2 py-1 text-xs cursor-pointer",
+        currentStatus.bg
       )}
+      onClick={handleUpdateState}
     >
-      {statusState === "draft" ? (
-        <>
-          <ClockIcon className="ml-1 w-4 text-gray-500" />
-          Draft
-          <p className="text-xs"> || </p>
-          <button onClick={handleUpdateState}>Change Status</button>
-        </>
-      ) : null}
-      {statusState === "approved" ? (
-        <>
-          <CheckIcon className="ml-1 w-4 text-white" />
-          Approved
-          <p className="text-xs"> || </p>
-          <button onClick={handleUpdateState}>Change Status</button>
-        </>
-      ) : null}
-      {statusState === "rejected" ? (
-        <>
-          <XMarkIcon className="ml-1 w-4 text-white" />
-          Rejected
-          <p className="text-xs"> || </p>
-          <button onClick={handleUpdateState}>Change Status</button>
-        </>
-      ) : null}
-      {statusState === "sent" ? (
-        <>
-          <CheckIcon className="ml-1 w-4 text-white" />
-          Sent
-          <p className="text-xs"> || </p>
-          <button onClick={handleUpdateState}>Change Status</button>
-        </>
-      ) : null}
-    </span>
+      {currentStatus.icon}
+      <span className="ml-1">{currentStatus.label}</span>
+    </button>
   );
 }

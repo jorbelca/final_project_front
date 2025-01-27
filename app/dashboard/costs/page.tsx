@@ -22,7 +22,10 @@ export default async function Page() {
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Costs</h1>
         <Link href="/dashboard/costs/create">
-          <Button color="blue">
+          <Button
+            color="blue"
+            className="bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-500"
+          >
             <PlusIcon className="h-5 w-5" />
           </Button>
         </Link>
@@ -71,7 +74,7 @@ export default async function Page() {
                           ? formatDateToLocal(cost.created_at.toDateString())
                           : ""}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 ">
                         <Link href={`/dashboard/costs/edit/${cost.cost_id}`}>
                           <Button>
                             <PencilIcon className="h-5 w-5" />

@@ -9,12 +9,17 @@ export default function Page() {
   return (
     <>
       <main className="flex min-h-screen flex-col p-4">
-        <div className="flex h-30 shrink-0 items-end rounded-lg  p-4 md:h-25 justify-between">
-          <BudgetAppLogo />
-          <div className="flex justify-end gap-2 items-center  max-[600px]:flex-col ">
+        <div className="fixed top-0 right-0 p-4 md:p-6">
+          <DarkMode></DarkMode>
+        </div>
+        <div className="flex max-[600px]:flex-col md:h-25 justify-between pt-2 pr-9">
+          <div className="flex  shrink-0 items-center rounded-lg md:h-25 justify-center">
+            <BudgetAppLogo />
+          </div>
+          <div className="flex justify-around gap-2 items-center pt-6 md:p-8">
             <Link
               href="/login"
-              className="flex items-center gap-5 self-start rounded-lg border-solid bg-green-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-green-600 md:text-base cursor-pointer"
+              className="flex items-center gap-2 self-start rounded-lg border-solid bg-green-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-green-600 md:text-base cursor-pointer"
             >
               <span className={`${teko.className} font-extralight text-xl`}>
                 Log in
@@ -23,14 +28,13 @@ export default function Page() {
             </Link>
             <Link
               href="/register"
-              className="flex items-center gap-5 self-start rounded-lg bg-red-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-600 md:text-base cursor-pointer"
+              className="flex items-center gap-2 self-start rounded-lg bg-red-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-600 md:text-base cursor-pointer"
             >
               <span className={`${teko.className} font-extralight text-xl`}>
                 Register
               </span>{" "}
               <ArrowRightIcon className="w-5 md:w-6" />
             </Link>
-            <DarkMode></DarkMode>
           </div>
         </div>
         <div className="mt-4 flex grow flex-col gap-4 md:flex-row">

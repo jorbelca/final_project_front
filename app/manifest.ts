@@ -12,22 +12,22 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#FFFFFF",
     icons: [
       {
-        src: "public/icon/android-chrome-192x192.png",
+        src: "/icon/android-chrome-192x192.png",
         sizes: "192x192",
         type: "image/png",
       },
       {
-        src: "public/icon/android-chrome-512x512.png",
+        src: "/icon/android-chrome-512x512.png",
         sizes: "512x512",
         type: "image/png",
       },
       {
-        src: "public/icon/favicon-16x16.png",
+        src: "/icon/favicon-16x16.png",
         sizes: "16x16",
         type: "image/png",
       },
       {
-        src: "public/icon/favicon-32x32.png",
+        src: "/icon/favicon-32x32.png",
         sizes: "32x32",
         type: "image/png",
       },

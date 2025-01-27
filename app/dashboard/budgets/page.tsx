@@ -25,6 +25,7 @@ export default async function Page(props: {
   //const totalPages = await fetchBudgets();
   const session = await auth();
 
+
   const budgets = await fetchBudgets(Number(session?.user?.id));
   return (
     <div className="w-full">

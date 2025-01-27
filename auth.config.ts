@@ -42,6 +42,7 @@ export const authConfig = {
     },
     async session({ session, token }: SessionProps) {
       // Añadir propiedades personalizadas al objeto session
+
       session.user.id = token.user_id;
 
       return session; // Devolver el objeto modificado

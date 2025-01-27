@@ -8,6 +8,7 @@ const nextConfig: NextConfig = withPWA({
       {
         protocol: "https",
         hostname: "**",
+        port: "",
       },
     ],
   },

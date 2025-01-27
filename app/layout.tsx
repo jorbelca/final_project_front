@@ -24,7 +24,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon/favicon.ico",
   },
-  //metadataBase: new URL("https://next-learn-dashboard.vercel.sh")
 };
 
 export default async function RootLayout({
@@ -36,12 +35,7 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system">
           <SessionProvider session={session}>{children}</SessionProvider>
         </ThemeProvider>
       </body>

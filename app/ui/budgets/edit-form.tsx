@@ -2,7 +2,7 @@
 
 import { Budget, Client, Cost } from "@/app/lib/definitions";
 import Link from "next/link";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+
 import { Button } from "@/app/ui/button";
 import { updateBudget } from "@/app/lib/actions";
 import { useState, useEffect } from "react";
@@ -94,7 +94,7 @@ export default function Form({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="p-6 bg-gray-50 rounded-md">
+      <div className="p-6 bg-gray-50 dark:bg-gray-600 rounded-md">
         {/* Cliente */}
         <div className="mb-4">
           <label htmlFor="client" className="block text-sm font-medium">
@@ -118,12 +118,12 @@ export default function Form({
         </div>
 
         {/* Costos */}
-        <div className="mb-4">
+        <div className="mb-4 ">
           <label className="block text-sm font-medium">Costos</label>
           {costsList.map((item, index) => (
             <div
               key={index}
-              className="flex justify-between items-center p-2 mb-2 bg-gray-100 rounded"
+              className="flex justify-between items-center p-2 mb-2 bg-gray-100 dark:bg-gray-900 rounded"
             >
               <span>
                 {item.quantity} x {item.description} - {item.cost} $
@@ -257,7 +257,7 @@ export default function Form({
       <div className="flex justify-end mt-6 gap-4">
         <Link
           href="/dashboard/budgets"
-          className="px-4 py-2 bg-gray-200 rounded-md"
+          className="px-4 py-2 bg-gray-200 dark:bg-yellow-600 rounded-md"
         >
           Cancelar
         </Link>

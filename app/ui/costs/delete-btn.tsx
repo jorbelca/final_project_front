@@ -7,12 +7,17 @@ import { Button } from "../button";
 
 export default function DeleteBtn({ costId }: { costId: number }) {
   const eliminateCost = async (costId: number) => {
-    alert("¿Estás seguro de que deseas eliminar este costo?");
-    const result = await deleteCost(costId);
-    if (result.success) {
-      redirect("/dashboard/costs");
-    } else {
-      console.error(result.message);
+    const confirm = window.confirm(
+      "¿Estás seguro de que deseas eliminar este costo?"
+    );
+
+    if (confirm) {
+      const result = await deleteCost(costId);
+      if (result.success) {
+        redirect("/dashboard/costs");
+      } else {
+        console.error(result.message);
+      }
     }
   };
   return (

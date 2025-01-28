@@ -1,6 +1,8 @@
 import { deleteBudget } from "@/app/lib/actions";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Button } from "../button";
 
 export function CreateBudget() {
   return (
@@ -14,28 +16,39 @@ export function CreateBudget() {
   );
 }
 
-export function UpdateBudget({ id }: { id: string }) {
+export function UpdateBudget({ budgetId }: { budgetId: number }) {
   return (
-    <Link
-      href={`/dashboard/budgets/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <PencilIcon className="w-5" />
+    <Link href={`/dashboard/budgets/${budgetId}/edit`}>
+      <Button color="violet-500" className="dark:hover:bg-violet-400 ">
+        <PencilIcon className="w-5" />
+      </Button>
     </Link>
   );
 }
 
-export function DeleteBudget({ id }: { id: string }) {
-  
-  const deleteBudgetWithId = deleteBudget.bind(null, id);
+export function DeleteBudget({ budgetId }: { budgetId: number }) {
+  const eliminateBudget = async (budgetId: number) => {
+    const confirm = window.confirm(
+      "¿Estás seguro de que deseas eliminar este presupuesto?"
+    );
 
-
+    if (confirm) {
+      const result = await deleteBudget(budgetId);
+      if (result.success) {
+        redirect("/dashboard/budgets");
+      } else {
+        alert("Error al eliminar el presupuesto");
+        console.error(result.message);
+      }
+    }
+  };
   return (
-    <form action={deleteBudgetWithId}>
-      <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5" />
-      </button>
-    </form>
+    <Button
+      color="red-500"
+      className="bg-red-500 hover:bg-red-600 dark:bg-red-400 dark:hover:bg-red-500"
+      onClick={() => eliminateBudget(budgetId)}
+    >
+      <TrashIcon className="h-5 w-5" />
+    </Button>
   );
 }

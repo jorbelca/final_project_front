@@ -10,7 +10,7 @@ export default function SideNav() {
   return (
     <div
       className="flex flex-col md:flex-row md:items-center md:justify-start
-     px-3 py-4 md:pr-8 md:py-2 bg-gray-100 dark:bg-gray-600 w-full fixed top-0 left-0 z-10"
+     px-3 py-2 md:pr-8 md:py-1 bg-gray-100 dark:bg-gray-600 w-full fixed top-0 left-0 z-10"
     >
       <div className="fixed top-0 right-0 p-2 md:p-2 z-20">
         <DarkMode></DarkMode>
@@ -20,13 +20,14 @@ export default function SideNav() {
         href="/dashboard/budgets"
         className="flex items-center justify-center md:justify-start"
       >
-        <div className="w-32 text-black pb-2">
+        <div className="w-32 text-black">
           <BudgetAppLogo />
         </div>
       </Link>{" "}
       {/* Enlaces de navegación */}
       <div
-        className="fixed bottom-0 bg-gray-100 dark:bg-black left-0 pr-1 md:pl-20 md:bg-transparent md:dark:bg-transparent
+        className="fixed bottom-0 bg-gray-100 dark:bg-black left-0 pr-1 md:pl-20 md:bg-transparent
+         md:dark:bg-transparent
       md:bottom-auto flex flex-row justify-center w-full md:w1/2 md:overflow-hidden space-x-1 md:space-x-2"
       >
         <NavLinks />

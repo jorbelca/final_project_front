@@ -57,8 +57,8 @@ export default function BudgetsTable({
                       </p>
                     </div>
                     <div className="flex justify-center gap-2">
-                      <UpdateBudget id={budget.budget_id} />
-                      <DeleteBudget id={budget.budget_id} />
+                      <UpdateBudget budgetId={budget.budget_id} />
+                      <DeleteBudget budgetId={Number(budget.budget_id)} />
                     </div>
                   </div>
                 </div>
@@ -126,8 +126,8 @@ export default function BudgetsTable({
                   </td>
                   <td className="px-3 py-4 text-right">
                     <div className="flex justify-end gap-2">
-                      <UpdateBudget id={budget.budget_id} />
-                      <DeleteBudget id={budget.budget_id} />
+                      <UpdateBudget budgetId={budget.budget_id} />
+                      <DeleteBudget budgetId={Number(budget.budget_id)} />
                     </div>
                   </td>
                 </tr>

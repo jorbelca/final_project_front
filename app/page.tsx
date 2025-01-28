@@ -8,7 +8,7 @@ import { DarkMode } from "./ui/darkMode";
 export default function Page() {
   return (
     <>
-      <main className="flex min-h-screen flex-col p-4">
+      <main className="flex min-h-screen flex-col ">
         <div className="fixed top-0 right-0 p-4 md:p-6">
           <DarkMode></DarkMode>
         </div>

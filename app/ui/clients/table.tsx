@@ -7,12 +7,13 @@ import Link from "next/link";
 import DeleteBtn from "./delete-btn";
 import { auth } from "@/auth";
 
+
 export default async function ClientsTable() {
   const session = await auth();
   const clients = await fetchClients(Number(session?.user?.id));
 
   return (
-    <div className="w-full p-2">
+    <div className="w-full p-2 ">
       <div className="flex justify-between">
         <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
           Clients
@@ -28,7 +29,7 @@ export default async function ClientsTable() {
       </div>
       {/* <Search placeholder="Search clients..." /> */}
       <div className="mt-6 flow-root">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto ">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md gray-50 dark:bg-gray-500 p-2 md:pt-0">
               {/* Vista móvil */}
@@ -38,14 +39,14 @@ export default async function ClientsTable() {
                     key={client.client_id}
                     className="mb-2 w-full rounded-md bg-white dark:bg-slate-600 p-4"
                   >
-                    <div className="flex items-center justify-around gap-3">
+                    <div className="flex items-center justify-around gap-3 ">
                       {client.image_url ? (
                         <Image
                           src={client.image_url.trimEnd()}
                           alt={client.name}
-                          width={100}
-                          height={100}
-                          className="rounded-full"
+                          width={60}
+                          height={60}
+                          className="rounded-full "
                         />
                       ) : (
                         <UserCircleIcon className="w-6" />
@@ -56,11 +57,11 @@ export default async function ClientsTable() {
                           {client.email}
                         </p>
                       </div>
-                      <div className="flex px-4 py-5 gap-3">
+                      <div className="flex flex-col px-2 py-2">
                         <Link
                           href={`/dashboard/clients/edit/${client.client_id}`}
                         >
-                          <Button>
+                          <Button className="bg-yellow-300">
                             <PencilIcon className="h-5 w-5" />
                           </Button>
                         </Link>

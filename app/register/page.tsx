@@ -2,7 +2,7 @@ import RegisterForm from "@/app/ui/register-form";
 import { Metadata } from "next";
 import BudgetAppLogo from "../ui/bapp-logo";
 import Footer from "../ui/footer";
-import { Button } from "../ui/button";
+
 import { DarkMode } from "../ui/darkMode";
 
 export const metadata: Metadata = {

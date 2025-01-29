@@ -68,6 +68,7 @@ export default function Form({
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+
     e.preventDefault();
     if (total > 0 && clientId) {
       try {
@@ -83,9 +84,11 @@ export default function Form({
           router.push("/dashboard/budgets");
         } else {
           alert("Error updating budget");
+          console.error(response);
         }
       } catch (error) {
         alert("Unexpected error: " + error);
+        console.error(error);
       }
     } else {
       alert("Please fill all required fields.");

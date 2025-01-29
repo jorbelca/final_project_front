@@ -121,7 +121,10 @@ export async function updateBudget(
     console.error("Error al actualizar el presupuesto:", error);
 
     // Retornar fallo
-    return { success: false, message: "Error al actualizar el presupuesto" };
+    return {
+      success: false,
+      message: "Error al actualizar el presupuesto" + error,
+    };
   }
 }
 

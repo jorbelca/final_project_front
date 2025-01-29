@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -11,7 +12,7 @@ export default function Footer() {
     >
       <p>Jordi Belda @ 2025</p>
       <Link href="https://github.com/jorbelca" className="pb-1 ml-3">
-        <img
+        <Image
           src="/github-mark/github-mark.png"
           alt="github-logo"
           width={20}

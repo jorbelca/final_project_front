@@ -10,7 +10,7 @@ import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "./button";
 import { useState } from "react";
 import { register } from "../lib/actions";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import ReturnBtn from "./returnBtn";
 
 export default function RegisterForm() {
@@ -26,6 +26,7 @@ export default function RegisterForm() {
     setIsPending(true);
     try {
       const result = await register(name, email, password, confirmPassword);
+      console.log(result);
       if (result.success) {
         router.push("/login"); // Redirigir al dashboard si el registro fue exitoso
       } else {

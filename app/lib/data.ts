@@ -1,6 +1,7 @@
-"use server"
+"use server";
 import { sql } from "@vercel/postgres";
 import { Budget, Cost, Plan, Subscription, User } from "./definitions";
+import { hash } from "bcrypt";
 
 // Función para obtener un presupuesto por ID
 export async function getBudgetById(budgetId: number): Promise<Budget | null> {
@@ -130,5 +131,45 @@ export async function getSubscription(userId: number) {
   } catch (error) {
     console.error("Error fetching subscription:", error);
     throw new Error("Failed to fetch subscription.");
+  }
+}
+
+//Update User
+export async function updateUser(
+  userId: number,
+  name: string,
+  email: string,
+  password: string,
+  avatar_url: string,
+  logo_url: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    password = await hash(password, 10);
+    await sql`
+      UPDATE users
+      SET name = ${name}, email = ${email}, avatar_url = ${avatar_url}, logo_url = ${logo_url}, password = ${password}
+      WHERE user_id = ${userId}`;
+    return {
+      success: true,
+      message: "User updated successfully.",
+    };
+  } catch (error) {
+    // console.error("Error updating user:", error);
+    return { success: false, message: "Error updating user." + error };
+  }
+}
+
+// Delete User
+export async function deleteUser(
+  userId: number
+): Promise<{ success: boolean; message: string }> {
+  try {
+    await sql<User>`
+      DELETE FROM users WHERE user_id = ${userId}
+    `;
+    return { success: true, message: "User deleted successfully." };
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return { success: false, message: "Error deleting user." };
   }
 }

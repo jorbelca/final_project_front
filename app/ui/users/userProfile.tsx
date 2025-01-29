@@ -23,12 +23,14 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
         className="flex pt-0 sm:mt-0 flex-row justify-between items-center
        gap-4 bg-gray-100 dark:bg-gray-800 rounded-lg p-4"
       >
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-4 ">
           {user.avatar_url ? (
             <Image
               src={user.avatar_url}
               alt="user-avatar"
               className="w-16 h-16 rounded-full"
+              width={50}
+              height={50}
             />
           ) : (
             <UserCircleIcon className="h-16 w-16 text-gray-500" />
@@ -49,6 +51,8 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
             src={user.logo_url}
             alt="user-logo"
             className="w-20 h-20 rounded-lg"
+            width={50}
+            height={50}
           />
         )}
       </div>

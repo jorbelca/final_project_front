@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+import { updateUser } from "@/app/lib/data";
+import { useState, useTransition } from "react";
 
 interface UserEditFormProps {
   user: {
+    user_id: number;
     name: string;
     email: string;
     avatar_url?: string;
@@ -11,32 +13,47 @@ interface UserEditFormProps {
 }
 
 export function UserEditForm({ user }: UserEditFormProps) {
-  const [formData, setFormData] = useState({
-    name: user.name || "",
-    email: user.email || "",
-    password: "",
-    avatar_url: user.avatar_url || "",
-    logo_url: user.logo_url || "",
-  });
+  const [message, setMessage] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  const handleSubmit = async (formData: FormData) => {
+    startTransition(async () => {
+      const user_id = Number(formData.get("user_id") as string);
+      const name = formData.get("name") as string;
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+      const avatar_url = formData.get("avatar_url") as string;
+      const logo_url = formData.get("logo_url") as string;
+
+      try {
+        const response = await updateUser(
+          user_id,
+          name,
+          email,
+          password,
+          avatar_url,
+          logo_url
+        );
+
+        if (response.success) {
+          setMessage("User updated successfully!");
+          setTimeout(() => {
+            window.location.href = "/dashboard/user"; // Redirigir después de mostrar el mensaje
+          }, 2000);
+        } else {
+          setMessage("Update failed. Please try again.");
+        }
+      } catch (error) {
+        console.error(error);
+        setMessage("An error occurred. Please try again.");
+      }
+    });
   };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Datos enviados:", formData);
-    // Aquí deberías manejar la lógica para enviar los datos del formulario al servidor
-  };
-
   return (
     <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
       <h2 className="text-xl font-bold mb-4">Edit User Information</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form action={handleSubmit} className="space-y-4">
+        <input type="hidden" name="user_id" value={user?.user_id} />
         {/* Nombre */}
         <div>
           <label htmlFor="name" className="block text-sm font-medium">
@@ -46,8 +63,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             type="text"
             id="name"
             name="name"
-            value={formData.name}
-            onChange={handleInputChange}
+            defaultValue={user?.name}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
           />
         </div>
@@ -61,8 +77,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             type="email"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleInputChange}
+            defaultValue={user?.email}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
           />
         </div>
@@ -76,9 +91,10 @@ export function UserEditForm({ user }: UserEditFormProps) {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
-            onChange={handleInputChange}
+            defaultValue={""}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
+            autoComplete="off"
+            minLength={6}
           />
         </div>
 
@@ -91,8 +107,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             type="url"
             id="avatar_url"
             name="avatar_url"
-            value={formData.avatar_url}
-            onChange={handleInputChange}
+            defaultValue={user?.avatar_url}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
           />
         </div>
@@ -106,8 +121,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             type="url"
             id="logo_url"
             name="logo_url"
-            value={formData.logo_url}
-            onChange={handleInputChange}
+            defaultValue={user?.logo_url}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
           />
         </div>
@@ -120,6 +134,13 @@ export function UserEditForm({ user }: UserEditFormProps) {
           Save Changes
         </button>
       </form>
+
+      {/* Mensaje de alerta */}
+      {message && (
+        <div className="mt-4 p-2 bg-yellow-300 dark:bg-gray-500 rounded-md">
+          {message}
+        </div>
+      )}
     </div>
   );
 }

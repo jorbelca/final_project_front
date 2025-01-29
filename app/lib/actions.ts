@@ -66,6 +66,7 @@ export async function register(
     `;
     return { success: true, message: "Usuario registrado exitosamente" };
   } catch (error) {
+    console.error("Error al registrar el usuario:", error);
     return { success: false, message: "Error al registrar el usuario" };
   }
 }

@@ -25,9 +25,10 @@ export default async function Page() {
           <Suspense fallback={<InvoicesTableSkeleton />}>
             <UserProfile user={user[0]} subscription={subscription[0]} />
           </Suspense>
-
-          {/* Componente: Formulario de Edición */}
-          <UserEditForm user={user[0]} />
+          <Suspense fallback={<InvoicesTableSkeleton />}>
+            {/* Componente: Formulario de Edición */}
+            <UserEditForm user={user[0]} />
+          </Suspense>
         </>
       ) : (
         <p>No user found</p>

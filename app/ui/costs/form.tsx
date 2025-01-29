@@ -7,7 +7,9 @@ export const metadata = {
   title: "Costs",
 };
 
-export default async function CostsForm(props: { params?: Promise<{ id?: string }> }) {
+export default async function CostsForm(props: {
+  params?: Promise<{ id?: string }>;
+}) {
   const params = await props.params;
   const id = params?.id;
   let cost;
@@ -27,11 +29,21 @@ export default async function CostsForm(props: { params?: Promise<{ id?: string 
     const session = await auth();
 
     if (cost_id) {
-      console.log("update");
-      result = await updateCost(Number(cost_id), description, Number(cost), unit, periodicity);
+      result = await updateCost(
+        Number(cost_id),
+        description,
+        Number(cost),
+        unit,
+        periodicity
+      );
     } else {
-      console.log("create");
-      result = await createCost(Number(session?.user?.id), description, Number(cost), unit, periodicity);
+      result = await createCost(
+        Number(session?.user?.id),
+        description,
+        Number(cost),
+        unit,
+        periodicity
+      );
     }
 
     if (result.success) {
@@ -54,7 +66,10 @@ export default async function CostsForm(props: { params?: Promise<{ id?: string 
 
         {/* Description Field */}
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             Description
           </label>
           <input
@@ -70,7 +85,10 @@ export default async function CostsForm(props: { params?: Promise<{ id?: string 
 
         {/* Cost Field */}
         <div>
-          <label htmlFor="cost" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="cost"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             Cost
           </label>
           <input
@@ -86,7 +104,10 @@ export default async function CostsForm(props: { params?: Promise<{ id?: string 
 
         {/* Unit Field */}
         <div>
-          <label htmlFor="unit" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="unit"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             Unit
           </label>
           <input
@@ -102,7 +123,10 @@ export default async function CostsForm(props: { params?: Promise<{ id?: string 
 
         {/* Periodicity Field */}
         <div>
-          <label htmlFor="periodicity" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="periodicity"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             Periodicity
           </label>
           <select

@@ -1,5 +1,5 @@
 import "@/app/ui/global.css";
-import { inter } from "./ui/fonts";
+import {  lato } from "./ui/fonts";
 import { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
@@ -35,7 +35,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="es">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${lato.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <SessionProvider session={session}>
             {children} <Toaster />

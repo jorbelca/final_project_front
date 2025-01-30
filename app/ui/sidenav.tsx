@@ -2,8 +2,8 @@ import Link from "next/link";
 import NavLinks from "@/app/ui/dashboard/nav-links";
 import { PowerIcon } from "@heroicons/react/24/outline";
 import { signOut } from "@/auth";
-import BudgetAppLogo from "../bapp-logo";
-import { DarkMode } from "../darkMode";
+import BudgetAppLogo from "./bapp-logo";
+import { DarkMode } from "./darkMode";
 import { Button } from "@/components/ui/button";
 
 export default function SideNav() {

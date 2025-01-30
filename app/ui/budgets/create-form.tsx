@@ -5,8 +5,8 @@ import Link from "next/link";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
 import { createBudget, updateBudget } from "@/app/lib/actions";
-import { useActionState, useState } from "react";
-import { useSession } from "next-auth/react";
+import {  useState } from "react";
+
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
@@ -30,7 +30,7 @@ export default function BudgetForm({
     });
     redirect("/dashboard/budgets");
   }
-  const session = useSession();
+
   const router = useRouter();
 
   const [costsList, setCostsList] = useState<
@@ -131,10 +131,25 @@ export default function BudgetForm({
             Number(formValues.clientId)
           );
 
-      if (response.success) router.push("/dashboard/budgets");
-      else alert(response.message);
+      if (response.success) {
+        toast({
+          title: "Success",
+          description: "Budget created successfully",
+        });
+        router.push("/dashboard/budgets");
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Error creating budget",
+        });
+      }
     } catch (error) {
-      alert("Error submitting form: " + error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Error ",
+      });
     }
   };
 

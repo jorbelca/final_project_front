@@ -7,18 +7,29 @@ import { Button } from "@/app/ui/button";
 import { createBudget, updateBudget } from "@/app/lib/actions";
 import { useActionState, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "@/hooks/use-toast";
 
 export default function BudgetForm({
   clients,
   costs,
   budget,
+  user_id,
 }: {
   clients: Client[];
   costs: Cost[];
   budget?: Budget;
+  user_id: number;
 }) {
+  if (user_id === 0) {
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Problem with authentication",
+    });
+    redirect("/dashboard/budgets");
+  }
   const session = useSession();
   const router = useRouter();
 
@@ -103,18 +114,17 @@ export default function BudgetForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const userId = session?.data?.user?.id;
       const response = budget
         ? await updateBudget(
             budget.budget_id,
-            Number(userId),
+            Number(user_id),
             Number(formValues.clientId),
             costsList,
             Number(formValues.discount),
             Number(formValues.tax)
           )
         : await createBudget(
-            Number(userId),
+            Number(user_id),
             costsList,
             Number(formValues.discount),
             Number(formValues.tax),
@@ -133,6 +143,7 @@ export default function BudgetForm({
       onSubmit={handleSubmit}
       className="p-4 sm:p-6 max-w-3xl mx-auto bg-gray-50 dark:bg-gray-700 rounded-md shadow-md"
     >
+      <input type="hidden" name="user_id" value={user_id} />
       <div className="mb-6">
         <label htmlFor="clientId" className="block text-sm font-medium">
           Choose a client
@@ -146,7 +157,7 @@ export default function BudgetForm({
             className="block w-full mt-2 p-2 border rounded-md"
           >
             <option value="" disabled>
-              Select a client
+              &nbsp; &nbsp; &nbsp; Select a client
             </option>
             {clients.map((client) => (
               <option key={client.client_id} value={client.client_id}>
@@ -159,12 +170,12 @@ export default function BudgetForm({
       </div>
 
       <div className="mb-6">
-        <h3 className="text-sm font-medium">Costs</h3>
+        <h3 className="text-sm font-medium">List of Costs</h3>
         <ul className="space-y-2 mt-2">
           {costsList.map((cost, index) => (
             <li
               key={index}
-              className="flex justify-between items-center bg-gray-100 dark:bg-gray-600 p-2 rounded-md"
+              className="flex justify-between items-center bg-gray-100 dark:bg-slate-900 p-2 rounded-md"
             >
               <span>
                 {cost.quantity} x {cost.description} - ${cost.cost}
@@ -172,20 +183,23 @@ export default function BudgetForm({
               <button
                 type="button"
                 onClick={() => handleRemoveCost(index)}
-                className="text-red-500 hover:underline"
+                className="text-red-500 hover:underline text-2xl"
               >
-                Remove
+                X
               </button>
             </li>
           ))}
         </ul>
 
         <div className="flex flex-col sm:flex-row items-center gap-2 mt-4">
+          <label htmlFor="costId" className="block text-sm font-medium">
+            Costs
+          </label>
           <select
             name="costId"
             value={formValues.costId}
             onChange={handleChange}
-            className="p-2 border rounded-md w-full sm:flex-1 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="p-2 border rounded-md w-full sm:flex-1 dark:bg-slate-900 dark:border-gray-100 dark:text-white"
           >
             <option value="" disabled>
               Select a cost
@@ -202,7 +216,7 @@ export default function BudgetForm({
             placeholder="Quantity"
             value={formValues.quantity}
             onChange={handleChange}
-            className="p-2 border rounded-md w-full sm:w-20 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="p-2 border rounded-md w-full sm:w-20 dark:bg-slate:900 dark:border-gray-100 dark:text-white"
           />
           <Button
             type="button"
@@ -214,13 +228,19 @@ export default function BudgetForm({
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-2 mt-4">
+          <label
+            htmlFor="exceptionalDescription"
+            className="block text-sm font-medium"
+          >
+            Extraordinary Costs
+          </label>
           <input
             type="text"
             name="exceptionalDescription"
             placeholder="Description"
             value={formValues.exceptionalDescription}
             onChange={handleChange}
-            className="p-2 border rounded-md w-full sm:w-24 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="p-2 border rounded-md w-full sm:w-30 dark:bg-slate:900 dark:border-gray-100 dark:text-white"
           />
           <input
             type="number"
@@ -228,7 +248,7 @@ export default function BudgetForm({
             placeholder="Qty"
             value={formValues.exceptionalQuantity}
             onChange={handleChange}
-            className="p-2 border rounded-md w-full sm:w-20 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="p-2 border rounded-md w-full sm:w-20 dark:bg-slate:900 dark:border-gray-100 dark:text-white"
           />
           <input
             type="number"
@@ -236,11 +256,15 @@ export default function BudgetForm({
             placeholder="Cost"
             value={formValues.exceptionalCost}
             onChange={handleChange}
-            className="p-2 border rounded-md w-full sm:w-24 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="p-2 border rounded-md w-full sm:w-24 dark:bg-slate:900 dark:border-gray-100 dark:text-white"
           />
 
-          <Button type="button" onClick={handleAddCost} className="w-full sm:w-auto">
-            Add Custom
+          <Button
+            type="button"
+            onClick={handleAddCost}
+            className="w-full sm:w-auto"
+          >
+            Add Extra
           </Button>
         </div>
       </div>
@@ -280,8 +304,8 @@ export default function BudgetForm({
 
       <div className="flex justify-end gap-4">
         <Link
-          href="/dashboard"
-          className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+          href="/dashboard/budgets"
+          className="px-4 py-2 bg-yellow-300 dark:bg-yellow-600 rounded-md"
         >
           Cancel
         </Link>

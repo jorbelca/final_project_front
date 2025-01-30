@@ -35,7 +35,54 @@ export default async function Page() {
         <div className="mt-6 flow-root">
           <div className="inline-block min-w-full align-middle  ">
             <div className="rounded-lg bg-gray-50 dark:bg-slate-600 p-2 md:pt-0 ">
-              <table className="min-w-full text-gray-900 dark:text-white">
+              <div className="md:hidden ">
+                {costs?.map((cost) => (
+                  <div
+                    key={cost.cost_id}
+                    className="mb-2 w-full rounded-md bg-white dark:bg-slate-500 p-4"
+                  >
+                    <div className="flex flex-row items-center justify-between border-b pb-4">
+                      <div className="mb-2 flex items-center">
+                        <p className="text-sm font-bold">{cost.cost_id}.</p>
+                        &nbsp; <b></b>
+                        <p className="text-sm font-bold"> {cost.description}</p>
+                      </div>
+                      <p>
+                        {" "}
+                        {cost.created_at
+                          ? formatDateToLocal(cost.created_at.toDateString())
+                          : ""}
+                      </p>
+                    </div>
+
+                    <div>
+                      <hr />
+                      <div className="flex justify-between align-baseline gap-2 mt-6">
+                        <div>
+                          <p>
+                            <b>Cost:</b> {cost.cost} $
+                          </p>
+                          <p>
+                            <b>Periodicity: </b>
+                            {cost.periodicity}
+                          </p>
+                        </div>
+                        <div className="flex justify-center gap-2">
+                          <Link href={`/dashboard/costs/edit/${cost.cost_id}`}>
+                            <Button>
+                              <PencilIcon className="h-5 w-5" />
+                            </Button>
+                          </Link>
+                          <br />
+                          <DeleteBtn costId={Number(cost.cost_id)} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <table className="hidden min-w-full text-gray-900 dark:text-white md:table">
                 <thead className="rounded-lg text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium">

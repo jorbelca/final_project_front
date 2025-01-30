@@ -6,19 +6,29 @@ import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import { updateBudget } from "@/app/lib/actions";
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
+import { redirect, useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
 export default function Form({
   clients,
   costs,
   budget,
+  user_id,
 }: {
   clients: Client[];
   costs: Cost[];
   budget: Budget;
+  user_id: number;
 }) {
-  const session = useSession();
+  if (user_id === 0) {
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Problem with authentication",
+    });
+    redirect("/dashboard/budgets");
+  }
   const router = useRouter();
 
   const [costsList, setCostsList] = useState(budget.content || []);
@@ -68,13 +78,13 @@ export default function Form({
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-
     e.preventDefault();
+
     if (total > 0 && clientId) {
       try {
         const response = await updateBudget(
           budget.budget_id,
-          Number(session?.data?.user?.id),
+          user_id,
           clientId,
           costsList,
           discount,
@@ -82,12 +92,25 @@ export default function Form({
         );
         if (response.success) {
           router.push("/dashboard/budgets");
+          toast({
+            title: "Success",
+            description: "Bugdet has been updated successfully",
+          });
         } else {
-          alert("Error updating budget");
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Error updating the budget",
+          });
           console.error(response);
         }
       } catch (error) {
-        alert("Unexpected error: " + error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Unexpected error: " + error,
+        });
+
         console.error(error);
       }
     } else {
@@ -97,11 +120,12 @@ export default function Form({
 
   return (
     <form onSubmit={handleSubmit}>
+      <input type="hidden" name="user_id" value={user_id} />
       <div className="p-6 bg-gray-50 dark:bg-gray-600 rounded-md">
         {/* Cliente */}
         <div className="mb-4">
           <label htmlFor="client" className="block text-sm font-medium">
-            Cliente
+            Client
           </label>
           <select
             id="client"
@@ -110,7 +134,7 @@ export default function Form({
             className="w-full rounded-md border py-2 px-3"
           >
             <option value={0} disabled>
-              Selecciona un cliente
+              Select a client
             </option>
             {clients.map((client) => (
               <option key={client.client_id} value={client.client_id}>
@@ -122,7 +146,7 @@ export default function Form({
 
         {/* Costos */}
         <div className="mb-4 ">
-          <label className="block text-sm font-medium">Costos</label>
+          <label className="block text-sm font-medium">List of Costs</label>
           {costsList.map((item, index) => (
             <div
               key={index}
@@ -140,7 +164,7 @@ export default function Form({
               </button>
             </div>
           ))}
-
+          <label className="block text-sm font-medium">Costs</label>
           {/* Selector de costos predefinidos */}
           <div className="flex gap-2 mt-2">
             <select
@@ -148,7 +172,7 @@ export default function Form({
               onChange={(e) => setSelectedCostId(Number(e.target.value))}
               className="w-1/2 rounded-md border py-2 px-3"
             >
-              <option value={0}>Selecciona un costo</option>
+              <option value={0}>Add cost</option>
               {costs.map((cost) => (
                 <option key={cost.cost_id} value={cost.cost_id}>
                   {cost.description} - {cost.cost} $
@@ -161,7 +185,7 @@ export default function Form({
               value={selectedQuantity}
               onChange={(e) => setSelectedQuantity(Number(e.target.value))}
               className="w-1/4 rounded-md border py-2 px-3"
-              placeholder="Cantidad"
+              placeholder="Qty"
             />
             <button
               type="button"
@@ -179,14 +203,14 @@ export default function Form({
               }}
               className="px-4 py-2 bg-blue-500 text-white rounded-md"
             >
-              Añadir
+              Add
             </button>
           </div>
 
           {/* Costos extraordinarios */}
           <div className="mt-4">
             <label className="block text-sm font-medium">
-              Agregar costo extraordinario
+              Add extraordinary cost
             </label>
             <div className="flex gap-2 mt-2">
               <input
@@ -209,7 +233,7 @@ export default function Form({
                 min="1"
                 value={extraQuantity}
                 onChange={(e) => setExtraQuantity(Number(e.target.value))}
-                placeholder="Cantidad"
+                placeholder="Qty"
                 className="w-1/4 rounded-md border py-2 px-3"
               />
               <button
@@ -219,7 +243,7 @@ export default function Form({
                 }
                 className="px-4 py-2 bg-green-500 text-white rounded-md"
               >
-                Añadir
+                Add
               </button>
             </div>
           </div>
@@ -229,7 +253,7 @@ export default function Form({
         <div className="flex gap-4 mb-4">
           <div className="w-1/2">
             <label htmlFor="tax" className="block text-sm font-medium">
-              Impuestos (%)
+              Taxes (%)
             </label>
             <input
               id="tax"
@@ -241,7 +265,7 @@ export default function Form({
           </div>
           <div className="w-1/2">
             <label htmlFor="discount" className="block text-sm font-medium">
-              Descuento (%)
+              Discount (%)
             </label>
             <input
               id="discount"
@@ -260,12 +284,12 @@ export default function Form({
       <div className="flex justify-end mt-6 gap-4">
         <Link
           href="/dashboard/budgets"
-          className="px-4 py-2 bg-gray-200 dark:bg-yellow-600 rounded-md"
+          className="px-4 py-2 bg-yellow-300 dark:bg-yellow-600 rounded-md"
         >
           Cancelar
         </Link>
         <Button type="submit" disabled={total <= 0}>
-          Guardar Presupuesto
+          Update Budget
         </Button>
       </div>
     </form>

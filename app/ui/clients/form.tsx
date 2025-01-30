@@ -1,13 +1,18 @@
+
 import { createClient, getClientById, updateClient } from "@/app/lib/actions";
 import { Client } from "@/app/lib/definitions";
 import { auth } from "@/auth";
+import { toast } from "@/hooks/use-toast";
+
 import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Clients",
 };
 
-export default async function ClientsForm(props: { params?: Promise<{ id?: string }> }) {
+export default async function ClientsForm(props: {
+  params?: Promise<{ id?: string }>;
+}) {
   const params = (await props.params) || null;
   const id = params?.id || null;
 
@@ -17,7 +22,7 @@ export default async function ClientsForm(props: { params?: Promise<{ id?: strin
   }
 
   const handleSubmit = async (formData: FormData) => {
-    "use server";
+    'use server'
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const image_url = (formData.get("image_url") as string) ?? "";
@@ -26,7 +31,6 @@ export default async function ClientsForm(props: { params?: Promise<{ id?: strin
     const session = await auth();
 
     if (client?.client_id) {
-      console.log("update");
       result = await updateClient(
         Number(client?.client_id),
         name,
@@ -34,7 +38,6 @@ export default async function ClientsForm(props: { params?: Promise<{ id?: strin
         image_url
       );
     } else {
-      console.log("create");
       result = await createClient(
         Number(session?.user?.id),
         name,
@@ -43,8 +46,16 @@ export default async function ClientsForm(props: { params?: Promise<{ id?: strin
       );
     }
     if (result.success) {
+      // toast({
+      //   title: "Success",
+      //   description: "Client has been saved successfully",
+      // });
       redirect("/dashboard/clients");
     } else {
+      // toast({
+      //   title: "Error",
+      //   description: "An error occurred while saving the client",
+      // });
       console.error(result.message);
     }
   };
@@ -59,7 +70,10 @@ export default async function ClientsForm(props: { params?: Promise<{ id?: strin
 
         {/* Name Field */}
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             Name
           </label>
           <input
@@ -75,7 +89,10 @@ export default async function ClientsForm(props: { params?: Promise<{ id?: strin
 
         {/* Email Field */}
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             Email
           </label>
           <input
@@ -91,7 +108,10 @@ export default async function ClientsForm(props: { params?: Promise<{ id?: strin
 
         {/* Image URL Field */}
         <div>
-          <label htmlFor="image_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="image_url"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             Image URL
           </label>
           <input

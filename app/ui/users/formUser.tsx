@@ -1,6 +1,8 @@
 "use client";
 import { updateUser } from "@/app/lib/data";
-import { useState, useTransition } from "react";
+import { toast } from "@/hooks/use-toast";
+
+import { useTransition } from "react";
 
 interface UserEditFormProps {
   user: {
@@ -13,7 +15,6 @@ interface UserEditFormProps {
 }
 
 export function UserEditForm({ user }: UserEditFormProps) {
-  const [message, setMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (formData: FormData) => {
@@ -36,16 +37,28 @@ export function UserEditForm({ user }: UserEditFormProps) {
         );
 
         if (response.success) {
-          setMessage("User updated successfully!");
+          toast({
+            variant: "default",
+            title: "Success",
+            description: "User updated successfully.",
+          });
           setTimeout(() => {
-            window.location.href = "/dashboard/user"; // Redirigir después de mostrar el mensaje
-          }, 2000);
+            window.location.href = "/dashboard/user";
+          }, 1000);
         } else {
-          setMessage("Update failed. Please try again.");
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Error updating the user.",
+          });
         }
       } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Error updating the user.",
+        });
         console.error(error);
-        setMessage("An error occurred. Please try again.");
       }
     });
   };
@@ -65,6 +78,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             name="name"
             defaultValue={user?.name}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
+            autoComplete="off"
           />
         </div>
 
@@ -79,6 +93,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             name="email"
             defaultValue={user?.email}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
+            autoComplete="off"
           />
         </div>
 
@@ -109,6 +124,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             name="avatar_url"
             defaultValue={user?.avatar_url}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
+            autoComplete="off"
           />
         </div>
 
@@ -123,6 +139,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             name="logo_url"
             defaultValue={user?.logo_url}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
+            autoComplete="off"
           />
         </div>
 
@@ -134,13 +151,6 @@ export function UserEditForm({ user }: UserEditFormProps) {
           Save Changes
         </button>
       </form>
-
-      {/* Mensaje de alerta */}
-      {message && (
-        <div className="mt-4 p-2 bg-yellow-300 dark:bg-gray-500 rounded-md">
-          {message}
-        </div>
-      )}
     </div>
   );
 }

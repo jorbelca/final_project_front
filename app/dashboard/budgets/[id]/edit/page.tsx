@@ -37,7 +37,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <EditForm costs={costs.flat()} budget={budget} clients={clients.flat()} />
+      <EditForm
+        costs={costs.flat()}
+        budget={budget}
+        clients={clients.flat()}
+        user_id={+(session?.user?.id ?? 0)}
+      />
     </main>
   );
 }

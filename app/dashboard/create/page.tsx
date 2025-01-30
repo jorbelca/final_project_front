@@ -21,7 +21,11 @@ export default async function Page() {
       <div className="flex w-full flex-col justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Create a Budget</h1>
         <div className="w-full">
-          <Form clients={clients} costs={costs} />
+          <Form
+            clients={clients}
+            costs={costs}
+            user_id={+(session?.user?.id ?? 0)}
+          />
         </div>
       </div>
     </main>

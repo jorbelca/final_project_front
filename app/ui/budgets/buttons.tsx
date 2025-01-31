@@ -19,7 +19,7 @@ export function CreateBudget() {
 export function UpdateBudget({ budgetId }: { budgetId: number }) {
   return (
     <Link href={`/dashboard/budgets/${budgetId}/edit`}>
-      <Button color="violet-500" className="dark:hover:bg-violet-400 ">
+      <Button color="violet" className="dark:hover:bg-violet-600 ">
         <PencilIcon className="w-5" />
       </Button>
     </Link>

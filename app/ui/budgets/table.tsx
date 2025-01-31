@@ -2,16 +2,9 @@
 
 import BudgetState from "@/app/ui/budgets/status";
 import { DeleteBudget, UpdateBudget } from "./buttons";
+import GeneratePDF from "./generate_pdf";
 
-export default function BudgetsTable({
-  query,
-  currentPage,
-  budgets,
-}: {
-  query?: string;
-  currentPage?: number;
-  budgets: any;
-}) {
+export default function BudgetsTable({ budgets }: { budgets: any }) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle ">
@@ -34,8 +27,8 @@ export default function BudgetsTable({
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <ul className="flex flex-col ">
-                    {budget.content.map((item: any) => (
-                      <li key={item.description}>
+                    {budget.content.map((item: any, idx: number) => (
+                      <li key={idx}>
                         {item.quantity} X {item.description} ={" "}
                         {item.quantity * item.cost + " $"}
                       </li>
@@ -59,6 +52,7 @@ export default function BudgetsTable({
                     <div className="flex justify-center gap-2">
                       <UpdateBudget budgetId={budget.budget_id} />
                       <DeleteBudget budgetId={Number(budget.budget_id)} />
+                      <GeneratePDF budget={budget} />
                     </div>
                   </div>
                 </div>
@@ -105,8 +99,8 @@ export default function BudgetsTable({
                   <td className="px-4 py-4">{budget.budget_id}</td>
                   <td className="px-4 py-4 w-full">
                     <ul className="flex flex-col">
-                      {budget.content.map((item: any) => (
-                        <li key={item.description}>
+                      {budget.content.map((item: any, idx: number) => (
+                        <li key={idx}>
                           {item.quantity} X {item.description} ={" "}
                           {item.quantity * item.cost + " $"}
                         </li>
@@ -129,6 +123,9 @@ export default function BudgetsTable({
                       <UpdateBudget budgetId={budget.budget_id} />
                       <DeleteBudget budgetId={Number(budget.budget_id)} />
                     </div>
+                  </td>
+                  <td className="px-3 py-4 text-right">
+                    <GeneratePDF budget={budget} />
                   </td>
                 </tr>
               ))}

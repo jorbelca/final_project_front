@@ -1,25 +1,28 @@
 "use client";
 
-import { Budget, Client, Cost } from "@/app/lib/definitions";
+import { Client, Cost } from "@/app/lib/definitions";
 import Link from "next/link";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
-import { createBudget, updateBudget } from "@/app/lib/actions";
-import {  useState } from "react";
+import { createBudget } from "@/app/lib/actions";
+import { useState } from "react";
 
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
+import { CircleDollarSignIcon } from "lucide-react";
+import clsx from "clsx";
+import { teko } from "../fonts";
 
 export default function BudgetForm({
   clients,
   costs,
-  budget,
+
   user_id,
 }: {
   clients: Client[];
   costs: Cost[];
-  budget?: Budget;
+
   user_id: number;
 }) {
   if (user_id === 0) {
@@ -114,22 +117,13 @@ export default function BudgetForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = budget
-        ? await updateBudget(
-            budget.budget_id,
-            Number(user_id),
-            Number(formValues.clientId),
-            costsList,
-            Number(formValues.discount),
-            Number(formValues.tax)
-          )
-        : await createBudget(
-            Number(user_id),
-            costsList,
-            Number(formValues.discount),
-            Number(formValues.tax),
-            Number(formValues.clientId)
-          );
+      const response = await createBudget(
+        Number(user_id),
+        costsList,
+        Number(formValues.discount),
+        Number(formValues.tax),
+        Number(formValues.clientId)
+      );
 
       if (response.success) {
         toast({
@@ -180,7 +174,7 @@ export default function BudgetForm({
               </option>
             ))}
           </select>
-          <UserCircleIcon className="absolute top-1/2 left-3 w-5 h-5 -translate-y-1/2 text-gray-400" />
+          <UserCircleIcon className="absolute top-1/2 left-2 w-5 h-5 -translate-y-1/2 text-gray-400" />
         </div>
       </div>
 
@@ -210,21 +204,25 @@ export default function BudgetForm({
           <label htmlFor="costId" className="block text-sm font-medium">
             Costs
           </label>
-          <select
-            name="costId"
-            value={formValues.costId}
-            onChange={handleChange}
-            className="p-2 border rounded-md w-full sm:flex-1 dark:bg-slate-900 dark:border-gray-100 dark:text-white"
-          >
-            <option value="" disabled>
-              Select a cost
-            </option>
-            {costs.map((cost) => (
-              <option key={cost.cost_id} value={cost.cost_id}>
-                {cost.description} (${cost.cost})
+
+          <div className="relative w-full sm:flex-1">
+            <select
+              name="costId"
+              value={formValues.costId}
+              onChange={handleChange}
+              className="p-2 border rounded-md w-full sm:flex-1 dark:bg-slate-900 dark:border-gray-100 dark:text-white block"
+            >
+              <option value="" disabled>
+                &nbsp; &nbsp; &nbsp; &nbsp; Select a cost
               </option>
-            ))}
-          </select>
+              {costs.map((cost) => (
+                <option key={cost.cost_id} value={cost.cost_id}>
+                  {cost.description} (${cost.cost})
+                </option>
+              ))}
+            </select>
+            <CircleDollarSignIcon className="absolute top-1/2 left-2 w-5 h-5 -translate-y-1/2 text-gray-400" />
+          </div>
           <input
             type="number"
             name="quantity"
@@ -237,6 +235,7 @@ export default function BudgetForm({
             type="button"
             onClick={handleAddCost}
             className="w-full sm:w-auto"
+            color="blue"
           >
             Add
           </Button>
@@ -278,8 +277,9 @@ export default function BudgetForm({
             type="button"
             onClick={handleAddCost}
             className="w-full sm:w-auto"
+            color="blue"
           >
-            Add Extra
+            Add
           </Button>
         </div>
       </div>
@@ -320,7 +320,10 @@ export default function BudgetForm({
       <div className="flex justify-end gap-4">
         <Link
           href="/dashboard/budgets"
-          className="px-4 py-2 bg-yellow-300 dark:bg-yellow-600 rounded-md"
+          className={clsx(
+            `${teko.className}`,
+            "text-lg font-medium px-4 py-1 bg-red-500 hover:bg-red-600 rounded-md text-white"
+          )}
         >
           Cancel
         </Link>
@@ -330,7 +333,7 @@ export default function BudgetForm({
             !formValues.clientId || costsList.length === 0 || total <= 0
           }
         >
-          {budget ? "Update Budget" : "Create Budget"}
+          Create Budget
         </Button>
       </div>
 

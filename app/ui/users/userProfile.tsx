@@ -1,7 +1,10 @@
+import SubscriptionModal from "@/app/dashboard/subscription/page";
 import { Subscription } from "@/app/lib/definitions";
 import { lusitana } from "@/app/ui/fonts";
+import { Button } from "@/components/ui/button";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import Link from "next/link";
 
 interface UserProfileProps {
   user: {
@@ -76,6 +79,7 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
                 {new Date(user.created_at).toLocaleDateString()}
               </td>
               <td className="px-4 py-2">{subscription?.name}</td>
+              {/* <SubscriptionModal /> */}
             </tr>
           </tbody>
         </table>

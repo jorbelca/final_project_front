@@ -18,50 +18,49 @@ export function UserEditForm({ user }: UserEditFormProps) {
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (formData: FormData) => {
-    startTransition(async () => {
-      const user_id = Number(formData.get("user_id") as string);
-      const name = formData.get("name") as string;
-      const email = formData.get("email") as string;
-      const password = formData.get("password") as string;
-      const avatar_url = formData.get("avatar_url") as string;
-      const logo_url = formData.get("logo_url") as string;
+    const user_id = Number(formData.get("user_id") as string);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const avatar_url = formData.get("avatar_url") as string;
+    const logo_url = formData.get("logo_url") as string;
 
-      try {
-        const response = await updateUser(
-          user_id,
-          name,
-          email,
-          password,
-          avatar_url,
-          logo_url
-        );
+    try {
+      const response = await updateUser(
+        user_id,
+        name,
+        email,
+        password,
+        avatar_url,
+        logo_url
+      );
 
-        if (response.success) {
-          toast({
-            variant: "default",
-            title: "Success",
-            description: "User updated successfully.",
-          });
-          setTimeout(() => {
-            window.location.href = "/dashboard/user";
-          }, 1000);
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Error updating the user.",
-          });
-        }
-      } catch (error) {
+      if (response.success) {
+        toast({
+          variant: "default",
+          title: "Success",
+          description: "User updated successfully.",
+        });
+        setTimeout(() => {
+          window.location.href = "/dashboard/user";
+        }, 1000);
+      } else {
         toast({
           variant: "destructive",
           title: "Error",
           description: "Error updating the user.",
         });
-        console.error(error);
       }
-    });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Error updating the user.",
+      });
+      console.error(error);
+    }
   };
+  
   return (
     <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
       <h2 className="text-xl font-bold mb-4">Edit User Information</h2>

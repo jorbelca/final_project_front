@@ -1,5 +1,6 @@
 import { getSubscription, getUser } from "@/app/lib/data";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
+import { RemoveUser } from "@/app/ui/users/deleteUser";
 import { UserEditForm } from "@/app/ui/users/formUser";
 import { UserProfile } from "@/app/ui/users/userProfile";
 import { auth } from "@/auth";
@@ -28,6 +29,7 @@ export default async function Page() {
           <Suspense fallback={<InvoicesTableSkeleton />}>
             {/* Componente: Formulario de Edición */}
             <UserEditForm user={user[0]} />
+            <RemoveUser user={user[0]} />
           </Suspense>
         </>
       ) : (

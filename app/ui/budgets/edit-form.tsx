@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 
 import { redirect, useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import clsx from "clsx";
+import { teko } from "../fonts";
 
 export default function Form({
   clients,
@@ -184,7 +186,7 @@ export default function Form({
               min="1"
               value={selectedQuantity}
               onChange={(e) => setSelectedQuantity(Number(e.target.value))}
-              className="w-1/4 rounded-md border py-2 px-3"
+              className="w-1/4 rounded-md border py-2 px-3 "
               placeholder="Qty"
             />
             <button
@@ -217,7 +219,7 @@ export default function Form({
                 type="text"
                 value={extraDescription}
                 onChange={(e) => setExtraDescription(e.target.value)}
-                placeholder="Descripción"
+                placeholder="Description"
                 className="w-1/2 rounded-md border py-2 px-3"
               />
               <input
@@ -225,7 +227,7 @@ export default function Form({
                 min="0"
                 value={extraCost}
                 onChange={(e) => setExtraCost(Number(e.target.value))}
-                placeholder="Costo"
+                placeholder="Cost"
                 className="w-1/4 rounded-md border py-2 px-3"
               />
               <input
@@ -241,7 +243,7 @@ export default function Form({
                 onClick={() =>
                   handleAddCost(extraQuantity, extraDescription, extraCost)
                 }
-                className="px-4 py-2 bg-green-500 text-white rounded-md"
+                className="px-4 py-2 bg-blue-500 text-white rounded-md"
               >
                 Add
               </button>
@@ -284,7 +286,10 @@ export default function Form({
       <div className="flex justify-end mt-6 gap-4">
         <Link
           href="/dashboard/budgets"
-          className="px-4 py-2 bg-yellow-300 dark:bg-yellow-600 rounded-md"
+          className={clsx(
+            `${teko.className}`,
+            "px-4 py-2 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-600 rounded-md text-lg font-medium"
+          )}
         >
           Cancelar
         </Link>

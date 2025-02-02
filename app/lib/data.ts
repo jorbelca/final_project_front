@@ -116,7 +116,7 @@ export async function getUser(userId: number) {
     const user = await sql<User>`
       SELECT * FROM users WHERE users.user_id = ${userId}
     `;
-    return user.rows;
+    return user.rows[0];
   } catch (error) {
     console.error("Error fetching user:", error);
     throw new Error("Failed to fetch user.");
@@ -128,7 +128,7 @@ export async function getSubscription(userId: number) {
     const subscription = await sql<Subscription>`
       SELECT * FROM subscriptions JOIN plans ON subscriptions.plan_id = plans.plan_id WHERE user_id = ${userId}
     `;
-    return subscription.rows;
+    return subscription.rows[0];
   } catch (error) {
     console.error("Error fetching subscription:", error);
     throw new Error("Failed to fetch subscription.");
@@ -173,5 +173,26 @@ export async function deleteUser(
   } catch (error) {
     console.error("Error deleting user:", error);
     return { success: false, message: "Error deleting user." };
+  }
+}
+
+
+//Update Payment Number
+export async function updatePaymentNumber(
+  subscriptionId: number,
+  paymentNumber: string
+): Promise<{ success: boolean; message: string }> {
+  try {
+    await sql`
+      UPDATE subscriptions
+      SET payment_number = ${paymentNumber}
+      WHERE subscription_id = ${subscriptionId}`;
+    return {
+      success: true,
+      message: "Payment number updated successfully.",
+    };
+  } catch (error) {
+    console.error("Error updating payment number:", error);
+    return { success: false, message: "Error updating payment number." };
   }
 }

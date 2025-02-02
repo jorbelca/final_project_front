@@ -1,8 +1,7 @@
 "use client";
 import { updateUser } from "@/app/lib/data";
 import { toast } from "@/hooks/use-toast";
-
-import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 interface UserEditFormProps {
   user: {
@@ -15,7 +14,7 @@ interface UserEditFormProps {
 }
 
 export function UserEditForm({ user }: UserEditFormProps) {
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const handleSubmit = async (formData: FormData) => {
     const user_id = Number(formData.get("user_id") as string);
@@ -31,8 +30,8 @@ export function UserEditForm({ user }: UserEditFormProps) {
         name,
         email,
         password,
-        avatar_url,
-        logo_url
+        avatar_url.trimEnd(),
+        logo_url.trimEnd()
       );
 
       if (response.success) {
@@ -41,9 +40,6 @@ export function UserEditForm({ user }: UserEditFormProps) {
           title: "Success",
           description: "User updated successfully.",
         });
-        setTimeout(() => {
-          window.location.href = "/dashboard/user";
-        }, 1000);
       } else {
         toast({
           variant: "destructive",
@@ -59,8 +55,9 @@ export function UserEditForm({ user }: UserEditFormProps) {
       });
       console.error(error);
     }
+    router.refresh();
   };
-  
+
   return (
     <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
       <h2 className="text-xl font-bold mb-4">Edit User Information</h2>
@@ -121,7 +118,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             type="url"
             id="avatar_url"
             name="avatar_url"
-            defaultValue={user?.avatar_url}
+            defaultValue={user?.avatar_url?.trimEnd()}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
             autoComplete="off"
           />
@@ -136,7 +133,7 @@ export function UserEditForm({ user }: UserEditFormProps) {
             type="url"
             id="logo_url"
             name="logo_url"
-            defaultValue={user?.logo_url}
+            defaultValue={user?.logo_url?.trimEnd()}
             className="w-full p-2 border rounded-md bg-gray-50 dark:bg-gray-700"
             autoComplete="off"
           />

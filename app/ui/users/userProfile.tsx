@@ -1,10 +1,7 @@
 import SubscriptionModal from "@/app/dashboard/subscription/page";
 import { Subscription } from "@/app/lib/definitions";
-import { lusitana } from "@/app/ui/fonts";
-import { Button } from "@/components/ui/button";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
 
 interface UserProfileProps {
   user: {
@@ -23,7 +20,7 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
     <>
       {/* Perfil del Usuario */}
       <div
-        className="flex pt-0 sm:mt-0 flex-row justify-between items-center
+        className="flex pt-2 flex-row justify-between items-center
        gap-4 bg-gray-100 dark:bg-gray-800 rounded-lg p-4"
       >
         <div className="flex items-center justify-center gap-4 ">
@@ -39,7 +36,7 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
             <UserCircleIcon className="h-16 w-16 text-gray-500" />
           )}
           <div className="flex flex-col">
-            <h1 className={`${lusitana.className} text-2xl`}>{user.name}</h1>
+            <h1 className={`text-2xl`}>{user.name}</h1>
             <div>
               {user.active ? (
                 <p className="text-sm text-green-500">Active</p>
@@ -61,14 +58,14 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
       </div>
 
       {/* Tabla de Información */}
-      <div className="mt-6 flow-root rounded-lg bg-gray-100 dark:bg-gray-800 p-4">
+      <div className="mt-6 flow-root rounded-lg bg-gray-100 dark:bg-gray-800 p- overflow-hidden">
         <table className="w-full text-left text-sm">
           <thead className="text-gray-600 dark:text-gray-300">
             <tr>
               <th className="px-4 py-2">Email</th>
 
               <th className="px-4 py-2">Created At</th>
-              <th className="px-4 py-2">Subscription</th>
+              <th className="hidden sm:table-cell px-4 py-2">Subscription</th>
             </tr>
           </thead>
           <tbody>
@@ -78,11 +75,16 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
               <td className="px-4 py-2">
                 {new Date(user.created_at).toLocaleDateString()}
               </td>
-              <td className="px-4 py-2">{subscription?.name}</td>
-              {/* <SubscriptionModal /> */}
+              <td className="hidden sm:table-cell px-4 py-2">
+                <SubscriptionModal subscription={subscription} />
+              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div className="mt-6 flow-root rounded-lg bg-gray-100 dark:bg-gray-800 p-4 sm:hidden">
+        Subscription : &nbsp;
+        <SubscriptionModal subscription={subscription} />
       </div>
     </>
   );

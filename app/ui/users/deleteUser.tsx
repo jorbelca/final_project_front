@@ -1,9 +1,12 @@
 "use client";
 import { deleteUser } from "@/app/lib/data";
 import { toast } from "@/hooks/use-toast";
+import { signOut } from "next-auth/react";
 
+import { useRouter } from "next/navigation";
 
 export function RemoveUser({ user }) {
+  const router = useRouter();
   const handleDeleteUser = async () => {
     const confirm = window.confirm("Are you sure you want to delete the user?");
     if (!confirm) return;
@@ -11,6 +14,9 @@ export function RemoveUser({ user }) {
       const response = await deleteUser(user.user_id);
 
       if (response.success) {
+        await signOut();
+        router.push("/");
+
         toast({
           title: "Success",
           description: "Deleted user",

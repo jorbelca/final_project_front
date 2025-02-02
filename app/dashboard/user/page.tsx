@@ -5,6 +5,7 @@ import { UserEditForm } from "@/app/ui/users/formUser";
 import { UserProfile } from "@/app/ui/users/userProfile";
 import { auth } from "@/auth";
 import { Metadata } from "next";
+
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
@@ -18,18 +19,19 @@ export default async function Page() {
   const user = await getUser(Number(session?.user?.id));
   const subscription = await getSubscription(Number(session?.user?.id));
 
+
   return (
     <div className="w-full p-4 rounded-sm dark:bg-gray-700 dark:text-white">
-      {user.length > 0 ? (
+      {user ? (
         <>
           {/* Componente: Perfil del Usuario */}
           <Suspense fallback={<InvoicesTableSkeleton />}>
-            <UserProfile user={user[0]} subscription={subscription[0]} />
+            <UserProfile user={user} subscription={subscription} />
           </Suspense>
           <Suspense fallback={<InvoicesTableSkeleton />}>
             {/* Componente: Formulario de Edición */}
-            <UserEditForm user={user[0]} />
-            <RemoveUser user={user[0]} />
+            <UserEditForm user={user} />
+            <RemoveUser user={user} />
           </Suspense>
         </>
       ) : (

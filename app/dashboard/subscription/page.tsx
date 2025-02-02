@@ -32,15 +32,15 @@ export default function SubscriptionModal({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
-  
+
     // Permitir solo números y guiones en tiempo real
     if (/^[\d-]*$/.test(value)) {
       // Autoformatear a 4-4-4-4
       value = value
         .replace(/\D/g, "") // Eliminar todo lo que no sea número
         .replace(/(\d{4})/g, "$1-") // Agregar guion cada 4 dígitos
-        .slice(0, 19) // Limitar a 19 caracteres (16 números + 3 guiones)
-  
+        .slice(0, 19); // Limitar a 19 caracteres (16 números + 3 guiones)
+
       setNewPaymentNumber(value);
     }
   };
@@ -72,7 +72,7 @@ export default function SubscriptionModal({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Share</Button>
+        <Button variant="outline">See</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

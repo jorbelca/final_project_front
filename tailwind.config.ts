@@ -4,6 +4,9 @@ module.exports = {
   content: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
   theme: {
     extend: {
+      screens: {
+        "custom-table": "820px", // Pantalla con resolución mínima de 1024px
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -9,7 +9,7 @@ export default function BudgetsTable({ budgets }: { budgets: any }) {
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle ">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0 dark:bg-slate-600">
-          <div className="md:hidden ">
+          <div className="custom-table:hidden ">
             {budgets?.map((budget) => (
               <div
                 key={budget.budget_id}
@@ -61,7 +61,7 @@ export default function BudgetsTable({ budgets }: { budgets: any }) {
           </div>
           {/* Tabla estándar para pantallas medianas y grandes */}
 
-          <table className="hidden min-w-full dark:bg-slate-600 text-gray-900 dark:text-white md:table">
+          <table className="hidden min-w-full dark:bg-slate-600 text-gray-900 dark:text-white custom-table:table ">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
@@ -95,7 +95,7 @@ export default function BudgetsTable({ budgets }: { budgets: any }) {
             </thead>
             <tbody className="bg-white dark:bg-slate-700">
               {budgets?.map((budget) => (
-                <tr key={budget.budget_id} className="border-b">
+                <tr key={budget.budget_id} className="dark:border-gray-700">
                   <td className="px-4 py-4">{budget.budget_id}</td>
                   <td className="px-4 py-4 w-full">
                     <ul className="flex flex-col">

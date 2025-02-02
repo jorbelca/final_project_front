@@ -121,7 +121,7 @@ export default function Form({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="pb-10">
       <input type="hidden" name="user_id" value={user_id} />
       <div className="p-6 bg-gray-50 dark:bg-gray-600 rounded-md">
         {/* Cliente */}

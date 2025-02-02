@@ -10,7 +10,8 @@ export default function SideNav() {
   return (
     <div
       className="flex flex-col md:flex-row md:items-center md:justify-start
-     px-3 py-2 md:pr-8 md:py-1 bg-gray-100 dark:bg-gray-600 w-full fixed top-0 left-0 z-10"
+     px-3 py-2 md:pr-8 md:py-4 bg-gray-100 dark:bg-gray-600
+      w-full fixed top-0 left-0 z-10"
     >
       <div className="fixed top-0 right-0 p-2 md:p-2 z-20">
         <DarkMode></DarkMode>

@@ -1,6 +1,5 @@
 import Table from "@/app/ui/budgets/table";
-
-import { lusitana } from "@/app/ui/fonts";
+import ReducedStatus from "@/app/ui/budgets/reducedStatus";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchBudgets } from "@/app/lib/data";
@@ -25,12 +24,12 @@ export default async function Page(props: {
   //const totalPages = await fetchBudgets();
   const session = await auth();
 
-
   const budgets = await fetchBudgets(Number(session?.user?.id));
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Budgets</h1>
+        <h1 className={`text-2xl`}>Budgets</h1>
+        <ReducedStatus budgets={budgets} />
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         {/* <Search placeholder="Search budgets..." /> */}

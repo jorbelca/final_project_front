@@ -150,7 +150,7 @@ export default function BudgetForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-4 sm:p-6 max-w-3xl mx-auto bg-gray-50 dark:bg-gray-700 rounded-md shadow-md"
+      className="p-4 pb-10 sm:p-6 max-w-3xl mx-auto bg-gray-50 dark:bg-gray-700 rounded-md shadow-md"
     >
       <input type="hidden" name="user_id" value={user_id} />
       <div className="mb-6">

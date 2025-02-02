@@ -4,6 +4,8 @@ import { teko } from "./ui/fonts";
 import BudgetAppLogo from "./ui/bapp-logo";
 import Footer from "./ui/footer";
 import { DarkMode } from "./ui/darkMode";
+import Image from "next/image";
+import HeroImage from "./ui/heroImage";
 
 export default function Page() {
   return (
@@ -12,7 +14,7 @@ export default function Page() {
         <div className="fixed top-0 right-0 p-4 md:p-6">
           <DarkMode></DarkMode>
         </div>
-        <div className="flex max-[600px]:flex-col md:h-25 justify-between pt-2 pr-9">
+        <div className="flex max-[600px]:flex-col md:h-25 justify-between pt-2 pr-0 sm:pr-14 md:pr-9">
           <div className="flex  shrink-0 items-center rounded-lg md:h-25 justify-center">
             <BudgetAppLogo />
           </div>
@@ -45,9 +47,7 @@ export default function Page() {
               <strong>Welcome to BudgetApp.</strong> An app to create budgets
             </p>
           </div>
-          <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-            {/* Add Hero Images Here */}
-          </div>
+          <HeroImage />
         </div>
       </main>
       <Footer />

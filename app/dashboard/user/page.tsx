@@ -1,10 +1,13 @@
-import { getSubscription, getUser } from "@/app/lib/data";
+import { getPlans, getSubscription, getUser } from "@/app/lib/data";
+
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { RemoveUser } from "@/app/ui/users/deleteUser";
 import { UserEditForm } from "@/app/ui/users/formUser";
 import { UserProfile } from "@/app/ui/users/userProfile";
 import { auth } from "@/auth";
+import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
+import Link from "next/link";
 
 import { Suspense } from "react";
 
@@ -18,7 +21,7 @@ export default async function Page() {
   const session = await auth();
   const user = await getUser(Number(session?.user?.id));
   const subscription = await getSubscription(Number(session?.user?.id));
-
+  const plans = (await getPlans()) ?? [];
 
   return (
     <div className="w-full p-4 rounded-sm dark:bg-gray-700 dark:text-white">
@@ -26,7 +29,16 @@ export default async function Page() {
         <>
           {/* Componente: Perfil del Usuario */}
           <Suspense fallback={<InvoicesTableSkeleton />}>
-            <UserProfile user={user} subscription={subscription} />
+            {/* <Link href={`/dashboard/user/${Number(session?.user?.id)}/admin`}>
+              <Button color="red" className="dark:hover:bg-red-600 bg-red-400">
+                ADMIN
+              </Button>
+            </Link> */}
+            <UserProfile
+              user={user}
+              subscription={subscription}
+              plans={plans}
+            />
           </Suspense>
           <Suspense fallback={<InvoicesTableSkeleton />}>
             {/* Componente: Formulario de Edición */}

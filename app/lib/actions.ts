@@ -50,21 +50,36 @@ export async function register(
   password: string,
   confirmPassword: string
 ) {
-  // Verifica que las contraseñas coincidan
   if (password !== confirmPassword) {
     return { success: false, message: "Las contraseñas no coinciden" };
   }
 
-  // Encripta la contraseña
   const hashedPassword = await hash(password, 10);
 
-  // Inserta el nuevo usuario en la base de datos
   try {
-    await sql`
+    // Insertar usuario y devolver su ID
+    const user = await sql<{ user_id: number }>`
       INSERT INTO users (name, email, password)
       VALUES (${name}, ${email}, ${hashedPassword})
+      RETURNING user_id
     `;
-    return { success: true, message: "Usuario registrado exitosamente" };
+
+    const userId = user.rows[0]?.user_id;
+    if (!userId) {
+      console.error("No se obtuvo user_id:", user);
+      throw new Error("No se pudo obtener el ID del usuario");
+    }
+
+    // Insertar suscripción vacía
+    await sql`
+      INSERT INTO subscriptions (user_id, plan_id, payment_number, active, start_date, created_at, updated_at)
+      VALUES (${userId}, NULL, NULL, false, NOW(), NOW(), NOW())
+    `;
+
+    return {
+      success: true,
+      message: "Usuario y suscripción creados exitosamente",
+    };
   } catch (error) {
     console.error("Error al registrar el usuario:", error);
     return { success: false, message: "Error al registrar el usuario" };
@@ -92,7 +107,6 @@ export async function createBudget(
   }
 }
 
-// Función para actualizar un presupuesto
 // Función para actualizar un presupuesto
 export async function updateBudget(
   budgetId: number,

@@ -3,8 +3,9 @@
 import BudgetState from "@/app/ui/budgets/status";
 import { DeleteBudget, UpdateBudget } from "./buttons";
 import GeneratePDF from "./generate_pdf";
+import { Budget } from "@/app/lib/definitions";
 
-export default function BudgetsTable({ budgets }: { budgets: any }) {
+export default function BudgetsTable({ budgets }: { budgets: Budget[] }) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle ">
@@ -19,8 +20,8 @@ export default function BudgetsTable({ budgets }: { budgets: any }) {
                   <div>
                     <div className="mb-2 flex items-center">
                       <p className="text-sm font-medium">{budget.budget_id}.</p>
-                      &nbsp; <b>Client :</b>
-                      {budget.client_id != null ? budget.name : ` ❌`}
+                      &nbsp; <b>Client : </b>
+                      {budget.client_id != null ? budget.client_name : "  ❌"}
                     </div>
                   </div>
                   <BudgetState status={budget.state} id={budget.budget_id} />
@@ -93,9 +94,12 @@ export default function BudgetsTable({ budgets }: { budgets: any }) {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white dark:bg-slate-700">
+            <tbody className=" dark:bg-slate-700 ">
               {budgets?.map((budget) => (
-                <tr key={budget.budget_id} className="dark:border-gray-700">
+                <tr
+                  key={budget.budget_id}
+                  className="dark:border-gray-700 border-gray-300 bg-zinc-100 dark:bg-zinc-500 border-y  rounded-lg"
+                >
                   <td className="px-4 py-4">{budget.budget_id}</td>
                   <td className="px-4 py-4 w-full">
                     <ul className="flex flex-col">
@@ -110,10 +114,10 @@ export default function BudgetsTable({ budgets }: { budgets: any }) {
                   <td className="px-6 py-4">{budget.discount}%</td>
                   <td className="px-6 py-4">{budget.taxes}%</td>
                   <td className="px-6 py-4">
-                    {budget.client_id != null ? budget.name : ` ❌`}
+                    {budget.client_id != null ? budget.client_name : ` ❌`}
                   </td>
                   <td className="px-3 py-4">
-                    {budget.created_at.toDateString()}
+                    {budget.created_at?.toDateString()}
                   </td>
                   <td className="px-3 py-4">
                     <BudgetState status={budget.state} id={budget.budget_id} />

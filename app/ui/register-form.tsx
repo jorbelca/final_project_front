@@ -12,6 +12,7 @@ import { useState } from "react";
 import { register } from "../lib/actions";
 import { useRouter } from "next/navigation";
 import ReturnBtn from "./returnBtn";
+import { toast } from "@/hooks/use-toast";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -26,11 +27,19 @@ export default function RegisterForm() {
     setIsPending(true);
     try {
       const result = await register(name, email, password, confirmPassword);
-      console.log(result);
+
       if (result.success) {
+        toast({
+          title: "Registerd",
+          description: "User created.",
+        });
         router.push("/login"); // Redirigir al dashboard si el registro fue exitoso
       } else {
-        setErrorMessage(result.message);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Error creating the user.",
+        });
       }
     } catch (error) {
       setErrorMessage("Error al registrar el usuario");

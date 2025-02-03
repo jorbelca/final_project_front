@@ -22,9 +22,20 @@ export async function getBudgetById(budgetId: number): Promise<Budget | null> {
 export async function fetchBudgets(userId: number): Promise<Budget[]> {
   try {
     const result = await sql<Budget>`
-      SELECT * FROM budgets
-      JOIN clients ON clients.client_id = budgets.client_id
-      WHERE user_id = ${userId}
+      SELECT 
+        budgets.budget_id,
+        budgets.user_id,
+        budgets.client_id,
+        budgets.content,
+        budgets.created_at,
+        budgets.taxes,
+        budgets.discount,
+        budgets.state,
+        clients.client_id AS client_id,
+        clients.name AS client_name
+      FROM budgets
+      LEFT JOIN clients ON clients.client_id = budgets.client_id
+      WHERE budgets.user_id = ${userId}
     `;
     return result.rows;
   } catch (error) {
@@ -126,7 +137,7 @@ export async function getUser(userId: number) {
 export async function getSubscription(userId: number) {
   try {
     const subscription = await sql<Subscription>`
-      SELECT * FROM subscriptions JOIN plans ON subscriptions.plan_id = plans.plan_id WHERE user_id = ${userId}
+      SELECT * FROM subscriptions LEFT JOIN plans ON subscriptions.plan_id = plans.plan_id WHERE user_id = ${userId}
     `;
     return subscription.rows[0];
   } catch (error) {
@@ -176,23 +187,64 @@ export async function deleteUser(
   }
 }
 
-
 //Update Payment Number
-export async function updatePaymentNumber(
+export async function updateSubscription(
   subscriptionId: number,
-  paymentNumber: string
+  paymentNumber: string,
+  plan_id: number
 ): Promise<{ success: boolean; message: string }> {
   try {
-    await sql`
+    console.log(subscriptionId, paymentNumber, plan_id);
+
+    await sql<Subscription>`
       UPDATE subscriptions
-      SET payment_number = ${paymentNumber}
+      SET payment_number = ${paymentNumber},
+       plan_id = ${plan_id}
       WHERE subscription_id = ${subscriptionId}`;
     return {
       success: true,
-      message: "Payment number updated successfully.",
+      message: "Subscription updated successfully.",
     };
   } catch (error) {
-    console.error("Error updating payment number:", error);
-    return { success: false, message: "Error updating payment number." };
+    console.error("Error updating the subscription:", error);
+    return { success: false, message: "Error updating the subscription." };
+  }
+}
+
+export async function getPlans() {
+  try {
+    const res = await sql<Plan[]>`
+      SELECT * from plans`;
+    return res.rows.flat();
+  } catch (error) {
+    console.error("Error getting the plans:", error);
+  }
+}
+
+export async function usersFull() {
+  try {
+    const res = await sql`
+      SELECT 
+        u.*, 
+        b.*, 
+        c.*, 
+        cl.*
+      FROM 
+        users u
+      LEFT JOIN 
+        budgets b ON u.user_id = b.user_id
+      LEFT JOIN 
+        costs c ON u.user_id = c.user_id
+      LEFT JOIN 
+        clients cl ON b.client_id = cl.client_id;
+    `;
+
+    return res.rows; // Devuelve todos los usuarios con los presupuestos, costos y clientes
+  } catch (error) {
+    console.error(
+      "Error getting the users with budgets, costs, and clients:",
+      error
+    );
+    throw error; // Rethrow the error so it can be handled elsewhere
   }
 }

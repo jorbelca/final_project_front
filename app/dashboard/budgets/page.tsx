@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { fetchBudgets } from "@/app/lib/data";
 import { Metadata } from "next";
 import { auth } from "@/auth";
+import { toast } from "@/hooks/use-toast";
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 
@@ -24,7 +25,15 @@ export default async function Page(props: {
   //const totalPages = await fetchBudgets();
   const session = await auth();
 
-  const budgets = await fetchBudgets(Number(session?.user?.id));
+  const budgets = await fetchBudgets(Number(session?.user?.id)).catch(() => {
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Error fetching the budgets.",
+    });
+    return [];
+  });
+
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">

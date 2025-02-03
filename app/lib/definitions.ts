@@ -39,7 +39,7 @@ export interface Cost {
 export interface Budget {
   budget_id: number;
   user_id: number;
-  client_id: number | null;
+  client_id?: number;
   name?: string;
   content: { quantity: number; description: string; cost: number }[];
   taxes: number;
@@ -47,6 +47,7 @@ export interface Budget {
   state: "draft" | "sent" | "approved" | "rejected";
   created_at: Date;
   updated_at: Date;
+  client_name?: string;
 }
 
 // Tipo para la tabla Plans
@@ -55,7 +56,7 @@ export interface Plan {
   name: string;
   price: number;
   duration_in_days: number;
-  features?: any; // Puedes definir un tipo más específico si conoces la estructura del JSON
+  features?: any; 
   created_at: Date;
   updated_at: Date;
 }

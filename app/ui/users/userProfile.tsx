@@ -1,5 +1,5 @@
 import SubscriptionModal from "@/app/dashboard/subscription/page";
-import { Subscription } from "@/app/lib/definitions";
+import { Plan, Subscription } from "@/app/lib/definitions";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
@@ -13,9 +13,10 @@ interface UserProfileProps {
     created_at: Date;
   };
   subscription: Subscription;
+  plans: Plan[];
 }
 
-export function UserProfile({ user, subscription }: UserProfileProps) {
+export function UserProfile({ user, subscription, plans }: UserProfileProps) {
   return (
     <>
       {/* Perfil del Usuario */}
@@ -76,7 +77,7 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
                 {new Date(user.created_at).toLocaleDateString()}
               </td>
               <td className="hidden sm:table-cell px-4 py-2">
-                <SubscriptionModal subscription={subscription} />
+                <SubscriptionModal subscription={subscription} plans={plans} />
               </td>
             </tr>
           </tbody>
@@ -84,7 +85,7 @@ export function UserProfile({ user, subscription }: UserProfileProps) {
       </div>
       <div className="mt-6 flow-root rounded-lg bg-gray-100 dark:bg-gray-800 p-4 sm:hidden">
         Subscription : &nbsp;
-        <SubscriptionModal subscription={subscription} />
+        <SubscriptionModal subscription={subscription} plans={plans} />
       </div>
     </>
   );

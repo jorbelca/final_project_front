@@ -5,10 +5,7 @@ import { RemoveUser } from "@/app/ui/users/deleteUser";
 import { UserEditForm } from "@/app/ui/users/formUser";
 import { UserProfile } from "@/app/ui/users/userProfile";
 import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
-import Link from "next/link";
-
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";

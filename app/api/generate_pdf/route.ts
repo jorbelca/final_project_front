@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 export async function POST(req: Request) {
-  const { name, email, content, discount, taxes } = await req.json();
+  const { client_name, client_email, content, discount, taxes } =
+    await req.json();
 
   // Crear un nuevo documento PDF
   const pdfDoc = await PDFDocument.create();
@@ -27,9 +28,10 @@ export async function POST(req: Request) {
   y -= 50; // Espacio debajo del título
 
   // ** DATOS DEL CLIENTE **
-  page.drawText(`Client: ${name}`, { x: 50, y, size: 12, font });
+  page.drawText(`Client: ${client_name}`, { x: 50, y, size: 12, font });
   y -= 20;
-  page.drawText(`Email: ${email}`, { x: 50, y, size: 12, font });
+
+  page.drawText(`Email: ${client_email}`, { x: 50, y, size: 12, font });
   y -= 40;
 
   // ** TABLA DE CONTENIDO **
@@ -81,14 +83,18 @@ export async function POST(req: Request) {
   const totalsX = 510; // Alineado a la izquierda
 
   const subtotalText = formatText("Subtotal", `${subtotal.toFixed(2)}€`);
-  const discountText = formatText("Discount", `${discount}% (-${discountValue.toFixed(2)}€)`);
-  const totalText = formatText("Total with taxes", `${taxes}%: ${total.toFixed(2)}€`);
+  const discountText = formatText(
+    "Discount",
+    `${discount}% (-${discountValue.toFixed(2)}€)`
+  );
+  const totalText = formatText(
+    "Total with taxes",
+    `${taxes}%: ${total.toFixed(2)}€`
+  );
   // Calculamos el ancho del texto
   const subtotalWidth = font.widthOfTextAtSize(subtotalText, 12);
   const discountWidth = font.widthOfTextAtSize(discountText, 12);
   const totalWidth = boldFont.widthOfTextAtSize(totalText, 14);
-
- 
 
   page.drawText(`Subtotal: ${subtotal.toFixed(2)}€`, {
     x: totalsX - subtotalWidth,
@@ -117,7 +123,7 @@ export async function POST(req: Request) {
   page.drawText(note, {
     x: (width - noteWidth) / 2, // Centrar texto
     y: 50, // Al final de la página
-    size: 10,
+    size: 7,
     font,
     color: rgb(0.5, 0.5, 0.5), // Gris
   });

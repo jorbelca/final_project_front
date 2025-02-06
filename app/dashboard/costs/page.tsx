@@ -1,4 +1,4 @@
-import { lusitana } from "@/app/ui/fonts";
+import { lato } from "@/app/ui/fonts";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchCosts } from "@/app/lib/data";
@@ -20,7 +20,7 @@ export default async function Page() {
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Costs</h1>
+        <h1 className={`${lato.className} text-2xl`}>Costs</h1>
         <Link href="/dashboard/costs/create">
           <Button
             color="blue"
@@ -89,22 +89,22 @@ export default async function Page() {
                       ID
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Descripción
+                      Description
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Precio
+                      Price
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Unidad
+                      Unit
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Periodicidad
+                      Periodicity
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Creacion
+                      Date
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      Acciones
+                      Actions
                     </th>
                   </tr>
                 </thead>
@@ -118,7 +118,7 @@ export default async function Page() {
                       <td className="px-4 py-3">{cost.periodicity}</td>
                       <td className="px-4 py-3">
                         {cost.created_at
-                          ? formatDateToLocal(cost.created_at.toDateString())
+                          ? formatDateToLocal(cost.created_at.toISOString())
                           : ""}
                       </td>
                       <td className="px-4 py-3 ">

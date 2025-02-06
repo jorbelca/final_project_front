@@ -4,6 +4,7 @@ import BudgetState from "@/app/ui/budgets/status";
 import { DeleteBudget, UpdateBudget } from "./buttons";
 import GeneratePDF from "./generate_pdf";
 import { Budget } from "@/app/lib/definitions";
+import { formatDateToLocal } from "@/app/lib/utils";
 
 export default function BudgetsTable({ budgets }: { budgets: Budget[] }) {
   return (
@@ -36,7 +37,12 @@ export default function BudgetsTable({ budgets }: { budgets: Budget[] }) {
                     ))}
                   </ul>
 
-                  <p>{new Date(budget.created_at).toDateString()}</p>
+                  <p>
+                    {" "}
+                    {budget.created_at
+                      ? formatDateToLocal(budget?.created_at.toISOString())
+                      : ""}
+                  </p>
                 </div>
                 <div>
                   <hr />
@@ -117,7 +123,9 @@ export default function BudgetsTable({ budgets }: { budgets: Budget[] }) {
                     {budget.client_id != null ? budget.client_name : ` ❌`}
                   </td>
                   <td className="px-3 py-4">
-                    {budget.created_at?.toDateString()}
+                    {budget.created_at
+                      ? formatDateToLocal(budget?.created_at.toISOString())
+                      : ""}
                   </td>
                   <td className="px-3 py-4">
                     <BudgetState status={budget.state} id={budget.budget_id} />

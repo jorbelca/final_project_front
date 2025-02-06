@@ -5,6 +5,8 @@ import { signOut } from "@/auth";
 import BudgetAppLogo from "./bapp-logo";
 import { DarkMode } from "./darkMode";
 import { Button } from "@/components/ui/button";
+import clsx from "clsx";
+import { teko } from "./fonts";
 
 export default function SideNav() {
   return (
@@ -40,12 +42,13 @@ export default function SideNav() {
           }}
         >
           <Button
-            className="flex flex-col-reverse w-20 items-center gap-1 rounded-sm dark:bg-red-500
+            className={clsx(`${teko.className}flex flex-col-reverse w-20 
+              items-center gap-1 rounded-sm dark:bg-red-500
              dark:hover:bg-red-600 dark:hover:text-white
-       bg-red-500 px-4 py-6 text-sm font-medium hover:bg-red-600  hover:text-zinc-600"
+       bg-red-500 px-4 py-6 text-sm font-medium hover:bg-red-600  hover:text-zinc-600`)}
           >
             <PowerIcon className="w-6" />
-            <span>Sign Out</span>
+            <span className={`${teko.className} text-ml`}>Sign Out</span>
           </Button>
         </form>
       </div>

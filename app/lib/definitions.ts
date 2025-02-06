@@ -48,6 +48,7 @@ export interface Budget {
   created_at: Date;
   updated_at: Date;
   client_name?: string;
+  client_email?: string;
 }
 
 // Tipo para la tabla Plans
@@ -56,7 +57,7 @@ export interface Plan {
   name: string;
   price: number;
   duration_in_days: number;
-  features?: any; 
+  features?: any;
   created_at: Date;
   updated_at: Date;
 }

@@ -32,7 +32,8 @@ export async function fetchBudgets(userId: number): Promise<Budget[]> {
         budgets.discount,
         budgets.state,
         clients.client_id AS client_id,
-        clients.name AS client_name
+        clients.name AS client_name,
+        clients.email AS client_email
       FROM budgets
       LEFT JOIN clients ON clients.client_id = budgets.client_id
       WHERE budgets.user_id = ${userId}

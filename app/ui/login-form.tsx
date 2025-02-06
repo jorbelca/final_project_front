@@ -1,5 +1,5 @@
 "use client";
-import { lusitana, teko } from "@/app/ui/fonts";
+import { lato, teko } from "@/app/ui/fonts";
 import {
   AtSymbolIcon,
   ExclamationCircleIcon,
@@ -12,6 +12,7 @@ import { useActionState } from "react";
 
 import { Button } from "@/components/ui/button";
 import ReturnBtn from "./returnBtn";
+import clsx from "clsx";
 
 export default function LoginForm() {
   const [errorMessage, formAction, isPending] = useActionState(
@@ -23,7 +24,7 @@ export default function LoginForm() {
     <>
       <form action={formAction} className="space-y-3">
         <div className="flex-1 rounded-lg bg-gray-50 dark:bg-gray-500 px-6 pb-4 pt-8">
-          <h1 className={`${lusitana.className} mb-3 text-2xl `}>
+          <h1 className={`${lato.className} mb-3 text-2xl `}>
             Please log in to continue.
           </h1>
           <div className="w-full">
@@ -67,8 +68,8 @@ export default function LoginForm() {
               </div>
             </div>
           </div>
-          <Button className="mt-4 w-full bg-green-500 hover:bg-green-600 0 cursor-pointer">
-            <span className={`${teko.className}text-xl`}> Log in</span>
+          <Button className="mt-4 w-full bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600  cursor-pointer dark:text-white">
+            <span className={clsx(`${teko.className} text-xl`)}> Log in</span>
             <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
           </Button>
           <div

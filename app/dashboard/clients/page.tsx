@@ -9,13 +9,7 @@ export const dynamicParams = true;
 export const metadata: Metadata = {
   title: "Clients",
 };
-export default async function Page(props: {
-  searchParams?: Promise<{
-    query?: string;
-  }>;
-}) {
-  const searchParams = await props.searchParams;
-  const query = searchParams?.query || "";
+export default async function Page() {
   return (
     <div className="w-full">
       <Suspense fallback={<InvoicesTableSkeleton />}>

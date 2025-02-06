@@ -6,6 +6,7 @@ import { fetchBudgets } from "@/app/lib/data";
 import { Metadata } from "next";
 import { auth } from "@/auth";
 import { toast } from "@/hooks/use-toast";
+
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 
@@ -19,20 +20,9 @@ export default async function Page(props: {
     page?: string;
   }>;
 }) {
-  const searchParams = await props.searchParams;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  //const totalPages = await fetchBudgets();
   const session = await auth();
 
-  const budgets = await fetchBudgets(Number(session?.user?.id)).catch(() => {
-    toast({
-      variant: "destructive",
-      title: "Error",
-      description: "Error fetching the budgets.",
-    });
-    return [];
-  });
+  const budgets = await fetchBudgets(Number(session?.user?.id));
 
   return (
     <div className="w-full">
@@ -40,16 +30,11 @@ export default async function Page(props: {
         <h1 className={`text-2xl`}>Budgets</h1>
         <ReducedStatus budgets={budgets} />
       </div>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        {/* <Search placeholder="Search budgets..." /> */}
-        {/* <CreateInvoice /> */}
-      </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8"></div>
+      <Suspense fallback={<InvoicesTableSkeleton />}>
         <Table budgets={budgets} />
       </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        {/* <Pagination totalPages={totalPages.totalPages} /> */}
-      </div>
+      <div className="mt-5 flex w-full justify-center"></div>
     </div>
   );
 }

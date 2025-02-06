@@ -1,4 +1,4 @@
-import { lusitana } from "@/app/ui/fonts";
+import { lato } from "@/app/ui/fonts";
 import { fetchClients } from "@/app/lib/actions";
 import { PencilIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -15,7 +15,7 @@ export default async function ClientsTable() {
   return (
     <div className="w-full p-2 ">
       <div className="flex justify-between">
-        <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
+        <h1 className={`${lato.className} mb-8 text-xl md:text-2xl`}>
           Clients
         </h1>
         <Link

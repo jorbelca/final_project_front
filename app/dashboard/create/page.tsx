@@ -1,4 +1,4 @@
-import { lusitana } from "@/app/ui/fonts";
+import { lato } from "@/app/ui/fonts";
 import Form from "@/app/ui/budgets/create-form";
 
 import { Metadata } from "next";
@@ -19,7 +19,7 @@ export default async function Page() {
   return (
     <main>
       <div className="flex w-full flex-col justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Create a Budget</h1>
+        <h1 className={`${lato.className} text-2xl`}>Create a Budget</h1>
         <div className="w-full">
           <Form
             clients={clients}

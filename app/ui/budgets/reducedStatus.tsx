@@ -48,7 +48,7 @@ export default function BudgetStateIcons({ budgets }: { budgets: Budget[] }) {
                   )}
                 >
                   {IconComponent && (
-                    <IconComponent className="w-4 h-4 text-white" />
+                    <IconComponent className="w-4 h-4 text-black font-bold" />
                   )}
                 </div>
                 <span className="text-sm font-medium">{count}</span>

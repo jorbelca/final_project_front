@@ -4,7 +4,7 @@ import { teko } from "./ui/fonts";
 import BudgetAppLogo from "./ui/bapp-logo";
 import Footer from "./ui/footer";
 import { DarkMode } from "./ui/darkMode";
-import Image from "next/image";
+
 import HeroImage from "./ui/heroImage";
 
 export default function Page() {
@@ -14,8 +14,8 @@ export default function Page() {
         <div className="fixed top-0 right-0 p-4 md:p-6">
           <DarkMode></DarkMode>
         </div>
-        <div className="flex max-[600px]:flex-col md:h-25 justify-between pt-2 pr-0 sm:pr-14 md:pr-9">
-          <div className="flex  shrink-0 items-center rounded-lg md:h-25 justify-center">
+        <div className="flex max-[640px]:flex-col md:h-25 justify-between pt-2 pr-0 sm:pr-14 md:pr-9">
+          <div className="flex shrink-0 items-center rounded-lg md:h-25 justify-center pl-2">
             <BudgetAppLogo />
           </div>
           <div className="flex justify-around gap-2 items-center pt-6 md:p-8">
@@ -40,7 +40,7 @@ export default function Page() {
           </div>
         </div>
         <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-          <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 dark:bg-blue-800 px-6 py-10 md:w-2/5 md:px-20">
+          <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 dark:bg-blue-800 px-6 py-10 md:w-2/5 md:px-10">
             <p
               className={`${teko.className}text-xl text-gray-800 dark:text-gray-100 md:text-3xl md:leading-normal`}
             >

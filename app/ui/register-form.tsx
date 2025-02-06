@@ -1,5 +1,5 @@
 "use client";
-import { lusitana } from "@/app/ui/fonts";
+import { lato } from "@/app/ui/fonts";
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -58,7 +58,7 @@ export default function RegisterForm() {
         className="space-y-3 "
       >
         <div className="flex-1 rounded-lg bg-gray-50 dark:bg-gray-600  px-6 pb-4 pt-8">
-          <h1 className={`${lusitana.className} mb-3 text-2xl `}>
+          <h1 className={`${lato.className} mb-3 text-2xl `}>
             Please register to continue.
           </h1>
           <div className="w-full">

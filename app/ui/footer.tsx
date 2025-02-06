@@ -3,8 +3,6 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    //el footer debe quedarse fijado en la parte de abajo del contenido, cuando haces scroll hacia abajo
-
     <footer
       className="fixed bottom-0 flex flex-row justify-center
      text-black bg-white dark:bg-gray-600 dark:text-white align-center items-center 

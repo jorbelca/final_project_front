@@ -16,7 +16,7 @@ export default function ReturnBtn() {
     >
       <span
         className={`relative z-0 text-black group-hover:text-gray-200 dark:text-white dark:hover:text-gray-200
-                 transition ease-in-out duration-500 ${teko.className}text-xl `}
+                 transition ease-in-out duration-500 ${teko.className} text-xl `}
       >
         ⬅ Return to Index
       </span>

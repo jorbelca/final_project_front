@@ -1,5 +1,6 @@
 import SubscriptionModal from "@/app/dashboard/subscription/page";
 import { Plan, Subscription } from "@/app/lib/definitions";
+import { formatDateToLocal } from "@/app/lib/utils";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
@@ -74,7 +75,7 @@ export function UserProfile({ user, subscription, plans }: UserProfileProps) {
               <td className="px-4 py-2">{user.email}</td>
 
               <td className="px-4 py-2">
-                {new Date(user.created_at).toLocaleDateString()}
+                {formatDateToLocal(user.created_at.toISOString())}
               </td>
               <td className="hidden sm:table-cell px-4 py-2">
                 <SubscriptionModal subscription={subscription} plans={plans} />

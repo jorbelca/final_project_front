@@ -6,7 +6,13 @@ import GeneratePDF from "./generate_pdf";
 import { Budget } from "@/app/lib/definitions";
 import { formatDateToLocal } from "@/app/lib/utils";
 
-export default function BudgetsTable({ budgets }: { budgets: Budget[] }) {
+export default function BudgetsTable({
+  budgets,
+  logo,
+}: {
+  budgets: Budget[];
+  logo: String;
+}) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle ">
@@ -59,7 +65,7 @@ export default function BudgetsTable({ budgets }: { budgets: Budget[] }) {
                     <div className="flex justify-center gap-2">
                       <UpdateBudget budgetId={budget.budget_id} />
                       <DeleteBudget budgetId={Number(budget.budget_id)} />
-                      <GeneratePDF budget={budget} />
+                      <GeneratePDF budget={budget} logo={logo} />
                     </div>
                   </div>
                 </div>
@@ -137,7 +143,7 @@ export default function BudgetsTable({ budgets }: { budgets: Budget[] }) {
                     </div>
                   </td>
                   <td className="px-3 py-4 text-right">
-                    <GeneratePDF budget={budget} />
+                    <GeneratePDF budget={budget} logo={logo} />
                   </td>
                 </tr>
               ))}

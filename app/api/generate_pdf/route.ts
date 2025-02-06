@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 export async function POST(req: Request) {
-  const { client_name, client_email, content, discount, taxes } =
-    await req.json();
+  const { logo, budget } = await req.json();
 
+  const { client_name, client_email, content, discount, taxes } = budget;
   // Crear un nuevo documento PDF
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage([595, 842]); // Tamaño A4 (ancho x alto)
@@ -12,7 +12,37 @@ export async function POST(req: Request) {
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-  let y = height - 50;
+  let y = height - 50; // Posición inicial
+
+  // // ** Cargar y dibujar el LOGO si existe **
+  if (logo.logo_url) {
+    try {
+      const response = await fetch(logo.logo_url);
+      const contentType = response.headers.get("content-type"); // Detectar el tipo de imagen
+      const logoBytes = await response.arrayBuffer();
+  
+      let image;
+      if (contentType?.includes("png")) {
+        image = await pdfDoc.embedPng(logoBytes);
+      } else if (contentType?.includes("jpeg") || contentType?.includes("jpg")) {
+        image = await pdfDoc.embedJpg(logoBytes);
+      } else {
+        throw new Error("Formato de imagen no soportado. Usa PNG o JPG.");
+      }
+  
+      const imgDims = image.scale(0.15);
+      page.drawImage(image, {
+        x: 30,
+        y: height - imgDims.height - 30,
+        width: imgDims.width,
+        height: imgDims.height,
+      });
+  
+      y -= imgDims.height + 20;
+    } catch (error) {
+      console.error("Error cargando el logo:", error);
+    }
+  }
 
   // ** TÍTULO CENTRADO **
   const title = "Budget";
@@ -27,12 +57,16 @@ export async function POST(req: Request) {
 
   y -= 50; // Espacio debajo del título
 
-  // ** DATOS DEL CLIENTE **
-  page.drawText(`Client: ${client_name}`, { x: 50, y, size: 12, font });
-  y -= 20;
+  // ** DATOS DEL CLIENTE (Si existen) **
+  if (client_name) {
+    page.drawText(`Client: ${client_name}`, { x: 50, y, size: 12, font });
+    y -= 20;
+  }
 
-  page.drawText(`Email: ${client_email}`, { x: 50, y, size: 12, font });
-  y -= 40;
+  if (client_email) {
+    page.drawText(`Email: ${client_email}`, { x: 50, y, size: 12, font });
+    y -= 40;
+  }
 
   // ** TABLA DE CONTENIDO **
   const columnX = [50, 250, 350, 450]; // Posiciones de las columnas

@@ -2,10 +2,9 @@ import Table from "@/app/ui/budgets/table";
 import ReducedStatus from "@/app/ui/budgets/reducedStatus";
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
-import { fetchBudgets } from "@/app/lib/data";
+import { fetchBudgets, getLogo } from "@/app/lib/data";
 import { Metadata } from "next";
 import { auth } from "@/auth";
-import { toast } from "@/hooks/use-toast";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
@@ -23,7 +22,7 @@ export default async function Page(props: {
   const session = await auth();
 
   const budgets = await fetchBudgets(Number(session?.user?.id));
-
+  const logo = await getLogo(Number(session?.user?.id));
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -32,7 +31,7 @@ export default async function Page(props: {
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8"></div>
       <Suspense fallback={<InvoicesTableSkeleton />}>
-        <Table budgets={budgets} />
+        <Table budgets={budgets} logo={logo} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center"></div>
     </div>

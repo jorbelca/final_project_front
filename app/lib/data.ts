@@ -249,3 +249,15 @@ export async function usersFull() {
     throw error; // Rethrow the error so it can be handled elsewhere
   }
 }
+
+export async function getLogo(userId: number) {
+  try {
+    const user = await sql<String>`
+      SELECT logo_url FROM users WHERE users.user_id = ${userId}
+    `;
+    return user.rows[0];
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw new Error("Failed to fetch user.");
+  }
+}

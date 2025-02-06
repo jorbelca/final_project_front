@@ -1,10 +1,4 @@
-import { Inter, Lato, Lusitana, Teko } from "next/font/google";
-
-export const inter = Inter({ subsets: ["latin"] });
-export const lusitana = Lusitana({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-});
+import { Lato, Teko } from "next/font/google";
 
 export const teko = Teko({
   weight: ["400", "700"],

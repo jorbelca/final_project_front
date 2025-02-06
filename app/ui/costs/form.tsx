@@ -1,5 +1,5 @@
 import { createCost, getCostById, updateCost } from "@/app/lib/actions";
-import { lusitana } from "@/app/ui/fonts";
+import { lato } from "@/app/ui/fonts";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
@@ -56,7 +56,7 @@ export default async function CostsForm(props: {
   return (
     <div className="w-full max-w-lg mx-auto mt-8 p-6 bg-gray-100 rounded-lg shadow-md dark:bg-gray-900">
       <h1
-        className={`${lusitana.className} text-2xl font-semibold text-gray-900 dark:text-white mb-4`}
+        className={`${lato.className} text-2xl font-semibold text-gray-900 dark:text-white mb-4`}
       >
         {cost?.cost_id ? "Update a Cost" : "Create a Cost"}
       </h1>

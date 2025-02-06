@@ -27,7 +27,7 @@ export const authConfig = {
       }
       return true;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       // Si el usuario se autentica por primera vez, agrega el ID
 
       if (user) {

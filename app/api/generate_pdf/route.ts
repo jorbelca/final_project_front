@@ -3,7 +3,6 @@ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 export async function POST(req: Request) {
   const { logo, budget } = await req.json();
-
   const { client_name, client_email, content, discount, taxes } = budget;
   // Crear un nuevo documento PDF
   const pdfDoc = await PDFDocument.create();
@@ -20,16 +19,19 @@ export async function POST(req: Request) {
       const response = await fetch(logo.logo_url);
       const contentType = response.headers.get("content-type"); // Detectar el tipo de imagen
       const logoBytes = await response.arrayBuffer();
-  
+
       let image;
       if (contentType?.includes("png")) {
         image = await pdfDoc.embedPng(logoBytes);
-      } else if (contentType?.includes("jpeg") || contentType?.includes("jpg")) {
+      } else if (
+        contentType?.includes("jpeg") ||
+        contentType?.includes("jpg")
+      ) {
         image = await pdfDoc.embedJpg(logoBytes);
       } else {
         throw new Error("Formato de imagen no soportado. Usa PNG o JPG.");
       }
-  
+
       const imgDims = image.scale(0.15);
       page.drawImage(image, {
         x: 30,
@@ -37,7 +39,7 @@ export async function POST(req: Request) {
         width: imgDims.width,
         height: imgDims.height,
       });
-  
+
       y -= imgDims.height + 20;
     } catch (error) {
       console.error("Error cargando el logo:", error);

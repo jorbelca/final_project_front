@@ -2,7 +2,6 @@
 import { sql } from "@vercel/postgres";
 import { Budget, Cost, Plan, Subscription, User } from "./definitions";
 import { hash } from "bcrypt";
-import { signOut } from "next-auth/react";
 
 // Función para obtener un presupuesto por ID
 export async function getBudgetById(budgetId: number): Promise<Budget | null> {
@@ -180,7 +179,7 @@ export async function deleteUser(
     await sql<User>`
       DELETE FROM users WHERE user_id = ${userId}
     `;
-    async () => await signOut();
+
     return { success: true, message: "User deleted successfully." };
   } catch (error) {
     console.error("Error deleting user:", error);

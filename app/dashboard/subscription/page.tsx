@@ -82,7 +82,7 @@ export default function SubscriptionModal({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="dark:border-zinc-500">
+        <Button variant="outline" className="dark:border-zinc-500 dark:bg-slate-500">
           See
         </Button>
       </DialogTrigger>

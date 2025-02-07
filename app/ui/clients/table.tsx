@@ -6,14 +6,14 @@ import { Button } from "../button";
 import Link from "next/link";
 import DeleteBtn from "./delete-btn";
 import { auth } from "@/auth";
-
+import { PlusIcon } from "lucide-react";
 
 export default async function ClientsTable() {
   const session = await auth();
   const clients = await fetchClients(Number(session?.user?.id));
 
   return (
-    <div className="w-full p-2 ">
+    <div className="w-full p-1 md:p-0 ">
       <div className="flex justify-between">
         <h1 className={`${lato.className} mb-8 text-xl md:text-2xl`}>
           Clients
@@ -24,14 +24,14 @@ export default async function ClientsTable() {
           rounded-lg px-4 text-sm font-medium text-white transition-colors 
            aria-disabled:cursor-not-allowed aria-disabled:opacity-50 cursor-pointer"
         >
-          Add Client
+          <PlusIcon className="h-5 w-5" />
         </Link>
       </div>
       {/* <Search placeholder="Search clients..." /> */}
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto ">
           <div className="inline-block min-w-full align-middle">
-            <div className="overflow-hidden rounded-md gray-50 dark:bg-gray-500 p-2 md:pt-0">
+            <div className="overflow-visible rounded-md gray-50 dark:bg-gray-500 p-0 md:pt-0">
               {/* Vista móvil */}
               <div className="md:hidden">
                 {clients?.map((client) => (
@@ -39,13 +39,13 @@ export default async function ClientsTable() {
                     key={client.client_id}
                     className="mb-2 w-full rounded-md bg-white dark:bg-slate-600 p-4"
                   >
-                    <div className="flex items-center justify-around gap-3 ">
+                    <div className="flex items-center justify-between gap-3 ">
                       {client.image_url ? (
                         <Image
                           src={client.image_url.trimEnd()}
                           alt={client.name}
-                          width={60}
-                          height={60}
+                          width={50}
+                          height={50}
                           className="rounded-full "
                         />
                       ) : (
@@ -57,7 +57,7 @@ export default async function ClientsTable() {
                           {client.email}
                         </p>
                       </div>
-                      <div className="flex flex-col px-2 py-2">
+                      <div className="flex gap-1 pr-10">
                         <Link
                           href={`/dashboard/clients/edit/${client.client_id}`}
                         >
@@ -74,19 +74,22 @@ export default async function ClientsTable() {
                 ))}
               </div>
               {/* Vista en web */}
-              <table className="border rounded-lg overflow-hidden hidden min-w-full text-gray-900 md:table">
-                <thead className="bg-gray-50 dark:bg-gray-500 dark:text-white  text-left text-sm font-medium">
+              <table className=" text-center border rounded-lg overflow-hidden hidden min-w-full text-gray-900 md:table">
+                <thead
+                  className="bg-gray-50 dark:bg-gray-500 dark:text-white  
+                text-left text-sm font-medium"
+                >
                   <tr>
                     <th scope="col" className="px-4 py-5 sm:pl-6">
                       Image
                     </th>
-                    <th scope="col" className="px-4 py-5">
+                    <th scope="col" className="px-4 py-5 text-center">
                       Name
                     </th>
-                    <th scope="col" className="px-4 py-5">
+                    <th scope="col" className="px-4 py-5 text-center">
                       Email
                     </th>
-                    <th scope="col" className="px-4 py-5">
+                    <th scope="col" className="px-4 py-5 text-center">
                       Actions
                     </th>
                   </tr>
@@ -116,7 +119,7 @@ export default async function ClientsTable() {
                       <td className="px-4 py-5 text-sm text-gray-500 dark:text-white">
                         {client.email}
                       </td>
-                      <td className="px-4 py-5 ">
+                      <td className="flex justify-center gap-2 py-5">
                         <Link
                           href={`/dashboard/clients/edit/${client.client_id}`}
                         >

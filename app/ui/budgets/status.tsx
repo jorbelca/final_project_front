@@ -16,7 +16,7 @@ export default function BudgetState({
   const [statusState, setStatusState] = useState(status);
   const statusConfig = {
     draft: {
-      bg: "bg-gray-100 text-gray-500",
+      bg: "bg-gray-100 text-gray-500 border",
       icon: <ClockIcon className="ml-1 w-4 text-gray-500" />,
       label: "Draft",
     },

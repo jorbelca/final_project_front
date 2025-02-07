@@ -288,7 +288,8 @@ export default function Form({
           href="/dashboard/budgets"
           className={clsx(
             `${teko.className}`,
-            "px-4 py-2 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-600 rounded-md text-lg font-medium"
+            "px-4 py-2 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-600 rounded-md",
+            "text-lg font-medium text-white"
           )}
         >
           Cancelar

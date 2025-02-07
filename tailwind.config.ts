@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        "custom-table": "820px", // Pantalla con resolución mínima de 1024px
+        "custom-table": "880px", // Pantalla con resolución mínima de 1024px
       },
       colors: {
         border: "hsl(var(--border))",

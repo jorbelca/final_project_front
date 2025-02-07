@@ -11,29 +11,30 @@ import { teko } from "./fonts";
 export default function SideNav() {
   return (
     <div
-      className="flex flex-col md:flex-row md:items-center md:justify-start
-     px-3 py-2 md:pr-8 md:py-4 bg-gray-100 dark:bg-gray-600
-      w-full fixed top-0 left-0 z-10"
+      className="top-0 left-0 min-w-[100vw] bg-gray-100 dark:bg-gray-600 z-10 
+    md:relative md:flex md:items-center md:justify-center px-3 py-2 md:py-4"
     >
-      <div className="fixed top-0 right-0 p-2 md:p-2 z-20">
-        <DarkMode></DarkMode>
-      </div>
       {/* Logo */}
-      <Link
-        href="/dashboard/budgets"
-        className="flex items-center justify-center md:justify-start"
-      >
-        <div className="w-32 text-black">
-          <BudgetAppLogo />
-        </div>
-      </Link>{" "}
-      {/* Enlaces de navegación */}
+      <div className="flex justify-center md:pr-10 w-full md:w-auto">
+        <Link href="/dashboard/budgets">
+          <div className="w-32 text-black">
+            <BudgetAppLogo />
+          </div>
+        </Link>
+      </div>
+
+      {/* Botón de Dark Mode en la esquina derecha */}
+      <div className="absolute right-3 top-2  md:ml-auto">
+        <DarkMode />
+      </div>
+
+      {/* Enlaces de navegación (fijos abajo en móvil, en medio en escritorio) */}
       <div
-        className="fixed bottom-0 bg-gray-100 dark:bg-black left-0 pr-1 md:pl-20 md:bg-transparent
-         md:dark:bg-transparent
-      md:bottom-auto flex flex-row justify-center w-full md:w1/2 md:overflow-hidden space-x-1 md:space-x-2"
+        className="fixed bottom-0 left-0 w-full
+       bg-gray-100 dark:bg-black p-3 flex justify-center md:relative md:w-auto md:bg-transparent gap-2"
       >
         <NavLinks />
+
         {/* Botón Sign Out */}
         <form
           action={async () => {
@@ -41,14 +42,9 @@ export default function SideNav() {
             await signOut();
           }}
         >
-          <Button
-            className={clsx(`${teko.className}flex flex-col-reverse w-20 
-              items-center gap-1 rounded-sm dark:bg-red-500
-             dark:hover:bg-red-600 dark:hover:text-white
-       bg-red-500 px-4 py-6 text-sm font-medium hover:bg-red-600  hover:text-zinc-600`)}
-          >
+          <Button className="flex flex-col-reverse w-20 items-center gap-1 rounded-sm dark:bg-red-500 dark:hover:bg-red-600 dark:hover:text-white bg-red-500 px-4 py-6 text-sm font-medium hover:bg-red-600 hover:text-zinc-600">
             <PowerIcon className="w-6" />
-            <span className={`${teko.className} text-ml`}>Sign Out</span>
+            <span className="text-md teko-antialised">Sign Out</span>
           </Button>
         </form>
       </div>

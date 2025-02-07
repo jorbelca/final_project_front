@@ -25,7 +25,7 @@ BudgetApp es una aplicación para generar presupuestos profesionales . Los usuar
 
 ### Otras
 
-https://pdfme.com/docs/getting-started
+- pdf-lib
 
 ## Estructura de Base de Datos
 
@@ -47,4 +47,3 @@ https://pdfme.com/docs/getting-started
 - Gestión de Presupuestos
 - Perfil de Usuario
 
-#F0FFF1 #C2F8CB #B3E9C7 #8367C7 #5603AD

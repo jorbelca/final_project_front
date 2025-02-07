@@ -14,7 +14,7 @@ export default function BudgetsTable({
   logo: String;
 }) {
   return (
-    <div className="mt-6 flow-root">
+    <div className="flow-root mb-10 ">
       <div className="inline-block min-w-full align-middle ">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0 dark:bg-slate-600">
           <div className="custom-table:hidden ">
@@ -28,7 +28,7 @@ export default function BudgetsTable({
                     <div className="mb-2 flex items-center">
                       <p className="text-sm font-medium">{budget.budget_id}.</p>
                       &nbsp; <b>Client : </b>
-                      {budget.client_id != null ? budget.client_name : "  ❌"}
+                      {budget.client_id != null ? budget.client_name : ""}
                     </div>
                   </div>
                   <BudgetState status={budget.state} id={budget.budget_id} />
@@ -126,7 +126,7 @@ export default function BudgetsTable({
                   <td className="px-6 py-4">{budget.discount}%</td>
                   <td className="px-6 py-4">{budget.taxes}%</td>
                   <td className="px-6 py-4">
-                    {budget.client_id != null ? budget.client_name : ` ❌`}
+                    {budget.client_id != null ? budget.client_name : ``}
                   </td>
                   <td className="px-3 py-4">
                     {budget.created_at

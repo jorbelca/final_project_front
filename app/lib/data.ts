@@ -36,6 +36,7 @@ export async function fetchBudgets(userId: number): Promise<Budget[]> {
       FROM budgets
       LEFT JOIN clients ON clients.client_id = budgets.client_id
       WHERE budgets.user_id = ${userId}
+      ORDER BY budgets.created_at DESC
     `;
     return result.rows;
   } catch (error) {

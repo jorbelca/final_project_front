@@ -31,7 +31,7 @@ export default function SideNav() {
       {/* Enlaces de navegación (fijos abajo en móvil, en medio en escritorio) */}
       <div
         className="fixed bottom-0 left-0 w-full
-       bg-gray-100 dark:bg-black p-3 flex justify-center md:relative md:w-auto md:bg-transparent gap-2"
+       bg-gray-100 dark:bg-black p-2 flex justify-center md:relative md:w-auto md:bg-transparent gap-1"
       >
         <NavLinks />
 
@@ -44,7 +44,9 @@ export default function SideNav() {
         >
           <Button className="flex flex-col-reverse w-20 items-center gap-1 rounded-sm dark:bg-red-500 dark:hover:bg-red-600 dark:hover:text-white bg-red-500 px-4 py-6 text-sm font-medium hover:bg-red-600 hover:text-zinc-600">
             <PowerIcon className="w-6" />
-            <span className="text-md teko-antialised">Sign Out</span>
+            <span className={`text-md ${teko.className} antialiased`}>
+              Sign Out
+            </span>
           </Button>
         </form>
       </div>

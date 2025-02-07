@@ -6,6 +6,7 @@ import { fetchBudgets, getLogo } from "@/app/lib/data";
 import { Metadata } from "next";
 import { auth } from "@/auth";
 import { FilterByClient } from "@/app/ui/budgets/filter_client";
+import Pagination from "@/app/ui/budgets/pagination";
 
 export const metadata: Metadata = {
   title: "Budgets",
@@ -21,7 +22,10 @@ export default async function Page({
   const budgets = await fetchBudgets(Number(session?.user?.id));
   const logo = await getLogo(Number(session?.user?.id));
 
-  const { client } = await searchParams;
+  const { client, page } = await searchParams;
+  const currentPage = Number(page) || 1;
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(budgets.length / itemsPerPage);
 
   // Obtener clientes únicos
   const clients = Array.from(new Set(budgets.map((b) => b.client_name)));
@@ -31,6 +35,12 @@ export default async function Page({
     client && client !== "null"
       ? budgets.filter((b) => b.client_name === client)
       : budgets;
+
+  // Aplicar paginación (cortar el array)
+  const paginatedBudgets = filteredBudgets.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="w-full">
@@ -42,8 +52,11 @@ export default async function Page({
       <FilterByClient client={client} clients={clients} />
       <div className="mt-2 flex items-center justify-between gap-2 "></div>
       <Suspense fallback={<InvoicesTableSkeleton />}>
-        <Table budgets={filteredBudgets} logo={logo} />
+        <Table budgets={paginatedBudgets} logo={logo} />
       </Suspense>
+      <div className="mt-5 flex w-full justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
     </div>
   );
 }

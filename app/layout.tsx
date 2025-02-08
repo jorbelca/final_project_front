@@ -146,7 +146,7 @@ export default async function RootLayout({
 }) {
   const session = await auth();
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className={`${lato.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <SessionProvider session={session}>
@@ -157,3 +157,5 @@ export default async function RootLayout({
     </html>
   );
 }
+
+//bug hydration = https://github.com/shadcn-ui/ui/issues/5552

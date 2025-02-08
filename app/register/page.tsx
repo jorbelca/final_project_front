@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function RegisterPage() {
   return (
     <>
-      <main className="flex items-center justify-center h-screen bg-slate-200 pb-40 dark:bg-gray-800">
+      <main className="flex items-center justify-center min-h-screen bg-slate-200 pb-40 dark:bg-gray-800">
         <div className="fixed top-0 right-0 p-4 md:p-6">
           <DarkMode></DarkMode>
         </div>

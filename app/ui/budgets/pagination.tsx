@@ -18,26 +18,32 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   };
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex space-x-2 pb-3">
       <button
         onClick={() => createPageURL(currentPage - 1)}
         disabled={currentPage === 1}
         className={clsx(
           "px-3 py-1 border rounded",
-          currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"
+          currentPage === 1
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-gray-200"
         )}
       >
         <ArrowLeftIcon className="w-5 h-5" />
       </button>
 
-      <span className="px-3 py-1 border rounded">{currentPage} / {totalPages}</span>
+      <span className="px-3 py-1 border rounded">
+        {currentPage} / {totalPages}
+      </span>
 
       <button
         onClick={() => createPageURL(currentPage + 1)}
         disabled={currentPage === totalPages}
         className={clsx(
           "px-3 py-1 border rounded",
-          currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"
+          currentPage === totalPages
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-gray-200"
         )}
       >
         <ArrowRightIcon className="w-5 h-5" />

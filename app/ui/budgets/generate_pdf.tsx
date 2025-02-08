@@ -15,11 +15,14 @@ export default function GeneratePDF({
       body: JSON.stringify({ budget, logo }),
     });
 
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
+    const { pdf } = await response.json();
 
-    // Abrir el PDF en una nueva pestaña
-    window.open(url, "_blank");
+    const pdfBlob = new Blob([Uint8Array.from(atob(pdf), c => c.charCodeAt(0))], {
+      type: "application/pdf",
+    });
+  
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    window.open(pdfUrl, "_blank"); // Intenta abrirlo en una nueva pestaña
   };
 
   return (

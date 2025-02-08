@@ -62,3 +62,31 @@ export default function HeroImage() {
     </div>
   );
 }
+
+
+
+// <!-- Main Content -->
+// <main class="relative mt-10 mx-auto w-[500px]">
+//     <h2
+//         class="text-3xl font-semibold text-gray-800 dark:text-gray-200 text-center"
+//     >
+//         Simplify your budgets
+//     </h2>
+//     <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
+//         Create, manage, and send professional budgets with ease.
+//     </p>
+
+//     <div class="relative mt-10 flex justify-center">
+//         <img
+//             src="/capturas/app.png"
+//             alt="Example App"
+//             class="rounded-lg shadow-2xl border border-gray-300 dark:border-gray-700 max-w-[500px] max-h-[400px]"
+//         />
+//         <!-- Imagen superpuesta (Budget) -->
+//         <img
+//             src="/capturas/budget.png"
+//             alt="Example Budget"
+//             class="absolute top-10 -right-10 rounded-lg shadow-xl border border-gray-300 dark:border-gray-700 max-w-[500px] max-h-[400px]"
+//         />
+//     </div>
+// </main>

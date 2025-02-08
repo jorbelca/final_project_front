@@ -25,7 +25,6 @@ export default async function Page({
   const { client, page } = await searchParams;
   const currentPage = Number(page) || 1;
   const itemsPerPage = 3;
-  const totalPages = Math.ceil(budgets.length / itemsPerPage);
 
   // Obtener clientes únicos
   const clients = Array.from(new Set(budgets.map((b) => b.client_name)));
@@ -35,6 +34,8 @@ export default async function Page({
     client && client !== "null"
       ? budgets.filter((b) => b.client_name === client)
       : budgets;
+
+  const totalPages = Math.ceil(filteredBudgets.length / itemsPerPage);
 
   // Aplicar paginación (cortar el array)
   const paginatedBudgets = filteredBudgets.slice(

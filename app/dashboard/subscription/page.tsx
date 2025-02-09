@@ -28,7 +28,9 @@ export default function SubscriptionModal({
   plans,
 }: SubscriptionModalProps) {
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [newPlanId, setNewPlanId] = useState<number>(subscription?.plan_id);
+  const [newPlanId, setNewPlanId] = useState<number>(
+    subscription?.plan_id || 1
+  );
   const [newPaymentNumber, setNewPaymentNumber] = useState<string>(
     subscription?.payment_number
   );
@@ -82,7 +84,10 @@ export default function SubscriptionModal({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="dark:border-zinc-500 dark:bg-slate-500">
+        <Button
+          variant="outline"
+          className="dark:border-zinc-500 dark:bg-slate-500"
+        >
           See
         </Button>
       </DialogTrigger>
@@ -143,7 +148,7 @@ export default function SubscriptionModal({
                   <div className="mt-2 space-y-4">
                     <Label>Plans : </Label>
                     <select
-                      value={newPlanId}
+                      value={newPlanId || 1}
                       onChange={(e) => setNewPlanId(Number(e.target.value))}
                       className="flex-grow border rounded-lg p-1"
                     >

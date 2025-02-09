@@ -2,6 +2,7 @@
 
 import { updateBudgetState } from "@/app/lib/actions";
 import { Budget } from "@/app/lib/definitions";
+import { toast } from "@/hooks/use-toast";
 import { CheckIcon, ClockIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { useState } from "react";
@@ -55,10 +56,12 @@ export default function BudgetState({
       setStatusState("draft");
     }
     if (result.success) {
-      // console.log(result.message);
     } else {
-      alert("An error occurred. Please try again.");
-      //console.log(result.message);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Error .",
+      });
     }
   };
 
@@ -75,5 +78,3 @@ export default function BudgetState({
     </button>
   );
 }
-
-

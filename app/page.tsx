@@ -10,7 +10,7 @@ import HeroImage from "./ui/heroImage";
 export default function Page() {
   return (
     <>
-      <main className="flex min-h-screen flex-col ">
+      <main className="flex min-h-screen flex-col relative ">
         <div className="fixed top-0 right-0 p-4 md:p-6">
           <DarkMode></DarkMode>
         </div>
@@ -39,18 +39,19 @@ export default function Page() {
             </Link>
           </div>
         </div>
-        <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-          <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 dark:bg-blue-800 px-6 py-10 md:w-2/5 md:px-10">
-            <p
-              className={`${teko.className}text-xl text-gray-800 dark:text-gray-100 md:text-3xl md:leading-normal`}
+        <div className="mt-4 flex flex-col flex-grow  gap-4 sm:pb-52">
+          <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 dark:bg-blue-800 px-6 py-10 mx-10 ">
+            <div
+              className={`${teko.className}text-xl text-gray-800 dark:text-gray-100 md:text-xl md:leading-normal text-center`}
             >
-              <strong>Welcome to BudgetApp.</strong> An app to create budgets
-            </p>
+              <strong>Welcome to BudgetApp.</strong>
+              <p>Simplify your budget managment</p>
+            </div>
           </div>
           <HeroImage />
         </div>
+        <Footer />{" "}
       </main>
-      <Footer />
     </>
   );
 }

@@ -38,7 +38,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
         }
 
-        console.log("Invalid credentials");
+        console.error("Invalid credentials");
 
         return null;
       },

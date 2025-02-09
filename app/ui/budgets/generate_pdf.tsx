@@ -17,12 +17,15 @@ export default function GeneratePDF({
 
     const { pdf } = await response.json();
 
-    const pdfBlob = new Blob([Uint8Array.from(atob(pdf), c => c.charCodeAt(0))], {
-      type: "application/pdf",
-    });
-  
+    const pdfBlob = new Blob(
+      [Uint8Array.from(atob(pdf), (c) => c.charCodeAt(0))],
+      {
+        type: "application/pdf",
+      }
+    );
+
     const pdfUrl = URL.createObjectURL(pdfBlob);
-    window.open(pdfUrl, "_blank"); // Intenta abrirlo en una nueva pestaña
+    window.open(pdfUrl, "_blank"); // Lo abre en una nueva pestaña
   };
 
   return (

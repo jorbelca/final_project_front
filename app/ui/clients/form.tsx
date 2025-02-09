@@ -1,61 +1,95 @@
-
-import { createClient, getClientById, updateClient } from "@/app/lib/actions";
+"use client";
+import {
+  checkClientEmail,
+  claimClient,
+  createClient,
+  updateClient,
+} from "@/app/lib/actions";
 import { Client } from "@/app/lib/definitions";
-import { auth } from "@/auth";
 import { toast } from "@/hooks/use-toast";
-
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const metadata = {
   title: "Clients",
 };
 
-export default async function ClientsForm(props: {
-  params?: Promise<{ id?: string }>;
+export default function ClientsForm({
+  client,
+  user_id,
+}: {
+  client?: Client | null;
+  user_id?: number;
 }) {
-  const params = (await props.params) || null;
-  const id = params?.id || null;
+  const router = useRouter();
+  async function handleEmailBlur(event: React.FocusEvent<HTMLInputElement>) {
+    const email = event.target.value.trim();
+    if (!email || client) return;
 
-  let client: Client | null = null;
-  if (id) {
-    client = await getClientById(Number(id));
+    const result = await checkClientEmail(email);
+
+    if (result.exists) {
+      const confirmClaim = confirm(
+        "This client exists in our DB. You want to associate with it?"
+      );
+      if (confirmClaim) {
+        try {
+          const response = await claimClient(
+            Number(result.client_id),
+            Number(user_id)
+          );
+
+          if (response.success) {
+            toast({
+              title: "Success",
+              description: "Client has been saved successfully",
+            });
+            router.push("/dashboard/clients");
+          } else if (response.error) {
+            console.error(response.error);
+            toast({
+              title: "Error",
+              description: "An error occurred while saving the client",
+              variant: "destructive",
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          toast({
+            title: "Error",
+            description: "An error occurred while saving the client",
+            variant: "destructive",
+          });
+        }
+      }
+    }
   }
 
   const handleSubmit = async (formData: FormData) => {
-    'use server'
+    const client_id = formData.get("client_id") as string;
+    const user_id = formData.get("user_id") as string;
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const image_url = (formData.get("image_url") as string) ?? "";
+
     let result: { success: boolean; message: string } | null = null;
 
-    const session = await auth();
-
     if (client?.client_id) {
-      result = await updateClient(
-        Number(client?.client_id),
-        name,
-        email,
-        image_url
-      );
+      result = await updateClient(Number(client_id), name, email, image_url);
     } else {
-      result = await createClient(
-        Number(session?.user?.id),
-        name,
-        email,
-        image_url
-      );
+      result = await createClient(Number(user_id), name, email, image_url);
     }
     if (result.success) {
-      // toast({
-      //   title: "Success",
-      //   description: "Client has been saved successfully",
-      // });
-      redirect("/dashboard/clients");
+      toast({
+        title: "Success",
+        description: "Client has been saved successfully",
+      });
+      router.push("/dashboard/clients");
     } else {
-      // toast({
-      //   title: "Error",
-      //   description: "An error occurred while saving the client",
-      // });
+      toast({
+        title: "Error",
+        description: "An error occurred while saving the client",
+        variant: "destructive",
+      });
       console.error(result.message);
     }
   };
@@ -66,26 +100,10 @@ export default async function ClientsForm(props: {
         {client?.client_id ? "Edit Client" : "Create New Client"}
       </h1>
       <form action={handleSubmit} className="space-y-4">
-        <input type="hidden" name="client_id" value={client?.client_id} />
-
-        {/* Name Field */}
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-          >
-            Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            name="name"
-            placeholder="Enter client name"
-            defaultValue={client?.name}
-            className="mt-1 w-full rounded-lg border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-            required
-          />
-        </div>
+        {client && (
+          <input type="hidden" name="client_id" value={client?.client_id} />
+        )}
+        {user_id && <input type="hidden" name="user_id" value={user_id} />}
 
         {/* Email Field */}
         <div>
@@ -101,6 +119,26 @@ export default async function ClientsForm(props: {
             name="email"
             placeholder="Enter client email"
             defaultValue={client?.email}
+            onBlur={handleEmailBlur}
+            className="mt-1 w-full rounded-lg border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            required
+          />
+        </div>
+
+        {/* Name Field */}
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            placeholder="Enter client name"
+            defaultValue={client?.name}
             className="mt-1 w-full rounded-lg border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             required
           />

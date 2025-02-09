@@ -307,13 +307,42 @@ export async function updateClient(
 }
 
 export async function deleteClient(
-  clientId: number
+  clientId: number,
+  userId: number
 ): Promise<{ success: boolean; message: string }> {
   try {
-    await sql`DELETE FROM clients WHERE client_id = ${clientId}`;
-    return { success: true, message: "Cliente eliminado exitosamente" };
+    // 1️⃣ Eliminar la relación del usuario con el cliente en `user_client`
+    await sql`
+      DELETE FROM user_client 
+      WHERE client_id = ${clientId} AND user_id = ${userId}
+    `;
+
+    // 2️⃣ Verificar si el cliente sigue teniendo más relaciones
+    const { rows } = await sql`
+      SELECT COUNT(*) AS count 
+      FROM user_client 
+      WHERE client_id = ${clientId}
+    `;
+    const count = rows[0]?.count;
+
+    // 3️⃣ Si no tiene más relaciones, eliminarlo de `clients`
+    if (+count === 0) {
+      await sql`
+        DELETE FROM clients 
+        WHERE client_id = ${clientId}
+      `;
+      return { success: true, message: "Cliente eliminado completamente" };
+    }
+
+    return {
+      success: true,
+      message: "Relación eliminada, pero el cliente sigue existiendo",
+    };
   } catch (error) {
-    return { success: false, message: "Error al eliminar el cliente" };
+    return {
+      success: false,
+      message: "Error al eliminar la relación del cliente",
+    };
   }
 }
 
@@ -324,6 +353,44 @@ export async function updateBudgetState(
   try {
     await sql`UPDATE budgets SET state = ${state} WHERE budget_id = ${budgetId}`;
     return { success: true, message: "Estado del presupuesto actualizado" };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Error al actualizar el estado del presupuesto",
+    };
+  }
+}
+
+// Verifica si el email ya existe y devuelve el ID si lo encuentra
+export async function checkClientEmail(email: string) {
+  if (!email) return { error: "El email es requerido" };
+  try {
+    const client = await sql<Client>`
+    SELECT client_id FROM clients WHERE email = ${email} LIMIT 1;
+  `;
+
+    if (client.rowCount === 0) return { exists: false };
+
+    return { exists: true, client_id: client.rows[0].client_id };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Error ",
+    };
+  }
+}
+
+// Asigna un cliente existente al usuario
+export async function claimClient(client_id: number, user_id: number) {
+  if (!user_id) return { error: "No autorizado" };
+  try {
+    // Relación en la tabla intermedia
+    await sql`
+    INSERT INTO user_client (user_id, client_id) VALUES (${user_id}, ${client_id})
+    ON CONFLICT DO NOTHING;
+  `;
+
+    return { success: true, message: "Insertado" };
   } catch (error) {
     return {
       success: false,

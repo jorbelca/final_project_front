@@ -167,12 +167,6 @@ export async function POST(req: Request) {
   // Guardar PDF
   const pdfBytes = await pdfDoc.save();
 
-  // return new NextResponse(pdfBytes, {
-  //   headers: {
-  //     "Content-Type": "application/pdf",
-  //     "Content-Disposition": "inline; filename=budget.pdf",
-  //   },
-  // });
   const base64Pdf = Buffer.from(pdfBytes).toString("base64");
 
   return NextResponse.json({ pdf: base64Pdf });

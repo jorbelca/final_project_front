@@ -5,7 +5,7 @@ import { signOut } from "@/auth";
 import BudgetAppLogo from "./bapp-logo";
 import { DarkMode } from "./darkMode";
 import { Button } from "@/components/ui/button";
-import clsx from "clsx";
+
 import { teko } from "./fonts";
 
 export default function SideNav() {
@@ -31,7 +31,8 @@ export default function SideNav() {
       {/* Enlaces de navegación (fijos abajo en móvil, en medio en escritorio) */}
       <div
         className="fixed bottom-0 left-0 w-full
-       bg-gray-100 dark:bg-black p-2 flex justify-center md:relative md:w-auto md:bg-transparent gap-1"
+       bg-gray-100 dark:bg-black 
+       p-2 flex justify-center md:relative md:w-auto md:bg-transparent dark:md:bg-transparent gap-1"
       >
         <NavLinks />
 

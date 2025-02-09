@@ -7,7 +7,7 @@ import { Button } from "@/app/ui/button";
 import { createBudget } from "@/app/lib/actions";
 import { useState } from "react";
 
-import { redirect, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import { CircleDollarSignIcon } from "lucide-react";
@@ -25,16 +25,15 @@ export default function BudgetForm({
 
   user_id: number;
 }) {
+  const router = useRouter();
   if (user_id === 0) {
     toast({
       variant: "destructive",
       title: "Error",
       description: "Problem with authentication",
     });
-    redirect("/dashboard/budgets");
+    router.push("/dashboard/budgets");
   }
-
-  const router = useRouter();
 
   const [costsList, setCostsList] = useState<
     { quantity: number; description: string; cost: number }[]

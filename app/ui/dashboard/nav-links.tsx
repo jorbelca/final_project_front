@@ -48,7 +48,8 @@ export default function NavLinks() {
 
         const linkClasses = clsx(
           `${teko.className} antialiased font-bold text-lg dark:text-white `,
-          "flex h-[48px] grow items-center justify-center gap-1 rounded-sm p-2 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3",
+          "flex h-[48px] grow items-center justify-center gap-1",
+          "rounded-sm p-2 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3",
           {
             "dark:bg-blue-400 dark:hover:bg-blue-600 bg-green-100 hover:bg-green-200 hover:text-black-900 text-gray-900":
               !isActive,

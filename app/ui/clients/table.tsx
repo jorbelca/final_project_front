@@ -1,17 +1,13 @@
 import { lato } from "@/app/ui/fonts";
-import { fetchClients } from "@/app/lib/actions";
 import { PencilIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { Button } from "../button";
 import Link from "next/link";
 import DeleteBtn from "./delete-btn";
-import { auth } from "@/auth";
+
 import { PlusIcon } from "lucide-react";
 
-export default async function ClientsTable() {
-  const session = await auth();
-  const clients = await fetchClients(Number(session?.user?.id));
-
+export default async function ClientsTable({ clients, user_id }) {
   return (
     <div className="w-full p-1 md:p-0 ">
       <div className="flex justify-between">
@@ -67,7 +63,10 @@ export default async function ClientsTable() {
                         </Link>
                         <br />
 
-                        <DeleteBtn clientId={Number(client.client_id)} />
+                        <DeleteBtn
+                          clientId={Number(client.client_id)}
+                          user_id={user_id}
+                        />
                       </div>
                     </div>
                   </div>
@@ -128,7 +127,10 @@ export default async function ClientsTable() {
                           </Button>
                         </Link>
                         <br />
-                        <DeleteBtn clientId={Number(client.client_id)} />
+                        <DeleteBtn
+                          clientId={Number(client.client_id)}
+                          user_id={user_id}
+                        />
                       </td>
                     </tr>
                   ))}

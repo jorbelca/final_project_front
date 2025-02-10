@@ -64,7 +64,7 @@ export default async function Page({
       <div className="mt-5 flex w-full justify-center">
         <Link
           href={`?page=${currentPage + 1}`}
-          className={`px-4 py-2 bg-blue-600 text-white rounded ${
+          className={`px-4 mb-4 py-1 sm:py-2 bg-blue-600 text-white rounded ${
             allLoaded ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >

@@ -18,7 +18,11 @@ export async function getBudgetById(budgetId: number): Promise<Budget | null> {
 }
 
 // Función para obtener un presupuesto por ID
-export async function fetchBudgets(userId: number): Promise<Budget[]> {
+export async function fetchBudgets(
+  userId: number,
+  page: number = 1
+): Promise<Budget[]> {
+  const offset = (page - 1) * 3;
   try {
     const result = await sql<Budget>`
       SELECT 
@@ -37,11 +41,27 @@ export async function fetchBudgets(userId: number): Promise<Budget[]> {
       LEFT JOIN clients ON clients.client_id = budgets.client_id
       WHERE budgets.user_id = ${userId}
       ORDER BY budgets.created_at DESC
+      LIMIT 3 OFFSET ${offset} 
     `;
     return result.rows;
   } catch (error) {
     console.error("Error fetching budgets:", error);
     throw new Error("Failed to fetch budgets.");
+  }
+}
+
+export async function getTotalBudgets(userId: number): Promise<number> {
+  try {
+    const result = await sql<{ count: number }>`
+      SELECT COUNT(*) AS count 
+      FROM budgets
+      WHERE user_id = ${userId}
+    `;
+
+    return result.rows[0]?.count || 0; // Retorna el número total de presupuestos
+  } catch (error) {
+    console.error("Error fetching budget count:", error);
+    throw new Error("Failed to fetch budget count.");
   }
 }
 

@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
@@ -150,7 +151,9 @@ export default async function RootLayout({
       <body className={`${lato.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <SessionProvider session={session}>
-            {children} <Toaster />
+            {children}
+            <SpeedInsights />
+            <Toaster />
           </SessionProvider>
         </ThemeProvider>
       </body>

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | BudgetApp ",
     default: " BudgetApp",
   },
-  description: "Aplicación de creación de presupuestos",
+  description: "App for Budget managment",
   manifest: "app/manifest.ts",
 
   formatDetection: {
@@ -147,7 +147,7 @@ export default async function RootLayout({
 }) {
   const session = await auth();
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={`${lato.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <SessionProvider session={session}>

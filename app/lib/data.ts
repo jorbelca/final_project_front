@@ -215,8 +215,6 @@ export async function updateSubscription(
   plan_id: number
 ): Promise<{ success: boolean; message: string }> {
   try {
-    console.log(subscriptionId, paymentNumber, plan_id);
-
     await sql<Subscription>`
       UPDATE subscriptions
       SET payment_number = ${paymentNumber},

@@ -2,9 +2,9 @@
 import { sql } from "@vercel/postgres";
 import { signIn } from "@/auth";
 
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { Budget, Client, Cost, User } from "./definitions";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 
 export async function authenticate(

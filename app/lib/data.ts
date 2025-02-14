@@ -1,7 +1,7 @@
 "use server";
 import { sql } from "@vercel/postgres";
 import { Budget, Cost, Plan, Subscription, User } from "./definitions";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 
 // Función para obtener un presupuesto por ID
 export async function getBudgetById(budgetId: number): Promise<Budget | null> {

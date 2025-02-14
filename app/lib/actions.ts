@@ -175,6 +175,43 @@ export async function createCost(
   }
 }
 
+export async function insertMultipleCosts(
+  userId: number,
+  values: {
+    description: string;
+    cost: number;
+    unit: string;
+    periodicity: string;
+  }[]
+): Promise<{ success: boolean; message: string }> {
+  try {
+    if (values.length === 0) {
+      return { success: false, message: "No hay datos para insertar." };
+    }
+
+    // Convertimos los datos a un array de objetos con `user_id`
+    const data = values.map((row) => ({
+      user_id: userId,
+      description: row.description,
+      cost: row.cost,
+      unit: row.unit,
+      periodicity: row.periodicity,
+    }));
+
+    await sql.query(
+      `INSERT INTO costs (user_id, description, cost, unit, periodicity)
+       SELECT user_id, description, cost, unit, periodicity
+       FROM json_populate_recordset(NULL::costs, $1)`,
+      [JSON.stringify(data)]
+    );
+
+    return { success: true, message: "Costos insertados exitosamente" };
+  } catch (error) {
+    console.error(error);
+
+    return { success: false, message: error };
+  }
+}
 export async function deleteCost(
   costId: number
 ): Promise<{ success: boolean; message: string }> {

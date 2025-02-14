@@ -29,6 +29,14 @@ export default async function Page() {
             <PlusIcon className="h-5 w-5" />
           </Button>
         </Link>
+        <Link href="/dashboard/costs/file">
+          <Button
+            color="green"
+            className="bg-green-400 hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500"
+          >
+            Files
+          </Button>
+        </Link>
       </div>
 
       <Suspense fallback={<InvoicesTableSkeleton />}>

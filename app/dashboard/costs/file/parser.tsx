@@ -89,28 +89,36 @@ export default function Parser({ userId }: { userId: number }) {
   };
 
   return (
-    <>
-      <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
+    <div className="p-6 max-w-4xl mx-auto bg-white dark:bg-gray-700 shadow-lg rounded-lg transition-colors border dark:border-gray-400">
+      {/* Input de carga de archivo */}
+      <label className="block mb-4">
+        <span className="text-gray-700 dark:text-gray-300 font-medium">
+          Upload CSV file
+        </span>
         <input
           type="file"
           onChange={handleFileUpload}
           accept=".csv"
-          className="mb-4 border p-2 rounded w-full"
+          className="mt-2 block w-full border border-gray-300 dark:border-gray-700 rounded-lg p-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:ring focus:ring-blue-500"
         />
+      </label>
 
-        {tableData.length > 0 && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              submitForm();
-            }}
-          >
-            <input type="hidden" name="user_id" value={+userId} />
-            <table className="w-full border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200">
+      {tableData.length > 0 && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            submitForm();
+          }}
+        >
+          <input type="hidden" name="user_id" value={+userId} />
+
+          {/* Tabla con estilos mejorados */}
+          <div className="overflow-x-auto rounded-lg border border-gray-300 dark:border-gray-700">
+            <table className="w-full border-collapse min-w-[600px]">
+              <thead className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
+                <tr>
                   {headers.map((header) => (
-                    <th key={header} className="border p-2 text-left">
+                    <th key={header} className="border p-3  text-center">
                       {header}
                     </th>
                   ))}
@@ -118,7 +126,10 @@ export default function Parser({ userId }: { userId: number }) {
               </thead>
               <tbody>
                 {tableData.map((row, rowIndex) => (
-                  <tr key={rowIndex} className="odd:bg-gray-50 even:bg-white">
+                  <tr
+                    key={rowIndex}
+                    className="odd:bg-gray-50 even:bg-white dark:odd:bg-gray-800 dark:even:bg-gray-900"
+                  >
                     <td className="border p-2">
                       <input
                         type="text"
@@ -128,7 +139,7 @@ export default function Parser({ userId }: { userId: number }) {
                           newData[rowIndex].description = e.target.value;
                           setTableData(newData);
                         }}
-                        className="border rounded p-1 w-full"
+                        className="border rounded-lg p-2 w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 text-sm sm:text-base"
                       />
                     </td>
                     <td className="border p-2">
@@ -141,7 +152,7 @@ export default function Parser({ userId }: { userId: number }) {
                           newData[rowIndex].cost = +e.target.value;
                           setTableData(newData);
                         }}
-                        className="border rounded p-1 w-full"
+                        className="border rounded-lg p-2 w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 text-sm sm:text-base"
                       />
                     </td>
                     <td className="border p-2">
@@ -153,7 +164,7 @@ export default function Parser({ userId }: { userId: number }) {
                           newData[rowIndex].unit = e.target.value;
                           setTableData(newData);
                         }}
-                        className="border rounded p-1 w-full"
+                        className="border rounded-lg p-2 w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 text-sm sm:text-base"
                       />
                     </td>
                     <td className="border p-2">
@@ -164,7 +175,7 @@ export default function Parser({ userId }: { userId: number }) {
                           newData[rowIndex].periodicity = e.target.value;
                           setTableData(newData);
                         }}
-                        className="border rounded p-1 w-full"
+                        className="border rounded-lg p-2 w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 text-sm sm:text-base"
                       >
                         {validPeriodicities.map((option) => (
                           <option key={option} value={option}>
@@ -177,15 +188,17 @@ export default function Parser({ userId }: { userId: number }) {
                 ))}
               </tbody>
             </table>
-            <button
-              type="submit"
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-            >
-              Guardar
-            </button>
-          </form>
-        )}
-      </div>
-    </>
+          </div>
+
+          {/* Botón de Guardar */}
+          <button
+            type="submit"
+            className="mt-4 px-4 sm:px-6 py-2 sm:py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring focus:ring-green-500"
+          >
+            Save
+          </button>
+        </form>
+      )}
+    </div>
   );
 }

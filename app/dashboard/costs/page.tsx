@@ -21,22 +21,24 @@ export default async function Page() {
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lato.className} text-2xl`}>Costs</h1>
-        <Link href="/dashboard/costs/create">
-          <Button
-            color="blue"
-            className="bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-500"
-          >
-            <PlusIcon className="h-5 w-5" />
-          </Button>
-        </Link>
-        <Link href="/dashboard/costs/file">
-          <Button
-            color="green"
-            className="bg-green-400 hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500"
-          >
-            Files
-          </Button>
-        </Link>
+        <div className="flex gap-5">
+          <Link href="/dashboard/costs/create">
+            <Button
+              color="blue"
+              className="bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-500"
+            >
+              <PlusIcon className="h-5 w-5" />
+            </Button>
+          </Link>
+          <Link href="/dashboard/costs/file">
+            <Button
+              color="green"
+              className="bg-green-400 hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500"
+            >
+              Files <small className="font-light italic">(beta)</small>
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Suspense fallback={<InvoicesTableSkeleton />}>

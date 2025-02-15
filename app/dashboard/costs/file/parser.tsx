@@ -6,7 +6,6 @@ import { insertMultipleCosts } from "@/app/lib/actions";
 
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 interface CsvRow {
   description: string;
@@ -15,10 +14,8 @@ interface CsvRow {
   periodicity: string;
 }
 
-export default function Parser() {
+export default function Parser({ userId }: { userId: number }) {
   const router = useRouter();
-
-  const session = useSession();
 
   const [tableData, setTableData] = useState<CsvRow[]>([]);
   const headers = ["DESCRIPTION", "COST", "UNIT", "PERIODICITY"];
@@ -72,10 +69,7 @@ export default function Parser() {
   const submitForm = async () => {
     try {
       // Esperamos que todas las promesas del map se resuelvan
-      const response = await insertMultipleCosts(
-        Number(session?.data?.user?.id),
-        tableData
-      );
+      const response = await insertMultipleCosts(+userId, tableData);
 
       if (!response.success) {
         return toast({
@@ -111,6 +105,7 @@ export default function Parser() {
               submitForm();
             }}
           >
+            <input type="hidden" name="user_id" value={+userId} />
             <table className="w-full border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">

@@ -7,7 +7,7 @@ import { Button } from "@/app/ui/button";
 import { createBudget } from "@/app/lib/actions";
 import { useState } from "react";
 
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import { CircleDollarSignIcon } from "lucide-react";
@@ -17,12 +17,10 @@ import { teko } from "../fonts";
 export default function BudgetForm({
   clients,
   costs,
-
   user_id,
 }: {
   clients: Client[];
   costs: Cost[];
-
   user_id: number;
 }) {
   const router = useRouter();

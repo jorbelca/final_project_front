@@ -1,12 +1,15 @@
 import Breadcrumbs from "@/app/ui/breadcrumbs";
-import CostsForm from "@/app/ui/costs/form";
+
 import Parser from "./parser";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Costs | File",
 };
 
 export default async function Page() {
+  const session = await auth();
+  const userId: number = Number(session?.user?.id);
   return (
     <main>
       <Breadcrumbs
@@ -19,7 +22,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Parser></Parser>
+      <Parser userId={+(userId)} />
     </main>
   );
 }
